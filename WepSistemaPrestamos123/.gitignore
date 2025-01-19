@@ -1,0 +1,13 @@
+# Ignorar todos los archivos DLL
+*.dll
+# Ignorar carpetas de compilación
+/bin/
+/obj/
+
+.vs/
+*.suo
+*.bin
+*.v7.bin
+*.vsidx
+*.dtbcache.v2
+*.futdcache.v2

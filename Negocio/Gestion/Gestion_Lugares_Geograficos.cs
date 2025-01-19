@@ -1,0 +1,78 @@
+﻿using Comun.DTO.Solicitud;
+using Comun.Enumeracion;
+using Comun.Generales;
+using Comun.Mapeo;
+using Datos.Contexto;
+using Datos.Contratos.Solicitud;
+using Datos.Modelos;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Negocio.Gestion
+{
+    public class Gestion_Lugares_Geograficos : ILugaresGeograficos
+    {
+        private readonly ContextoGeneral context;
+
+        public Gestion_Lugares_Geograficos(ContextoGeneral _context)
+        {
+            context = _context;
+        }
+
+        public Task<RespuestaDto<TReturn>> ObtenerAsync<TReturn>()
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<RespuestaDto<TReturn>> ObtenerAsync<TParam, TReturn>(TParam _modelo)
+        {
+            if (_modelo is not Parametros_Consulta_Lugares_Geograficos_DTO param)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = "No hay datos suficientes para ejecutar la acción."
+                };
+            }
+
+            try
+            {
+                IQueryable<LUGARES_GEOGRAFICOS> query = context.LUGARES_GEOGRAFICOS
+                                                        .Where(x => x.TipoLugar == param.TIPO_LUGAR && x.Habilitado);
+
+                if (param.ID_DANE_PADRE.HasValue && param.ID_DANE_PADRE > 0)
+                {
+                    query = query.Where(x => x.IdDanePadre == param.ID_DANE_PADRE);
+                }
+
+                var lstLugares = await query.ToListAsync();
+
+                var resp = lstLugares.Select(lugar =>
+                    Mapeador.MapearObjeto<LUGARES_GEOGRAFICOS, Respuesta_Consulta_Lugares_Geograficos_DTO>(lugar))
+                    .ToList();
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "Operación realizada correctamente.",
+                    Respuesta = (TReturn)Convert.ChangeType(resp, typeof(TReturn))
+                };
+            }
+            catch (Exception ex)
+            {
+                // Log the exception (consider using a logging framework)
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Se generó una excepción al ejecutar la acción."
+                };
+            }
+        }
+    }
+}

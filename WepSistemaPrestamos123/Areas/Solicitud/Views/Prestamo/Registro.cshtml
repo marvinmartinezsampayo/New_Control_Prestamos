@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Registro";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section ScriptsHeader {
+    <script>
+        const Cod_Local = localStorage.getItem("Resp_Codigo");
+        alert(Cod_Local);
+    </script>
+}
+<input type="hidden" name="valorLocalStorage" id="valorLocalStorage">
+
+<h1>Registro</h1>
+
+
+
+@section Scripts {
+    <script src="~/lib/soliciud/js/registro.js"></script>
+}

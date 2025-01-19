@@ -1,0 +1,63 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Registro de Solicitud</title>       
+        <link href="~/lib/fontawesome-free-5.15.4-web/css/all.css" rel="stylesheet" />
+        <link href="~/lib/fontawesome-free-5.15.4-web/css/all.min.css" rel="stylesheet" />        
+        <script src="js/all.js"></script>   
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link rel="stylesheet" href="/lib/Soliciud/css/Fuente_Tinos.css">
+        <link rel="stylesheet" href="/lib/Soliciud/css/Fuente_DM_Sans.css">        
+        <link rel="stylesheet" href="/lib/Soliciud/css/styles.css"  />
+    </head>
+    <body>       
+        <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="/lib/Soliciud/assets/mp4/bg.mp4" type="video/mp4" /></video>      
+        <div class="masthead">
+            <div class="masthead-content text-white">
+                <div class="container-fluid px-4 px-lg-0">
+                    <h1 class="fst-italic lh-1 mb-4">Validemos tu codigo de acceso!</h1>
+                    <p class="mb-5">Por favor, ingrese el codigo de acceso que le fue proporcionado, lo validaremos para inciar el registro de su solicitud.</p>                    
+                         
+                    <form id="FormCodigo">                        
+                        <div class="row input-group-newsletter">
+                            <div class="col">
+                                <input class="form-control txt_Codigo" id="txt_codigo" type="text" placeholder="Código de acceso..." aria-label="Enter access code..." required maxlength="10" minlength="5" />
+                            <div class="invalid-feedback mt-2 text-center fs-6" id="txtError">El código es requerido y debe tener entre 5 y 10 caracteres, sin caracteres especiales.</div>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary" id="btnValidarCod" type="button">Validar !</button>
+                            </div>
+                        </div>                       
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="social-icons">
+            <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
+            <a class="btn btn-dark m-3" href="#!"><i class="fab fa-twitter fa-lg"></i></a>
+            <a class="btn btn-dark m-3" href="#!"><i class="fab fa-facebook-f fa-lg"></i></a>
+            <a class="btn btn-dark m-3" href="#!"><i class="fab fa-instagram fa-lg"></i></a>
+            </div>
+        </div>        
+        <script src="/lib/Soliciud/js/bootstrap.bundle.min.js"></script>         
+        <script src="/lib/Soliciud/js/scripts.js"></script>      
+        <script src="/lib/Soliciud/js/CodigoAcceso.js"></script>
+        <script src="~/lib/fontawesome-free-5.15.4-web/js/all.min.js"></script>
+        <script src="~/lib/fontawesome-free-5.15.4-web/js/all.js"></script>
+        <script src="~/lib/sweetalert2@11.js"></script>
+    </body>
+</html>
+
+
+
+@* @Html.DropDownList("listaDepto", null, String.Format("Seleccione"), htmlAttributes: new { @class = "form-control select2 required", style = "width: 100%;", @id = "listaDepto" }) *@
