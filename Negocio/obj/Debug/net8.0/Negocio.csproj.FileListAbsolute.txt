@@ -94,3 +94,23 @@ C:\Users\julie\OneDrive\Documentos\Estudios Marvin Martinez\1-ApsFlorencia\0-App
 C:\Users\julie\OneDrive\Documentos\Estudios Marvin Martinez\1-ApsFlorencia\0-AppFlorencia\0-Sistema Prestamos\Negocio\obj\Debug\net8.0\Negocio.pdb
 C:\Users\julie\OneDrive\Documentos\Estudios Marvin Martinez\1-ApsFlorencia\0-AppFlorencia\0-Sistema Prestamos\Negocio\obj\Debug\net8.0\Negocio.genruntimeconfig.cache
 C:\Users\julie\OneDrive\Documentos\Estudios Marvin Martinez\1-ApsFlorencia\0-AppFlorencia\0-Sistema Prestamos\Negocio\obj\Debug\net8.0\ref\Negocio.dll
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.deps.json
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.runtimeconfig.json
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.dll
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.pdb
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Comun.dll
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Datos.dll
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Comun.pdb
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Datos.pdb
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.csproj.AssemblyReference.cache
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.GeneratedMSBuildEditorConfig.editorconfig
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.AssemblyInfoInputs.cache
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.AssemblyInfo.cs
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.csproj.CoreCompileInputs.cache
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.sourcelink.json
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.csproj.Up2Date
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.dll
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\refint\Negocio.dll
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.pdb
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.genruntimeconfig.cache
+D:\3. Proyectos Personales\0-Sistema Prestamos\1-New SIstema Prestamos 2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\ref\Negocio.dll

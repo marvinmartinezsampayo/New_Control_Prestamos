@@ -5,6 +5,7 @@ using Datos.Contratos.Solicitud;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using System.Data;
 using System.Text.Json;
 
 namespace WepPrestamos.Areas.Solicitud.Controllers
@@ -50,10 +51,45 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
             return View();
         }
 
-        public IActionResult Registro()
+        //public IActionResult Registro()
+        //{
+        //    return View();
+        //}
+        //[HttpGet("Registro/{json}")]
+        public async Task<IActionResult> Registro(string json)
         {
+            string r = "ok";
+
+
+
+
+
             return View();
+            //try
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+
+            //        return RetornoRespuesta<string>(r, EstadoOperacion.Bueno);
+            //    }
+            //    else
+            //    {
+            //        return RetornoRespuesta<string>(r, EstadoOperacion.Malo);
+            //    }
+
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    return RetornoRespuesta<string>(r, EstadoOperacion.Excepcion);
+            //}
+
         }
+
+        //public IActionResult Registro()
+        //{
+        //    return View();
+        //}
 
         [HttpPost]
         public async Task<IActionResult> ValidarCodigo(string _codigoUser)

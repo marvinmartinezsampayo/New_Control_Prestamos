@@ -1,23 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\julie\\OneDrive\\Documentos\\Estudios Marvin Martinez\\1-ApsFlorencia\\0-AppFlorencia\\0-Sistema Prestamos\\Comun\\Comun.csproj": {}
+    "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {}
   },
   "projects": {
-    "C:\\Users\\julie\\OneDrive\\Documentos\\Estudios Marvin Martinez\\1-ApsFlorencia\\0-AppFlorencia\\0-Sistema Prestamos\\Comun\\Comun.csproj": {
+    "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\julie\\OneDrive\\Documentos\\Estudios Marvin Martinez\\1-ApsFlorencia\\0-AppFlorencia\\0-Sistema Prestamos\\Comun\\Comun.csproj",
+        "projectUniqueName": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
         "projectName": "Comun",
-        "projectPath": "C:\\Users\\julie\\OneDrive\\Documentos\\Estudios Marvin Martinez\\1-ApsFlorencia\\0-AppFlorencia\\0-Sistema Prestamos\\Comun\\Comun.csproj",
-        "packagesPath": "C:\\Users\\julie\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\julie\\OneDrive\\Documentos\\Estudios Marvin Martinez\\1-ApsFlorencia\\0-AppFlorencia\\0-Sistema Prestamos\\Comun\\obj\\",
+        "projectPath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
+        "packagesPath": "C:\\Users\\marvin.martinez\\.nuget\\packages\\",
+        "outputPath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
+          "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\julie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\marvin.martinez\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -26,6 +28,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\DevExpress 23.1\\Components\\System\\Components\\Packages": {},
           "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -44,8 +47,7 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        },
-        "SdkAnalysisLevel": "9.0.100"
+        }
       },
       "frameworks": {
         "net8.0": {
@@ -72,7 +74,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

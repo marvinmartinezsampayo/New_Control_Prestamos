@@ -43,9 +43,14 @@ async function ValidarCodigo(codigo)
             if (post.estado) {
                 txtCod.classList.remove('is-invalid');
 
-                localStorage.setItem('Resp_Codigo', post.respuesta)
+                //localStorage.setItem('Resp_Codigo', post.respuesta)
+                /*var json = JSON.stringify(prestamo);*/
+                var url = `/Solicitud/Prestamo/Registro?json=${encodeURIComponent(post.respuesta)}`;
 
-                window.location.href = `/Solicitud/Prestamo/Registro`;
+                // Realiza una llamada AJAX o redirige a la URL
+                window.location.href = url;
+
+                /*window.location.href = `/Solicitud/Prestamo/Registro/${post.respuesta}`;*/
             }
             else
             {
