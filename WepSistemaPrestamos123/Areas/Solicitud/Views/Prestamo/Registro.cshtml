@@ -1,20 +1,350 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Registro";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
-@section ScriptsHeader {
+@* @{
+    ViewData["Title"] = "Registro";
+    Layout = "~/Views/Shared/_Formulario.cshtml";
+} *@
+@* @section ScriptsHeader {
     <script>
         const Cod_Local = localStorage.getItem("Resp_Codigo");
         alert(Cod_Local);
     </script>
 }
-<input type="hidden" name="valorLocalStorage" id="valorLocalStorage">
-
-<h1>Registro</h1>
+<input type="hidden" name="valorLocalStorage" id="valorLocalStorage"> *@
 
 
 
-@section Scripts {
+
+
+
+@* @section Scripts {
     <script src="~/lib/soliciud/js/registro.js"></script>
-}
+} *@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Préstamo</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <style>
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+            .video-background::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.6);
+            }
+
+            .video-background video {
+                min-width: 100%;
+                min-height: 100%;
+                object-fit: cover;
+            }
+
+        .header-image {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('~/IMG/Videos/1.mp4');
+            background-size: cover;
+            color: white;
+            padding: 4rem 0;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: transparent;
+            color: #333;
+        }
+
+        .wizard-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+            .wizard-steps::before {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 0;
+                right: 0;
+                height: 2px;
+                background: #dee2e6;
+                z-index: 1;
+            }
+
+        .step {
+            position: relative;
+            z-index: 2;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #dee2e6;
+            font-weight: bold;
+        }
+
+            .step.active {
+                border-color: #0d6efd;
+                background: #0d6efd;
+                color: white;
+            }
+
+            .step.completed {
+                border-color: #198754;
+                background: #198754;
+                color: white;
+            }
+
+        .form-section {
+            display: none;
+        }
+
+            .form-section.active {
+                display: block;
+                animation: fadeIn 0.5s;
+            }
+
+        .floating-label {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+            .floating-label input:focus ~ label,
+            .floating-label input:not(:placeholder-shown) ~ label {
+                transform: translateY(-1.5rem) scale(0.85);
+                background: white;
+                padding: 0 0.4rem;
+            }
+
+            .floating-label label {
+                position: absolute;
+                left: 1rem;
+                top: 0.5rem;
+                transition: all 0.2s ease;
+            }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body>
+    <div class="video-background">
+        <video autoplay muted loop>
+            <source src="~/IMG/Videos/1.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <div class="container py-5">
+        <!-- Header agregado -->
+        <div class="header-image text-center mb-4 animate__animated animate__fadeIn">
+            <h1 class="display-4">Solicitud de Préstamo</h1>
+            <p class="lead">Complete el formulario para iniciar su solicitud</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="card shadow-lg main-container">
+                    <div class="card-body p-4">
+                        <!-- El resto del contenido del formulario permanece igual -->
+                        <div class="wizard-steps mb-4">
+                            <div class="step active" data-step="1">1</div>
+                            <div class="step" data-step="2">2</div>
+                            <div class="step" data-step="3">3</div>
+                        </div>
+
+                        <form id="loanForm" class="needs-validation" novalidate>
+                            <!-- Paso 1: Información Personal -->
+                            <div class="form-section active" id="step1">
+                                <h3 class="mb-4 border-bottom pb-2">Información Personal</h3>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="floating-label">
+                                            <input type="text" class="form-control" id="pNombre" required placeholder=" ">
+                                            <label for="pNombre">Primer Nombre*</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="floating-label">
+                                            <input type="text" class="form-control" id="sNombre" placeholder=" ">
+                                            <label for="sNombre">Segundo Nombre</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="floating-label">
+                                            <input type="text" class="form-control" id="pApellido" required placeholder=" ">
+                                            <label for="pApellido">Primer Apellido*</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="floating-label">
+                                            <input type="text" class="form-control" id="sApellido" placeholder=" ">
+                                            <label for="sApellido">Segundo Apellido</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Paso 2: Información de Contacto y Ubicación -->
+                            <div class="form-section" id="step2">
+                                <h3 class="mb-4 border-bottom pb-2">Contacto y Ubicación</h3>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <div class="floating-label">
+                                            <input type="email" class="form-control" id="email" required placeholder=" ">
+                                            <label for="email">Correo Electrónico*</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="floating-label">
+                                            <input type="tel" class="form-control" id="celular" required placeholder=" ">
+                                            <label for="celular">Celular*</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="floating-label">
+                                            <input type="text" class="form-control" id="direccion" required placeholder=" ">
+                                            <label for="direccion">Dirección de Residencia*</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Paso 3: Información Financiera -->
+                            <div class="form-section" id="step3">
+                                <h3 class="mb-4 border-bottom pb-2">Información Financiera</h3>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <select class="form-select" id="entidadBancaria" required>
+                                            <option value="">Entidad Bancaria*</option>
+                                            <option value="1">Bancolombia</option>
+                                            <option value="2">Banco de Bogotá</option>
+                                            <option value="3">Davivienda</option>
+                                            <option value="4">BBVA</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-select" id="tipoCuenta" required>
+                                            <option value="">Tipo de Cuenta*</option>
+                                            <option value="1">Cuenta de Ahorros</option>
+                                            <option value="2">Cuenta Corriente</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="floating-label">
+                                            <input type="text" class="form-control" id="numeroCuenta" required placeholder=" ">
+                                            <label for="numeroCuenta">Número de Cuenta*</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="tratamientoDatos" required>
+                                            <label class="form-check-label" for="tratamientoDatos">
+                                                Acepto el tratamiento de mis datos personales*
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex justify-content-between mt-4">
+                                <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">Anterior</button>
+                                <button type="button" class="btn btn-primary" id="nextBtn">Siguiente</button>
+                                <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">Enviar Solicitud</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            let currentStep = 1;
+            const totalSteps = 3;
+            const form = document.getElementById('loanForm');
+            const nextBtn = document.getElementById('nextBtn');
+            const prevBtn = document.getElementById('prevBtn');
+            const submitBtn = document.getElementById('submitBtn');
+
+            function updateButtons() {
+                prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
+                nextBtn.style.display = currentStep === totalSteps ? 'none' : 'block';
+                submitBtn.style.display = currentStep === totalSteps ? 'block' : 'none';
+            }
+
+            function updateSteps() {
+                document.querySelectorAll('.step').forEach((step, index) => {
+                    if (index + 1 < currentStep) {
+                        step.classList.add('completed');
+                        step.classList.remove('active');
+                    } else if (index + 1 === currentStep) {
+                        step.classList.add('active');
+                        step.classList.remove('completed');
+                    } else {
+                        step.classList.remove('active', 'completed');
+                    }
+                });
+
+                document.querySelectorAll('.form-section').forEach((section, index) => {
+                    if (index + 1 === currentStep) {
+                        section.classList.add('active');
+                    } else {
+                        section.classList.remove('active');
+                    }
+                });
+            }
+
+            nextBtn.addEventListener('click', () => {
+                if (currentStep < totalSteps) {
+                    currentStep++;
+                    updateSteps();
+                    updateButtons();
+                }
+            });
+
+            prevBtn.addEventListener('click', () => {
+                if (currentStep > 1) {
+                    currentStep--;
+                    updateSteps();
+                    updateButtons();
+                }
+            });
+
+            form.addEventListener('submit', function (event) {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            });
+        });
+    </script>
+</body>
+</html>

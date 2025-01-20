@@ -5,6 +5,7 @@ using Datos.Contratos.Solicitud;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.CodeAnalysis.Elfie.Diagnostics;
+using Newtonsoft.Json;
 using System.Data;
 using System.Text.Json;
 
@@ -58,32 +59,31 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
         //[HttpGet("Registro/{json}")]
         public async Task<IActionResult> Registro(string json)
         {
-            string r = "ok";
+            try
+            {
+                string decript = Encryption.DecryptString(json, key);
+                RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO> respCodigo = JsonConvert.DeserializeObject<RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO>>(decript);
+                
+                if (respCodigo.Codigo == EstadoOperacion.Bueno)
+                {
 
 
+
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
 
 
             return View();
-            //try
-            //{
-            //    if (ModelState.IsValid)
-            //    {
-
-            //        return RetornoRespuesta<string>(r, EstadoOperacion.Bueno);
-            //    }
-            //    else
-            //    {
-            //        return RetornoRespuesta<string>(r, EstadoOperacion.Malo);
-            //    }
-
-
-            //}
-            //catch (Exception ex)
-            //{
-            //    return RetornoRespuesta<string>(r, EstadoOperacion.Excepcion);
-            //}
-
         }
 
         //public IActionResult Registro()
@@ -95,19 +95,20 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
         public async Task<IActionResult> ValidarCodigo(string _codigoUser)
         {
             string encrypted = "error";
+            RespuestaDto<string> respuestaDto = new RespuestaDto<string>();
             try
             {
 
                 var cod = await _codigo.ObtenerAsync<string, Respuesta_Consulta_Codigo_Acceso_DTO>(_codigoUser);
 
                 if(cod.Respuesta.Codigo == null)
-                {                   
-                    return RetornoRespuesta<RespuestaDto<string>>(new RespuestaDto<string>() { Mensaje="Codigo no encontrado"}, EstadoOperacion.Malo);
+                {
+                    respuestaDto = new RespuestaDto<string>() {Codigo= EstadoOperacion.Malo, Mensaje = "Codigo no encontrado" };
+                    return RetornoRespuesta<RespuestaDto<string>>(respuestaDto, EstadoOperacion.Malo);
                 }
 
-                encrypted = Encryption.EncryptString(JsonSerializer.Serialize(cod), key);
-
-                RespuestaDto<string> respuestaDto = new RespuestaDto<string>()
+                encrypted = Encryption.EncryptString(JsonConvert.SerializeObject(cod), key);
+                respuestaDto = new RespuestaDto<string>()
                 {
                     Codigo = EstadoOperacion.Bueno,
                     Mensaje= "Codigo encontrado",
