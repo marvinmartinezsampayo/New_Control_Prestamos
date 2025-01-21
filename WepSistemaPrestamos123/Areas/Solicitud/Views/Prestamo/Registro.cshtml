@@ -1,7 +1,15 @@
-﻿@{
+﻿@using Comun.DTO.Solicitud
+@{
     ViewData["Title"] = "Registro";
     Layout = null;
 }
+@{
+    Respuesta_Consulta_Codigo_Acceso_DTO ObjCodigo = (Respuesta_Consulta_Codigo_Acceso_DTO)ViewData["ObjCodigo"];
+    string codigo = ObjCodigo.Codigo;
+}
+
+
+
 @* @{
     ViewData["Title"] = "Registro";
     Layout = "~/Views/Shared/_Formulario.cshtml";
@@ -28,129 +36,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de Préstamo</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
-    <style>
-        .video-background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-            .video-background::after {
-                content: '';
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.6);
-            }
-
-            .video-background video {
-                min-width: 100%;
-                min-height: 100%;
-                object-fit: cover;
-            }
-
-        .header-image {
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('~/IMG/Videos/1.mp4');
-            background-size: cover;
-            color: white;
-            padding: 4rem 0;
-            margin-bottom: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        body {
-            background: transparent;
-            color: #333;
-        }
-
-        .wizard-steps {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-            .wizard-steps::before {
-                content: '';
-                position: absolute;
-                top: 50%;
-                left: 0;
-                right: 0;
-                height: 2px;
-                background: #dee2e6;
-                z-index: 1;
-            }
-
-        .step {
-            position: relative;
-            z-index: 2;
-            background: white;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid #dee2e6;
-            font-weight: bold;
-        }
-
-            .step.active {
-                border-color: #0d6efd;
-                background: #0d6efd;
-                color: white;
-            }
-
-            .step.completed {
-                border-color: #198754;
-                background: #198754;
-                color: white;
-            }
-
-        .form-section {
-            display: none;
-        }
-
-            .form-section.active {
-                display: block;
-                animation: fadeIn 0.5s;
-            }
-
-        .floating-label {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-            .floating-label input:focus ~ label,
-            .floating-label input:not(:placeholder-shown) ~ label {
-                transform: translateY(-1.5rem) scale(0.85);
-                background: white;
-                padding: 0 0.4rem;
-            }
-
-            .floating-label label {
-                position: absolute;
-                left: 1rem;
-                top: 0.5rem;
-                transition: all 0.2s ease;
-            }
-
-        .main-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            backdrop-filter: blur(10px);
-        }
-    </style>
+    <title>Solicitud de Préstamo</title>   
+    <link href="~/css/styles.css" rel="stylesheet" />
+    <link href="~/css/animate.min.css" rel="stylesheet" />
+    <link href="~/lib/soliciud/css/registro.css" rel="stylesheet" />
 </head>
 <body>
     <div class="video-background">
@@ -254,10 +143,16 @@
                                             <option value="2">Cuenta Corriente</option>
                                         </select>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-6">
                                         <div class="floating-label">
                                             <input type="text" class="form-control" id="numeroCuenta" required placeholder=" ">
                                             <label for="numeroCuenta">Número de Cuenta*</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="floating-label">
+                                            <input type="text" class="form-control" id="codigoAcceso" required placeholder=" " value="@codigo" disabled>
+                                            <label for="codigoAcceso">Código de Acceso*</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
@@ -282,69 +177,10 @@
             </div>
         </div>
     </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap5.0.2.bundle.min.js"></script>
+    <script src="~/lib/soliciud/js/registro.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            let currentStep = 1;
-            const totalSteps = 3;
-            const form = document.getElementById('loanForm');
-            const nextBtn = document.getElementById('nextBtn');
-            const prevBtn = document.getElementById('prevBtn');
-            const submitBtn = document.getElementById('submitBtn');
-
-            function updateButtons() {
-                prevBtn.style.display = currentStep === 1 ? 'none' : 'block';
-                nextBtn.style.display = currentStep === totalSteps ? 'none' : 'block';
-                submitBtn.style.display = currentStep === totalSteps ? 'block' : 'none';
-            }
-
-            function updateSteps() {
-                document.querySelectorAll('.step').forEach((step, index) => {
-                    if (index + 1 < currentStep) {
-                        step.classList.add('completed');
-                        step.classList.remove('active');
-                    } else if (index + 1 === currentStep) {
-                        step.classList.add('active');
-                        step.classList.remove('completed');
-                    } else {
-                        step.classList.remove('active', 'completed');
-                    }
-                });
-
-                document.querySelectorAll('.form-section').forEach((section, index) => {
-                    if (index + 1 === currentStep) {
-                        section.classList.add('active');
-                    } else {
-                        section.classList.remove('active');
-                    }
-                });
-            }
-
-            nextBtn.addEventListener('click', () => {
-                if (currentStep < totalSteps) {
-                    currentStep++;
-                    updateSteps();
-                    updateButtons();
-                }
-            });
-
-            prevBtn.addEventListener('click', () => {
-                if (currentStep > 1) {
-                    currentStep--;
-                    updateSteps();
-                    updateButtons();
-                }
-            });
-
-            form.addEventListener('submit', function (event) {
-                if (!form.checkValidity()) {
-                    event.preventDefault();
-                    event.stopPropagation();
-                }
-                form.classList.add('was-validated');
-            });
-        });
+       
     </script>
 </body>
 </html>

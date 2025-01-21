@@ -67,8 +67,7 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
                 if (respCodigo.Codigo == EstadoOperacion.Bueno)
                 {
 
-
-
+                    ViewBag.ObjCodigo = respCodigo.Respuesta;
                 }
                 else
                 {
