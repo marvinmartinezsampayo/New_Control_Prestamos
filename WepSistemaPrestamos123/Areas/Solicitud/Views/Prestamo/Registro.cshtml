@@ -2,11 +2,14 @@
 @{
     ViewData["Title"] = "Registro";
     Layout = null;
+    string codigo = "";
 }
-@{
+@if (ViewData["ObjCodigo"] != null)
+{
     Respuesta_Consulta_Codigo_Acceso_DTO ObjCodigo = (Respuesta_Consulta_Codigo_Acceso_DTO)ViewData["ObjCodigo"];
-    string codigo = ObjCodigo.Codigo;
+    codigo = ObjCodigo.Codigo;
 }
+
 
 
 

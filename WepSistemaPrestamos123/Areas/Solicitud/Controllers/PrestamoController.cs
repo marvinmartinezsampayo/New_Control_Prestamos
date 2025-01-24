@@ -52,22 +52,41 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
             return View();
         }
 
-        //public IActionResult Registro()
-        //{
-        //    return View();
-        //}
-        //[HttpGet("Registro/{json}")]
         public async Task<IActionResult> Registro(string json)
         {
             try
             {
                 string decript = Encryption.DecryptString(json, key);
                 RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO> respCodigo = JsonConvert.DeserializeObject<RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO>>(decript);
-                
-                if (respCodigo.Codigo == EstadoOperacion.Bueno)
-                {
 
-                    ViewBag.ObjCodigo = respCodigo.Respuesta;
+                if (respCodigo.Codigo == EstadoOperacion.Bueno && respCodigo.Respuesta.Codigo != null && respCodigo.Respuesta.Codigo != "")
+                {
+                    var cod = await _codigo.ObtenerAsync<string, Respuesta_Consulta_Codigo_Acceso_DTO>(respCodigo.Respuesta.Codigo);
+
+                    if (cod.Respuesta != null && cod.Respuesta.FechaFin < DateTime.Now && cod.Respuesta.Habilitado) 
+                    {
+                        long CantRegistros = cod.Respuesta.CantidadRegistros;
+
+
+                        //Aca contamos la cantidad de solicitudes registradas con ese codigo
+
+                        //
+
+
+
+                        ViewBag.ObjCodigo = cod.Respuesta;                        
+                    }
+                    else
+                    {
+                        //Redireccionamos a la vista Solicitar, indicando que el codigo no es valido
+                    }
+
+                    
+
+
+
+
+                   
                 }
                 else
                 {

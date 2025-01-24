@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Datos.Contratos.Crud
 {
-    public interface IObtener
+    public interface IDeshabilitar
     {
-        Task<RespuestaDto<TReturn>> ObtenerAsync<TReturn>();
-        Task<RespuestaDto<TReturn>> ObtenerAsync<TParam, TReturn>(TParam _modelo);       
+        Task<RespuestaDto<TReturn>> DeshabilitarAsync<TParam, TReturn>(TParam _identificador);
     }
 }

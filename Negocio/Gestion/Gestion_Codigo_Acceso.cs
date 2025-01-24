@@ -88,7 +88,7 @@ namespace Negocio.Gestion
                                  .FirstOrDefaultAsync();
                 //.Where(x => x.Codigo == _modelo.ToString() && x.Habilitado && x.FechaFin >= DateTime.Now)
                 //x.FechaFin < DateTime.Now && x.CantidadRegistros <= cantidad
-                if (resCod != null)
+                if (resCod != null && cantidad <= resCod.CantidadRegistros)
                 {
                     rCod = Mapeador.MapearObjeto<CODIGO_ACCESO, Respuesta_Consulta_Codigo_Acceso_DTO>(resCod);
                 }               
