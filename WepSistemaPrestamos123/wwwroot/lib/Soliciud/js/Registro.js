@@ -1,6 +1,6 @@
 ﻿document.addEventListener('DOMContentLoaded', function () {
     let currentStep = 1;
-    const totalSteps = 3;
+    const totalSteps = 4;
     const form = document.getElementById('loanForm');
     const nextBtn = document.getElementById('nextBtn');
     const prevBtn = document.getElementById('prevBtn');

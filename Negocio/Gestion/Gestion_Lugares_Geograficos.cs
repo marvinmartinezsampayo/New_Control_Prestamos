@@ -18,7 +18,7 @@ namespace Negocio.Gestion
 {
     public class Gestion_Lugares_Geograficos : ILugaresGeograficos
     {
-        private readonly ContextoGeneral context;
+        private readonly ContextoGeneral context;        
 
         public Gestion_Lugares_Geograficos(ContextoGeneral _context)
         {

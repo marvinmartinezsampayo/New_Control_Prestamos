@@ -16,6 +16,7 @@ namespace Negocio.Gestion
     {
         private readonly IConfiguration _configuration;
         private readonly ContextoGeneral _context;
+       
 
         public Gestion_Registro_Solicitud(IConfiguration configuration, ContextoGeneral context)
         {

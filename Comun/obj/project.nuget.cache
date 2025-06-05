@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "YnHzP5x0LHU=",
+  "dgSpecHash": "CcdCqzwMKQwdZFeW5ZRSybW6zFXNPH25ofcGiTQ0ZdceuXLfkmiff0BS+dQTZjTVJ5yof9OmzZbg1tA03qAgAw==",
   "success": true,
-  "projectFilePath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
+  "projectFilePath": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\marvin.martinez\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+    "C:\\Users\\Poliadmin\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
   ],
   "logs": []
 }

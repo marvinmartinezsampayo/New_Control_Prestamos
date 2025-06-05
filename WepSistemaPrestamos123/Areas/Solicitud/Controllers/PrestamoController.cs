@@ -56,6 +56,10 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
         {
             try
             {
+                var ListDocumentos = await _codigo.ObtenerListaDocAsync<List<Respuesta_Consulta_Documentos_Requeridos>>();
+                ViewData["DocumentosRequeridos"] = (ListDocumentos.Estado && ListDocumentos?.Respuesta != null) ? ListDocumentos.Respuesta : new List<Respuesta_Consulta_Documentos_Requeridos>();
+
+
                 string decript = Encryption.DecryptString(json, key);
                 RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO> respCodigo = JsonConvert.DeserializeObject<RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO>>(decript);
 
@@ -63,9 +67,9 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
                 {
                     var cod = await _codigo.ObtenerAsync<string, Respuesta_Consulta_Codigo_Acceso_DTO>(respCodigo.Respuesta.Codigo);
 
-                    if (cod.Respuesta != null && cod.Respuesta.FechaFin < DateTime.Now && cod.Respuesta.Habilitado) 
+                    if (cod.Respuesta != null && cod.Respuesta.FechaFin >= DateTime.Now && cod.Respuesta.Habilitado) 
                     {
-                        long CantRegistros = cod.Respuesta.CantidadRegistros;
+                        long CantMaxRegistros = cod.Respuesta.CantidadRegistros;
 
 
                         //Aca contamos la cantidad de solicitudes registradas con ese codigo
@@ -74,19 +78,12 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
 
 
 
-                        ViewBag.ObjCodigo = cod.Respuesta;                        
+                        ViewBag.ObjCodigo = respCodigo.Respuesta.Codigo;                        
                     }
                     else
                     {
                         //Redireccionamos a la vista Solicitar, indicando que el codigo no es valido
                     }
-
-                    
-
-
-
-
-                   
                 }
                 else
                 {
@@ -124,7 +121,7 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
                     respuestaDto = new RespuestaDto<string>() {Codigo= EstadoOperacion.Malo, Mensaje = "Codigo no encontrado" };
                     return RetornoRespuesta<RespuestaDto<string>>(respuestaDto, EstadoOperacion.Malo);
                 }
-
+                
                 encrypted = Encryption.EncryptString(JsonConvert.SerializeObject(cod), key);
                 respuestaDto = new RespuestaDto<string>()
                 {

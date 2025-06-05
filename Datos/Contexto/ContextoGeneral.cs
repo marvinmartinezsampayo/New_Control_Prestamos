@@ -23,5 +23,6 @@ namespace Datos.Contexto
         public DbSet<DOCUMENTOS_X_SOLICITUD> DOCUMENTOS_X_SOLICITUD { get; set; }
         public DbSet<LUGARES_GEOGRAFICOS> LUGARES_GEOGRAFICOS { get; set; }
         public DbSet<SOLICITUD_PRESTAMO> SOLICITUD_PRESTAMO { get; set; }
+        public DbSet<DOCUMENTOS_REQUERIDOS> DOCUMENTOS_REQUERIDOS { get; set; }
     }
 }

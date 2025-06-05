@@ -22,6 +22,7 @@ namespace Negocio.Gestion
         private readonly IConfiguration _configuration;
         private readonly ContextoGeneral _context;
 
+
         public Gestion_Codigo_Acceso(IConfiguration configuration, ContextoGeneral context)
         {
             _configuration = configuration;
@@ -108,6 +109,43 @@ namespace Negocio.Gestion
                 {
                     Codigo = EstadoOperacion.Excepcion,
                     Mensaje = "Se generó una excepción al ejecutar la acción."                   
+                };
+            }
+        }
+               
+        public async Task<RespuestaDto<TReturn>> ObtenerListaDocAsync<TReturn>()
+        {
+            try
+            {
+               List<Respuesta_Consulta_Documentos_Requeridos> rCod = new List<Respuesta_Consulta_Documentos_Requeridos>();
+
+                var resultado = await _context.DOCUMENTOS_REQUERIDOS
+                                .Where(dr => dr.FK_DOCUMENTOS.Habilitado)
+                                .Select(dr => new Respuesta_Consulta_Documentos_Requeridos
+                                {
+                                    Id = dr.FK_DOCUMENTOS.Id,
+                                    Nombre = dr.FK_DOCUMENTOS.Nombre,
+                                    Descripcion = dr.FK_DOCUMENTOS.Descripcion,
+                                    PesoMaximo = dr.FK_DOCUMENTOS.PesoMaximo
+                                })
+                                .Distinct()
+                                .ToListAsync();
+
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "Operación realizada correctamente.",
+                    Respuesta = (TReturn)Convert.ChangeType(resultado, typeof(TReturn))
+                };
+
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Se generó una excepción al ejecutar la acción."
                 };
             }
         }

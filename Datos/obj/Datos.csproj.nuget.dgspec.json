@@ -1,26 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj": {}
+    "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj": {}
   },
   "projects": {
-    "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
+    "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
+        "projectUniqueName": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
         "projectName": "Comun",
-        "projectPath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
-        "packagesPath": "C:\\Users\\marvin.martinez\\.nuget\\packages\\",
-        "outputPath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\obj\\",
+        "projectPath": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
+        "packagesPath": "C:\\Users\\Poliadmin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\marvin.martinez\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Poliadmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.1\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -74,27 +66,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj": {
+    "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
+        "projectUniqueName": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
         "projectName": "Datos",
-        "projectPath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
-        "packagesPath": "C:\\Users\\marvin.martinez\\.nuget\\packages\\",
-        "outputPath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\obj\\",
+        "projectPath": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
+        "packagesPath": "C:\\Users\\Poliadmin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Datos\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\DevExpress 22.2\\Components\\Offline Packages",
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\marvin.martinez\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 22.2.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\Poliadmin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -102,16 +88,14 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\DevExpress 23.1\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
-                "projectPath": "D:\\3. Proyectos Personales\\0-Sistema Prestamos\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj"
+              "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
+                "projectPath": "C:\\Users\\Poliadmin\\Desktop\\1-New SIstema Prestamos 2025\\New_Control_Prestamos\\Comun\\Comun.csproj"
               }
             }
           }
@@ -170,7 +154,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.404/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

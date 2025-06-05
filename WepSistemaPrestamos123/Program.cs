@@ -31,9 +31,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 //cadena conexión
 
 builder.Services.AddDbContext<ContextoGeneral>(options =>
-{    //options.UseMySql("Server=bruw5ccc7yrcevwil4di-mysql.services.clever-cloud.com;Database=bruw5ccc7yrcevwil4di;User=uu0kkxfc1wgirqb9;Password=H3VfcvSKWnOvwZxfobt5;Port=3306;",
-    //        new MySqlServerVersion(new Version(8, 0, 31)));
-    options.UseMySQL(builder.Configuration.GetConnectionString("strConexionMySql"));
+{   
+    options.UseMySQL(builder.Configuration.GetConnectionString("strConexionMySqlLocal"));
 });
 
 builder.Services.AddDbContext<ContextoLocal>(options =>
@@ -84,6 +83,5 @@ app.MapControllerRoute(
 //      pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
 //    );
 //});
-
 
 app.Run();
