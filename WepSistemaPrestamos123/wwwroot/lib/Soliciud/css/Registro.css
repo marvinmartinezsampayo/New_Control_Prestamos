@@ -8,6 +8,133 @@
     overflow: hidden;
 }
 
+.video-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.video-background video {
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+}
+
+.header-image {
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
+    background-size: cover;
+    color: white;
+    padding: 4rem 0;
+    margin-bottom: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    background: transparent;
+    color: #333;
+}
+
+.wizard-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.wizard-steps::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #dee2e6;
+    z-index: 1;
+}
+
+.step {
+    position: relative;
+    z-index: 2;
+    background: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #dee2e6;
+    font-weight: bold;
+}
+
+.step.active {
+    border-color: #0d6efd;
+    background: #0d6efd;
+    color: white;
+}
+
+.step.completed {
+    border-color: #198754;
+    background: #198754;
+    color: white;
+}
+
+.form-section {
+    display: none;
+}
+
+.form-section.active {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+.floating-label {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+
+        
+.floating-label input:focus ~ label, .floating-label input:not(:placeholder-shown) ~ label {
+transform: translateY(-1.5rem) scale(0.85);
+background: white;
+padding: 0 0.4rem;
+}
+
+.floating-label label {
+    position: absolute;
+    left: 1rem;
+    top: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.main-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+
+
+
+
+
+
+/* ===== VIDEO BACKGROUND ===== 
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
     .video-background::after {
         content: '';
         position: absolute;
@@ -24,8 +151,9 @@
         object-fit: cover;
     }
 
+/* ===== HEADER ===== 
 .header-image {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('~/IMG/Videos/1.mp4');
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6));
     background-size: cover;
     color: white;
     padding: 4rem 0;
@@ -34,11 +162,20 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* ===== BODY ===== 
 body {
     background: transparent;
     color: #333;
 }
 
+/*===== MAIN CONTAINER ===== 
+.main-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+/* ===== WIZARD STEPS ===== 
 .wizard-steps {
     display: flex;
     justify-content: space-between;
@@ -83,6 +220,7 @@ body {
         color: white;
     }
 
+/*===== FORM SECTIONS ===== 
 .form-section {
     display: none;
 }
@@ -92,27 +230,210 @@ body {
         animation: fadeIn 0.5s;
     }
 
+/*===== FLOATING LABELS OPTIMIZED ===== 
 .floating-label {
     position: relative;
     margin-bottom: 1.5rem;
 }
 
-    .floating-label input:focus ~ label,
-    .floating-label input:not(:placeholder-shown) ~ label {
-        transform: translateY(-1.5rem) scale(0.85);
+     Base styles para inputs y selects usando clases de Bootstrap 
+    .floating-label .form-control,
+    .floating-label .form-select {
+        padding: 16px 12px 8px 12px;
+        font-size: 16px;
+        border: 2px solid #dee2e6;
+        border-radius: 8px;
+        background: transparent;
+        transition: all 0.3s ease;
+        height: auto;  Override Bootstrap's fixed height 
+    }
+
+     Label styles 
+    .floating-label label {
+        position: absolute;
+        left: 12px;
+        top: 16px;
+        font-size: 16px;
+        color: #6c757d;
+        transition: all 0.3s ease;
+        pointer-events: none;
         background: white;
-        padding: 0 0.4rem;
+        padding: 0 4px;
+        z-index: 2;
+        transform-origin: left top;
+    }
+
+     Active state - cuando el campo tiene focus o contenido 
+    .floating-label .form-control:focus,
+    .floating-label .form-control:not(:placeholder-shown),
+    .floating-label .form-select:focus,
+    .floating-label .form-select:not([value=""]),
+    .floating-label .form-select.has-value {
+        border-color: #0d6efd;
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+         Label animation cuando está activo 
+        .floating-label .form-control:focus + label,
+        .floating-label .form-control:not(:placeholder-shown) + label,
+        .floating-label .form-select:focus + label,
+        .floating-label .form-select:not([value=""]) + label,
+        .floating-label .form-select.has-value + label {
+            transform: translateY(-24px) scale(0.85);
+            color: #0d6efd;
+            font-weight: 500;
+        }
+
+     Estilos específicos para selects 
+    .floating-label .form-select {
+        cursor: pointer;
+    }
+
+        .floating-label .form-select option[value=""] {
+            color: #6c757d;
+        }
+
+         Estados de validación con Bootstrap 
+        .floating-label .form-control.is-valid,
+        .floating-label .form-select.is-valid {
+            border-color: #198754;
+        }
+
+            .floating-label .form-control.is-valid:focus,
+            .floating-label .form-select.is-valid:focus {
+                border-color: #198754;
+                box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.25);
+            }
+
+            .floating-label .form-control.is-valid + label,
+            .floating-label .form-select.is-valid + label {
+                color: #198754;
+            }
+
+        .floating-label .form-control.is-invalid,
+        .floating-label .form-select.is-invalid {
+            border-color: #dc3545;
+        }
+
+            .floating-label .form-control.is-invalid:focus,
+            .floating-label .form-select.is-invalid:focus {
+                border-color: #dc3545;
+                box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+            }
+
+            .floating-label .form-control.is-invalid + label,
+            .floating-label .form-select.is-invalid + label {
+                color: #dc3545;
+            }
+
+     Campos requeridos 
+    .floating-label label.required::after,
+    .floating-label label[data-required="true"]::after {
+        content: "*";
+        color: #dc3545;
+        margin-left: 2px;
+    }
+
+/*Responsive adjustments 
+@media (max-width: 576px) {
+    .floating-label .form-control,
+    .floating-label .form-select {
+        padding: 14px 10px 6px 10px;
+        font-size: 14px;
     }
 
     .floating-label label {
-        position: absolute;
-        left: 1rem;
-        top: 0.5rem;
+        left: 10px;
+        top: 14px;
+        font-size: 14px;
+    }
+
+    .floating-label .form-control:focus + label,
+    .floating-label .form-control:not(:placeholder-shown) + label,
+    .floating-label .form-select:focus + label,
+    .floating-label .form-select:not([value=""]) + label,
+    .floating-label .form-select.has-value + label {
+        transform: translateY(-20px) scale(0.85);
+    }
+}
+
+/*===== ANIMATIONS ===== 
+
+
+
+*/
+
+/* Floating Select Styles */
+.floating-select {
+    position: relative;
+    margin-bottom: 1.5rem;
+    background:white;
+}
+
+    .floating-select .form-select {
+        background-color: transparent;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        padding: 0.8rem 2.5rem 0.5rem 1rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        color: #495057;
         transition: all 0.2s ease;
     }
 
-.main-container {
-    background: rgba(255, 255, 255, 0.95);
-    border-radius: 15px;
-    backdrop-filter: blur(10px);
-}
+        .floating-select .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+            outline: 0;
+        }
+
+    .floating-select label {
+        position: absolute;
+        left: 1rem;
+        top: 0.8rem;
+        font-size: 1rem;
+        color: #6c757d;
+        background: rgba(255, 255, 255, 0.90);
+        padding: 0 0.4rem;
+        transition: all 0.2s ease;
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Estado flotante cuando el select tiene valor seleccionado */
+    .floating-select .form-select:not([value=""]) + label,
+    .floating-select .form-select.has-value + label,
+    .floating-select .form-select:focus + label {
+        transform: translateY(-1.5rem) scale(0.75);
+        color: rgba(0, 0, 0, 0.8);
+    }
+
+    /* Para selects que ya tienen una opción seleccionada diferente a la primera */
+    .floating-select .form-select option:checked:not(:first-child) ~ label {
+        transform: translateY(-1.5rem) scale(0.75);
+        color: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Ajuste para el texto del placeholder cuando no hay selección */
+    .floating-select .form-select option:first-child {
+        color: #6c757d;
+        font-style: italic;
+    }
+
+    /* Estado de error */
+    .floating-select .form-select.is-invalid {
+        border-color: #dc3545;
+    }
+
+    .floating-select .form-select.is-invalid + label {
+        color: #dc3545;
+    }
+
+    /* Estado válido */
+    .floating-select .form-select.is-valid {
+        border-color: #198754;
+    }
+
+    .floating-select .form-select.is-valid + label {
+        color: #198754;
+    }

@@ -9,10 +9,9 @@
     codigo = (string)ViewData["ObjCodigo"];    
 }
 
-@{
-    var documentosRequeridos = ViewData["DocumentosRequeridos"] as List<Respuesta_Consulta_Documentos_Requeridos> ?? new List<Respuesta_Consulta_Documentos_Requeridos>();
-    var a = "jj";
-}
+@* @{
+    var documentosRequeridos = ViewData["DocumentosRequeridos"] as List<Respuesta_Consulta_Documentos_Requeridos> ?? new List<Respuesta_Consulta_Documentos_Requeridos>();   
+} *@
 
 <!DOCTYPE html>
 <html lang="es">
@@ -24,70 +23,12 @@
     <link href="~/css/animate.min.css" rel="stylesheet" />
     <link href="~/lib/soliciud/css/registro.css" rel="stylesheet" />
     <!-- CSS Styles -->
-    <style>
-        .document-card {
-            border: 2px dashed #dee2e6;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            background-color: #fff;
-        }
-
-            .document-card:hover {
-                border-color: #0d6efd;
-
-                background-color: #f8f9fa;
-            }
-
-        .document-uploaded {
-            border-color: #198754;
-            background-color: #d1e7dd;
-        }
-
-        .document-error {
-            border-color: #dc3545;
-            background-color: #f8d7da;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .upload-area {
-            cursor: pointer;
-            text-align: center;
-            min-height: 120px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .file-info {
-            background-color: #e9ecef;
-            border-radius: 5px;
-            padding: 10px;
-            margin-top: 10px;
-        }
-
-        .progress-bar-container {
-            margin-top: 10px;
-            display: none;
-        }
-
-        .document-preview {
-            max-width: 100px;
-            max-height: 100px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-    </style>
+    <link href="~/css/carguedocumentos.css" rel="stylesheet" />
 </head>
 <body>
     <div class="video-background">
         <video autoplay muted loop>
-            <source src="~/IMG/Videos/1.mp4" type="video/mp4">
+            <source src="~/img/videos/1.mp4" type="video/mp4">
         </video>
     </div>
 
@@ -138,7 +79,24 @@
                                             <input type="text" class="form-control" id="sApellido" placeholder=" ">
                                             <label for="sApellido">Segundo Apellido</label>
                                         </div>
+                                    </div>                                   
+
+                                    <div class="col-md-6 ">                                       
+                                        <div class="floating-select">                                           
+                                            @* @Html.DropDownList("listTipoDocumentos", null, String.Format("Tipo de documento"), htmlAttributes: new { @tabindex = 5, @class = "form-select", style = "width: 100%;", @id = "listTipoDocumentos", required = "true"}) *@
+                                            @Html.DropDownList("listTipoDocumentos", null, String.Format("Seleccione ..."), htmlAttributes: new { @tabindex = 5, @class = "form-select", style = "width: 100%;padding-top:6px !important;padding-bottom: 6px !important;", @id = "listTipoDocumentos", required = "true" })
+                                            <label for="listTipoDocumentos">Tipo de documento</label>
+                                        </div>
                                     </div>
+
+                                     <div class="col-md-6">
+                                        <div class="floating-label">
+                                            <input type="number" class="form-control" id="identificacion" placeholder=" " required>
+                                            <label for="identificacion">Identificacion</label>
+                                        </div>
+                                    </div>
+
+
                                 </div>
                             </div>
 
@@ -157,11 +115,38 @@
                                             <input type="tel" class="form-control" id="celular" required placeholder=" ">
                                             <label for="celular">Celular*</label>
                                         </div>
+                                    </div>                                    
+
+                                    <div class="col-md-6 ">
+                                        <div class="floating-select">
+                                            @* @Html.DropDownList("ListaDepartamentos", null, String.Format("Departameto de Residencia"), htmlAttributes: new { @tabindex = 9, @class = "form-select", style = "width: 100%;", @id = "ListaDepartamentos", required = "true" })                                            *@
+                                            @Html.DropDownList("ListaDepartamentos", null, String.Format("Seleccione ..."), htmlAttributes: new { @tabindex = 5, @class = "form-select", style = "width: 100%;padding-top:6px !important;padding-bottom: 6px !important;", @id = "ListaDepartamentos", required = "true" })
+                                            <label for="ListaDepartamentos">Departamento de residencia</label>
+                                        </div>
                                     </div>
-                                    <div class="col-12">
+
+
+
+                                    <div class="col-md-6" id="cajaMunicipio">
+                                        <div class="floating-select">
+                                            @* @Html.DropDownList("ListaMunicipios", new List<SelectListItem> { new SelectListItem { Text = "Seleccione ...", Value = "0" } }, htmlAttributes: new { @tabindex = 10, @id = "ListaMunicipios", @class = "form-select", style = "width: 100%;", required = "true" }) *@
+                                            @Html.DropDownList("ListaMunicipios", new List<SelectListItem> { new SelectListItem { Text = "Seleccione ...", Value = "" } }, htmlAttributes: new { @tabindex = 5, @class = "form-select", style = "width: 100%;padding-top:6px !important;padding-bottom: 6px !important;", @id = "ListaMunicipios", required = "true" })
+                                            <label for="ListaMunicipios">Municipio de residencia</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" id="cajaMunicipio">
+                                        <div class="floating-select">
+                                            @* @Html.DropDownList("ListaBarrios", new List<SelectListItem> { new SelectListItem { Text = "Barrio de Residencia", Value = "0" } }, htmlAttributes: new { @tabindex = 10, @id = "ListaBarrios", @class = "form-select", style = "width: 100%;", required = "true" }) *@
+                                            @Html.DropDownList("ListaBarrios", new List<SelectListItem> { new SelectListItem { Text = "Seleccione ...", Value = "" } }, htmlAttributes: new { @tabindex = 10, @class = "form-select", style = "width: 100%;padding-top:6px !important;padding-bottom: 6px !important;", @id = "ListaBarrios", required = "true" })
+                                            <label for="ListaBarrios">Barrio de residencia</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
                                         <div class="floating-label">
                                             <input type="text" class="form-control" id="direccion" required placeholder=" ">
-                                            <label for="direccion">Dirección de Residencia*</label>
+                                            <label for="direccion">Dirección de Residencia</label>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +158,7 @@
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <select class="form-select" id="entidadBancaria" required>
-                                            <option value="">Entidad Bancaria*</option>
+                                            <option value="">Entidad Bancaria</option>
                                             <option value="1">Bancolombia</option>
                                             <option value="2">Banco de Bogotá</option>
                                             <option value="3">Davivienda</option>
@@ -182,7 +167,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <select class="form-select" id="tipoCuenta" required>
-                                            <option value="">Tipo de Cuenta*</option>
+                                            <option value="">Tipo de Cuenta</option>
                                             <option value="1">Cuenta de Ahorros</option>
                                             <option value="2">Cuenta Corriente</option>
                                         </select>
@@ -201,12 +186,12 @@
                                     </div>
                                     <div class="col-12">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="tratamientoDatos" required>
-                                            <label class="form-check-label" for="tratamientoDatos">
-                                                Acepto el tratamiento de mis datos personales*
+                                            <input class="form-check-input is-invalid" type="checkbox" id="tratamientoDatos" value="0" required>
+                                            <label class="form-check-label" for="tratamientoDatos" id="labelTratamientoDatos">
+                                                Acepto el tratamiento de mis datos personales
                                             </label>
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                             </div>
 
@@ -215,32 +200,21 @@
                                 <h3 class="mb-4 border-bottom pb-2">Cargue de Documentos</h3>
                                 <div class="row g-3">
                                     <div class="col-12" id="ZonaDocumentos">
-                                        
+                                        <!-- Aquí se generarán dinámicamente las tarjetas de documentos -->
                                     </div>
-                                    <div class="col-12 mt-4">
-                                        <div class="d-flex gap-2">
-                                            <button type="button" id="btnValidarDocumentos" class="btn btn-info">
-                                                <i class="fas fa-check-circle"></i> Validar Documentos
+                                    <div class="row mt-4">
+                                        <div class="col-12 text-center">
+                                            <button type="button" class="btn btn-primary btn-lg me-3" id="procesarDocumentos" onclick="procesarTodosLosDocumentos()">
+                                                <i class="fas fa-cloud-upload-alt me-2"></i>
+                                                Procesar Documentos (0/3)
                                             </button>
-                                            <button type="button" id="btnLimpiarDocumentos" class="btn btn-warning">
-                                                <i class="fas fa-trash"></i> Limpiar Todo
-                                            </button>
-                                            <button type="button" id="btnEnviarDocumentos" class="btn btn-success">
-                                                <i class="fas fa-paper-plane"></i> Enviar Documentos
+                                            <button type="button" class="btn btn-outline-warning" onclick="limpiarStorage()">
+                                                <i class="fas fa-trash-alt me-2"></i>
+                                                Limpiar Almacenamiento
                                             </button>
                                         </div>
                                     </div>
-
-                                    <div class="col-12">
-                                        <div id="documentosStatus" class="mt-3">
-                                            <div class="alert alert-info">
-                                                <i class="fas fa-info-circle"></i>
-                                                <span id="statusMessage">Cargue los documentos requeridos</span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>//+
+                                </div>
                             </div>
 
                             <div class="d-flex justify-content-between mt-4">
@@ -255,361 +229,11 @@
         </div>
     </div>
     <script src="~/lib/bootstrap/dist/js/bootstrap5.0.2.bundle.min.js"></script>
-    <script src="~/lib/soliciud/js/registro.js"></script>   
-
+    <script src="~/lib/soliciud/js/registro.js"></script>
     <script>
-        // Variables globales
-        let documentosRequeridos = [];
-        let documentosCargados = {};
-
-        // Inicializar cuando cargue la página
-        document.addEventListener('DOMContentLoaded', function () {
-            cargarDocumentosRequeridos();
-            cargarDocumentosDesdeStorage();
-        });
-
-        // Función para cargar la lista de documentos requeridos desde el ViewData
-        function cargarDocumentosRequeridos() {
-            // Aquí recuperas los documentos desde tu ViewData
-        @{
-            var documentos = ViewData["DocumentosRequeridos"] as List<Respuesta_Consulta_Documentos_Requeridos> ?? new List<Respuesta_Consulta_Documentos_Requeridos>();
-        }
-
-                documentosRequeridos = @Html.Raw(Json.Serialize(documentos));
-
-            if (documentosRequeridos && documentosRequeridos.length > 0) {
-                generarZonaDocumentos();
-            } else {
-                document.getElementById('ZonaDocumentos').innerHTML =
-                    '<div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> No hay documentos requeridos para cargar.</div>';
-            }
-        }
-
-        // Generar las zonas de carga de documentos
-        function generarZonaDocumentos() {
-            const zona = document.getElementById('ZonaDocumentos');
-            let html = '';
-
-            documentosRequeridos.forEach((doc, index) => {
-                const docId = `doc_${doc.Id}`;
-                html += `
-                    <div class="document-card" id="card_${docId}">
-                        <div class="row align-items-center">
-                            <div class="col-md-4">
-                                <h5 class="mb-1">${doc.Nombre}</h5>
-                                <p class="text-muted mb-1">${doc.Descripcion}</p>
-                                <small class="text-info">Peso máximo: ${doc.PesoMaximo} KB</small>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="upload-area" onclick="triggerFileInput('${docId}')">
-                                    <i class="fas fa-cloud-upload-alt fa-2x text-primary mb-2"></i>
-                                    <p class="mb-0">Haga clic para seleccionar archivo</p>
-                                    <small class="text-muted">o arrastre y suelte aquí</small>
-                                </div>
-                                <input type="file"
-                                       id="input_${docId}"
-                                       class="file-input"
-                                       accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
-                                       onchange="manejarArchivo(event, '${docId}', ${doc.Id}, '${doc.Nombre}', ${doc.PesoMaximo})">
-
-                                <div class="progress-bar-container" id="progress_${docId}">
-                                    <div class="progress">
-                                        <div class="progress-bar" role="progressbar" style="width: 0%"></div>
-                                    </div>
-                                </div>
-
-                                <div class="file-info" id="info_${docId}" style="display: none;">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div>
-                                            <strong id="fileName_${docId}"></strong>
-                                            <br>
-                                            <small id="fileSize_${docId}" class="text-muted"></small>
-                                        </div>
-                                        <div>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="eliminarArchivo('${docId}', ${doc.Id})">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            zona.innerHTML = html;
-
-            // Agregar eventos de drag and drop
-            agregarEventosDragDrop();
-        }
-
-        // Trigger para abrir el selector de archivos
-        function triggerFileInput(docId) {
-            document.getElementById(`input_${docId}`).click();
-        }
-
-        // Manejar la selección/carga de archivo
-        function manejarArchivo(event, docId, documentoId, nombreDoc, pesoMaximo) {
-            const archivo = event.target.files[0];
-            if (!archivo) return;
-
-            // Validar tamaño
-            const tamanoKB = archivo.size / 1024;
-            if (tamanoKB > pesoMaximo) {
-                mostrarError(`El archivo excede el tamaño máximo permitido (${pesoMaximo} KB)`);
-                document.getElementById(`card_${docId}`).classList.add('document-error');
-                return;
-            }
-
-            // Mostrar progreso
-            mostrarProgreso(docId, true);
-
-            // Convertir a Base64
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                const base64 = e.target.result;
-
-                // Guardar en objeto de documentos cargados
-                documentosCargados[documentoId] = {
-                    id: documentoId,
-                    nombre: nombreDoc,
-                    archivo: archivo.name,
-                    base64: base64,
-                    tamano: tamanoKB.toFixed(2),
-                    fecha: new Date().toISOString()
-                };
-
-                // Guardar en localStorage
-                guardarEnStorage();
-
-                // Actualizar UI
-                actualizarUIDocumentoCargado(docId, archivo, tamanoKB);
-
-                // Ocultar progreso
-                mostrarProgreso(docId, false);
-
-                // Actualizar status general
-                actualizarStatusGeneral();
-            };
-
-            reader.onerror = function () {
-                mostrarError('Error al procesar el archivo');
-                mostrarProgreso(docId, false);
-            };
-
-            reader.readAsDataURL(archivo);
-        }
-
-        // Actualizar UI cuando se carga un documento
-        function actualizarUIDocumentoCargado(docId, archivo, tamanoKB) {
-            const card = document.getElementById(`card_${docId}`);
-            const info = document.getElementById(`info_${docId}`);
-            const fileName = document.getElementById(`fileName_${docId}`);
-            const fileSize = document.getElementById(`fileSize_${docId}`);
-
-            card.classList.remove('document-error');
-            card.classList.add('document-uploaded');
-
-            fileName.textContent = archivo.name;
-            fileSize.textContent = `${tamanoKB.toFixed(2)} KB - ${archivo.type}`;
-
-            info.style.display = 'block';
-        }
-
-        // Mostrar/ocultar barra de progreso
-        function mostrarProgreso(docId, mostrar) {
-            const progressContainer = document.getElementById(`progress_${docId}`);
-            if (mostrar) {
-                progressContainer.style.display = 'block';
-                // Simular progreso
-                let width = 0;
-                const interval = setInterval(() => {
-                    width += 10;
-                    progressContainer.querySelector('.progress-bar').style.width = width + '%';
-                    if (width >= 100) {
-                        clearInterval(interval);
-                        setTimeout(() => {
-                            progressContainer.style.display = 'none';
-                            progressContainer.querySelector('.progress-bar').style.width = '0%';
-                        }, 500);
-                    }
-                }, 100);
-            } else {
-                progressContainer.style.display = 'none';
-            }
-        }
-
-        // Eliminar archivo
-        function eliminarArchivo(docId, documentoId) {
-            delete documentosCargados[documentoId];
-            guardarEnStorage();
-
-            const card = document.getElementById(`card_${docId}`);
-            const info = document.getElementById(`info_${docId}`);
-            const input = document.getElementById(`input_${docId}`);
-
-            card.classList.remove('document-uploaded', 'document-error');
-            info.style.display = 'none';
-            input.value = '';
-
-            actualizarStatusGeneral();
-        }
-
-        // Guardar documentos en localStorage
-        function guardarEnStorage() {
-            try {
-                localStorage.setItem('documentosCargados', JSON.stringify(documentosCargados));
-            } catch (error) {
-                console.error('Error al guardar en localStorage:', error);
-                mostrarError('Error al guardar documentos temporalmente');
-            }
-        }
-
-        // Cargar documentos desde localStorage
-        function cargarDocumentosDesdeStorage() {
-            try {
-                const stored = localStorage.getItem('documentosCargados');
-                if (stored) {
-                    documentosCargados = JSON.parse(stored);
-                }
-            } catch (error) {
-                console.error('Error al cargar desde localStorage:', error);
-                documentosCargados = {};
-            }
-        }
-
-        // Agregar eventos de drag and drop
-        function agregarEventosDragDrop() {
-            const uploadAreas = document.querySelectorAll('.upload-area');
-
-            uploadAreas.forEach(area => {
-                area.addEventListener('dragover', (e) => {
-                    e.preventDefault();
-                    area.style.backgroundColor = '#e3f2fd';
-                });
-
-                area.addEventListener('dragleave', (e) => {
-                    e.preventDefault();
-                    area.style.backgroundColor = '';
-                });
-
-                area.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    area.style.backgroundColor = '';
-
-                    const files = e.dataTransfer.files;
-                    if (files.length > 0) {
-                        const docId = area.parentElement.querySelector('.file-input').id.replace('input_', '');
-                        const input = document.getElementById(`input_${docId}`);
-                        input.files = files;
-                        input.dispatchEvent(new Event('change'));
-                    }
-                });
-            });
-        }
-
-        // Actualizar status general
-        function actualizarStatusGeneral() {
-            const totalRequeridos = documentosRequeridos.length;
-            const totalCargados = Object.keys(documentosCargados).length;
-            const statusDiv = document.getElementById('documentosStatus');
-            const messageSpan = document.getElementById('statusMessage');
-
-            if (totalCargados === 0) {
-                statusDiv.className = 'alert alert-info mt-3';
-                messageSpan.textContent = 'Cargue los documentos requeridos';
-            } else if (totalCargados < totalRequeridos) {
-                statusDiv.className = 'alert alert-warning mt-3';
-                messageSpan.textContent = `${totalCargados} de ${totalRequeridos} documentos cargados`;
-            } else {
-                statusDiv.className = 'alert alert-success mt-3';
-                messageSpan.textContent = `Todos los documentos han sido cargados (${totalCargados}/${totalRequeridos})`;
-            }
-        }
-
-        // Validar documentos
-        document.getElementById('btnValidarDocumentos').addEventListener('click', function () {
-            const totalRequeridos = documentosRequeridos.length;
-            const totalCargados = Object.keys(documentosCargados).length;
-
-            if (totalCargados === totalRequeridos) {
-                mostrarExito('Todos los documentos han sido cargados correctamente');
-            } else {
-                mostrarError(`Faltan ${totalRequeridos - totalCargados} documentos por cargar`);
-            }
-        });
-
-        // Limpiar todos los documentos
-        document.getElementById('btnLimpiarDocumentos').addEventListener('click', function () {
-            if (confirm('¿Está seguro de que desea eliminar todos los documentos cargados?')) {
-                documentosCargados = {};
-                localStorage.removeItem('documentosCargados');
-                generarZonaDocumentos();
-                actualizarStatusGeneral();
-                mostrarExito('Todos los documentos han sido eliminados');
-            }
-        });
-
-        // Enviar documentos al backend
-        document.getElementById('btnEnviarDocumentos').addEventListener('click', function () {
-            if (Object.keys(documentosCargados).length === 0) {
-                mostrarError('No hay documentos para enviar');
-                return;
-            }
-
-            enviarDocumentosAlBackend();
-        });
-
-        // Función para enviar al backend
-        async function enviarDocumentosAlBackend() {
-            try {
-                const datos = {
-                    documentos: Object.values(documentosCargados)
-                };
-
-                const response = await fetch('/api/documentos/subir', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
-                    },
-                    body: JSON.stringify(datos)
-                });
-
-                if (response.ok) {
-                    const resultado = await response.json();
-                    mostrarExito('Documentos enviados correctamente');
-                    // Limpiar storage después del envío exitoso
-                    localStorage.removeItem('documentosCargados');
-                    documentosCargados = {};
-                    actualizarStatusGeneral();
-                } else {
-                    const error = await response.text();
-                    mostrarError('Error al enviar documentos: ' + error);
-                }
-            } catch (error) {
-                console.error('Error:', error);
-                mostrarError('Error de conexión al enviar documentos');
-            }
-        }
-
-        // Funciones de utilidad para mostrar mensajes
-        function mostrarError(mensaje) {
-            // Aquí puedes usar tu sistema de notificaciones preferido
-            alert('Error: ' + mensaje);
-        }
-
-        function mostrarExito(mensaje) {
-            // Aquí puedes usar tu sistema de notificaciones preferido
-            alert('Éxito: ' + mensaje);
-        }
-
-        // Limpiar localStorage al salir de la página (opcional)
-        window.addEventListener('beforeunload', function () {
-            // Descomentar si quieres limpiar automáticamente
-            // localStorage.removeItem('documentosCargados');
-        });
-    </script>
+            const documentosRequeridos = @Html.Raw(Json.Serialize(ViewData["DocumentosRequeridos"] ?? new List<Respuesta_Consulta_Documentos_Requeridos>()));
+    </script>    
+    <script src="~/js/carguedocumentos.js"></script>
+   
 </body>
 </html>

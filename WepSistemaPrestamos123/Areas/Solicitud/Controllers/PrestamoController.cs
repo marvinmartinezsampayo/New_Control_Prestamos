@@ -19,20 +19,33 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
         private readonly ILugaresGeograficos _lugares;
         private readonly IConfiguration _configuration;
         private readonly IGenerar_Codigo _codigo;
+        private readonly IBLConsultar_Detalle_Master _dominio;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IRegistroSolicitud _registroSolicitud;
+         
+
+
         private string original;
         private string key = "P7JWwviSTY%YTnNK%cCQJYFu3eu#6LrU$9%PysY4No8TCuTR6X";
+
         public PrestamoController
             (
             IConfiguration configuration,
             ILogger<PrestamoController> logger,
             ILugaresGeograficos lugares,
-            IGenerar_Codigo codigo
+            IGenerar_Codigo codigo,
+            IBLConsultar_Detalle_Master dominio,
+            IHttpContextAccessor httpContextAccessor,
+            IRegistroSolicitud registroSolicitud
             )
         {
             _configuration = configuration;
             _logger = logger;
             _lugares = lugares;
             _codigo = codigo;
+            _dominio = dominio;
+            _httpContextAccessor = httpContextAccessor;    
+            _registroSolicitud = registroSolicitud;
         }
 
         public IActionResult Index()
@@ -56,7 +69,17 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
         {
             try
             {
+
+                //Obtener IP
+                var IpMaquina = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+                              
+                //============= Carga Inicial=================================
                 var ListDocumentos = await _codigo.ObtenerListaDocAsync<List<Respuesta_Consulta_Documentos_Requeridos>>();
+                var _listaTipoDoc = await _dominio.ListaDetalle(1);
+                var _departamentos = await _lugares.ObtenerAsync<Parametros_Consulta_Lugares_Geograficos_DTO,List<Respuesta_Consulta_Lugares_Geograficos_DTO> >(new Parametros_Consulta_Lugares_Geograficos_DTO { TIPO_LUGAR = "DE" });
+                
+                ViewBag.listTipoDocumentos = new SelectList(_listaTipoDoc, "Id", "Nombre");
+                ViewBag.ListaDepartamentos = new SelectList(_departamentos.Respuesta, "CodigoDane", "Descripcion");
                 ViewData["DocumentosRequeridos"] = (ListDocumentos.Estado && ListDocumentos?.Respuesta != null) ? ListDocumentos.Respuesta : new List<Respuesta_Consulta_Documentos_Requeridos>();
 
 
@@ -90,7 +113,7 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
 
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;
@@ -180,6 +203,55 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
                 return NotFound("Error");
             }
         }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> ConsultarMunicipios([FromBody] Parametros_Consulta_Lugares_Geograficos_DTO _param)
+        {
+            try
+            {
+               var _lista_Municipio =  await _lugares.ObtenerAsync<Parametros_Consulta_Lugares_Geograficos_DTO, List<Respuesta_Consulta_Lugares_Geograficos_DTO>>(_param);
+
+                RespuestaDto<string> resp = new RespuestaDto<string>();
+                return StatusCode(StatusCodes.Status200OK, _lista_Municipio);
+            }
+            catch (Exception ex)
+            {
+                return NotFound("Error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ConsultarBarrios([FromBody] Parametros_Consulta_Barrios_Dto _param)
+        {
+            try
+            {
+                var _lista_Barrios = await _lugares.ObtenerBarriosAsync<Parametros_Consulta_Barrios_Dto, List<Respuesta_Consulta_Barrios_Dto>>(_param);
+
+                RespuestaDto<string> resp = new RespuestaDto<string>();
+                return StatusCode(StatusCodes.Status200OK, _lista_Barrios);
+            }
+            catch (Exception ex)
+            {
+                return NotFound("Error");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add_Loan_Request([FromBody] Parametros_Insert_Solicitud_Prestamo_Dto _param)
+        {
+            try
+            {
+                var _respAdd = await _registroSolicitud.GuardarAsync<Parametros_Insert_Solicitud_Prestamo_Dto, bool>(_param);
+                return RetornoRespuesta<RespuestaDto<bool>>(_respAdd, EstadoOperacion.Bueno);               
+            }
+            catch (Exception ex)
+            {
+                return NotFound("Error");
+            }
+        }
+
+
 
 
         public IActionResult RetornoRespuesta<TParam>(TParam _parametro, EstadoOperacion _codigoRespuesta)

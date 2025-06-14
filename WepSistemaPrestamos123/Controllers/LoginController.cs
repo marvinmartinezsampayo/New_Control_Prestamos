@@ -7,17 +7,19 @@ using System.Security.Claims;
 using Comun.DTO.Generales;
 using Datos.Contratos.Login;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 namespace WepPrestamos.Controllers
 {
     public class LoginController : Controller
     {
-        //private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IGestionUsuario _gestionUsuario;
 
-        public LoginController(IGestionUsuario gestionUsuario)
+        public LoginController(IGestionUsuario gestionUsuario, IHttpContextAccessor httpContextAccessor)
         {           
             _gestionUsuario = gestionUsuario;
+            _httpContextAccessor = httpContextAccessor;
         }
               
 
@@ -77,8 +79,8 @@ namespace WepPrestamos.Controllers
             else
             {
                 //Obtener IP
-                //var Ip = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();            
-                //HttpContext.Session.SetString("IpMaquina", Ip);
+                var Ip = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+                HttpContext.Session.SetString("IpMaquina", Ip);
 
                 //Consultamos los Roles
 

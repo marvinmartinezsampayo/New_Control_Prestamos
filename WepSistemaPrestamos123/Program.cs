@@ -40,10 +40,22 @@ builder.Services.AddDbContext<ContextoLocal>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("strConexionMySqlLocal"));
 });
 
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Tiempo de expiración
+    options.Cookie.HttpOnly = true; // Seguridad
+    options.Cookie.IsEssential = true; // Necesaria para GDPR
+});
+
+
+builder.Services.AddHttpContextAccessor();
 // Seguridad
 builder.Services.AddScoped<IGestionUsuario, Gestion_Login>();
 builder.Services.AddScoped<ILugaresGeograficos, Gestion_Lugares_Geograficos>();
 builder.Services.AddScoped<IGenerar_Codigo, Gestion_Codigo_Acceso>();
+builder.Services.AddScoped<IBLConsultar_Detalle_Master, BLConsultar_Detalle_Master>();
+builder.Services.AddScoped<IAlmacenarDocumentos, Gestion_Documentos_X_Solicitud>();
+builder.Services.AddScoped<IRegistroSolicitud, Gestion_Registro_Solicitud>();
 
 
 builder.Services.AddAuthorization();
@@ -67,6 +79,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "area",

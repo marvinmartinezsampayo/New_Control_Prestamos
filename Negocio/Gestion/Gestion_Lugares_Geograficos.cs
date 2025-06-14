@@ -74,5 +74,44 @@ namespace Negocio.Gestion
                 };
             }
         }
+
+        public async Task<RespuestaDto<TReturn>> ObtenerBarriosAsync<TParam, TReturn>(TParam _modelo)
+        {
+            
+            if (_modelo is not Parametros_Consulta_Barrios_Dto param)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = "No hay datos suficientes para ejecutar la acción."
+                };
+            }
+
+            try
+            {
+                IQueryable<BARRIOS> query = context.BARRIOS
+                                            .Where(x => x.CodigoDaneMpio == param.ID_DANE_MUNICIPIO && x.Habilitado);                
+                var lstLugares = await query.ToListAsync();
+
+                var resp = lstLugares.Select(lugar =>
+                    Mapeador.MapearObjeto<BARRIOS, Respuesta_Consulta_Barrios_Dto>(lugar))
+                    .ToList();
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "Operación realizada correctamente.",
+                    Respuesta = (TReturn)Convert.ChangeType(resp, typeof(TReturn))
+                };
+            }
+            catch (Exception ex)
+            {                
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Se generó una excepción al ejecutar la acción."
+                };
+            }
+        }
     }
 }
