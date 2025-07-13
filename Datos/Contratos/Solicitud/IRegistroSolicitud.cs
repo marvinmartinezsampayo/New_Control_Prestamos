@@ -1,4 +1,5 @@
-﻿using Datos.Contratos.Crud;
+﻿using Comun.Generales;
+using Datos.Contratos.Crud;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace Datos.Contratos.Solicitud
 {
     public interface IRegistroSolicitud:IObtener, IConteo, IGuardar,IHabilitar,IDeshabilitar
     {
+        Task<RespuestaDto<TReturn>> Obtener_X_Id_Async<TParam, TReturn>(TParam _modelo);
     }
 }

@@ -21,7 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.Name = "Prestamo";
         options.Cookie.HttpOnly = true;
         //vencimiento
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
         options.Cookie.MaxAge = options.ExpireTimeSpan;
         options.SlidingExpiration = true;
         // ReturnUrlParameter requires 

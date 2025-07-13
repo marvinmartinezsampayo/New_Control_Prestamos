@@ -43,14 +43,17 @@ namespace Comun.DTO.Solicitud
         [JsonPropertyName("direccion_residencia")]
         public string DireccionResidencia { get; set; } = string.Empty;
 
-        [JsonPropertyName("id_genero")]
-        public long IdGenero { get; set; }
+        [JsonPropertyName("id_estado")]
+        public long EstadoId { get; set; }
 
         [JsonPropertyName("email")]
         public string Email { get; set; } = string.Empty;
 
         [JsonPropertyName("celular")]
         public string Celular { get; set; } = string.Empty;
+
+        [JsonPropertyName("monto")]
+        public long Monto { get; set; }
 
         [JsonPropertyName("codigo_acceso")]
         public string? CodigoAcceso { get; set; }

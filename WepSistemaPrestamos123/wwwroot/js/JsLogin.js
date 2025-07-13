@@ -9,7 +9,7 @@
     // Resetea el temporizador de inactividad
     function resetTimer() {
         clearTimeout(time);
-        time = setTimeout(logout, 60000);  // ms = 1 minutos
+        time = setTimeout(logout, 600000);  // ms = 10 minutos
     }
 
     // Eventos que detectan actividad del usuario

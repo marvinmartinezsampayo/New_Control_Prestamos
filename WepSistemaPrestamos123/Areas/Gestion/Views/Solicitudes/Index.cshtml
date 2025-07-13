@@ -1,0 +1,445 @@
+﻿@using Comun.DTO.Solicitud
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Gestión Solicitudes";
+}
+
+@{
+    // Recibir la lista desde ViewBag de forma segura
+    var solicitudes = ViewBag.listSolregis as List<Respuesta_Consulta_Solicitudes_Prestamo_Dto> ?? new List<Respuesta_Consulta_Solicitudes_Prestamo_Dto>();
+    var solicitudesRevi = ViewBag.listSolRevis as List<Respuesta_Consulta_Solicitudes_Prestamo_Dto> ?? new List<Respuesta_Consulta_Solicitudes_Prestamo_Dto>();
+    var solicitudesFull = ViewBag.listSolFull as List<Respuesta_Consulta_Solicitudes_Prestamo_Dto> ?? new List<Respuesta_Consulta_Solicitudes_Prestamo_Dto>();
+
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap-icons.min.css" rel="stylesheet" />
+<style>
+    .nav-link.active {
+        color: #000 !important;
+    }
+</style>
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">               
+                <div class="text-center mb-5">
+                    <h1 class="display-6 fw-bold text-primary">
+                        <i class="bi bi-layout-text-window-reverse me-2"></i>
+                        Gestión de Solicitudes de Prestamos
+                    </h1>
+                    <p class="lead text-muted">Sistema de Prestamos Florencia</p>
+                </div>
+
+                <!-- Tabs Container -->
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-primary">
+                        <ul class="nav nav-tabs card-header-tabs nav-fill" id="mainTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active text-white fw-semibold"
+                                        id="home-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#home-tab-pane"
+                                        type="button"
+                                        role="tab">
+                                    <i class="bi bi-house-door me-2"> Inicio</i>
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link text-white fw-semibold"
+                                        id="profile-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#profile-tab-pane"
+                                        type="button"
+                                        role="tab">
+                                    <i class="bi bi-journal-arrow-down me-2"></i>Llegadas
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link text-white fw-semibold"
+                                        id="contact-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#contact-tab-pane"
+                                        type="button"
+                                        role="tab">
+                                    <i class="bi bi-envelope me-2"></i>En Revisión
+                                </button>
+                            </li>
+@*                            <li class="nav-item" role="presentation">
+                                <button class="nav-link text-white fw-semibold"
+                                        id="settings-tab"
+                                        data-bs-toggle="tab"
+                                        data-bs-target="#settings-tab-pane"
+                                        type="button"
+                                        role="tab">
+                                    <i class="bi bi-gear me-2"></i>Configuración
+                                </button>
+                            </li> *@
+                        </ul>
+                    </div>
+
+                    <div class="card-body p-4">
+                        <div class="tab-content" id="mainTabsContent">
+                            <!-- Tab Inicio -->
+                            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-12 mb-4">
+                                        <div class="alert alert-info d-flex align-items-center" role="alert">
+                                            <i class="bi bi-info-circle-fill me-2"></i>
+                                            <div style="text-align: justify">
+                                                Bienvenido al panel de gestión de solicitudes de prestamos. Aquí encontrarás un resumen de las solicitudes gesionadas y resientes de esta vigencia.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row g-4">
+                                    <div class="col-md-4">
+                                        <div class="card bg-primary text-white h-100">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-card-list display-4 mb-3"></i>
+                                                <h5 class="card-title">Solicitudes</h5>
+                                                <p class="card-text display-6 fw-bold" id="countAllRequest">@(solicitudesFull?.Count() ?? 0)</p>
+                                                <small>Total registradas</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card bg-success text-white h-100">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-graph-up display-4 mb-3"></i>
+                                                <h5 class="card-title">Registradas</h5>
+                                                <p class="card-text display-6 fw-bold">@(solicitudes?.Count() ?? 0)</p>
+                                                <small>Pendientes por revisar</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="card bg-warning text-dark h-100">
+                                            <div class="card-body text-center">
+                                                <i class="bi bi-card-checklist display-4 mb-3"></i>
+                                                <h5 class="card-title">En revisión</h5>
+                                                <p class="card-text display-6 fw-bold">@(solicitudesRevi?.Count() ?? 0)</p>
+                                                <small>Validando requisitos</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header bg-light">
+                                                <h6 class="mb-0">
+                                                    <i class="bi bi-activity me-2"></i>
+                                                    Actividad Reciente
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="list-group list-group-flush">
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="bi bi-person-plus text-success me-2"></i>
+                                                            Nuevo usuario registrado
+                                                        </div>
+                                                        <span class="badge bg-success rounded-pill">Hace 2 min</span>
+                                                    </div>
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="bi bi-cart-check text-primary me-2"></i>
+                                                            Pedido completado #1234
+                                                        </div>
+                                                        <span class="badge bg-primary rounded-pill">Hace 5 min</span>
+                                                    </div>
+                                                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                                                        <div>
+                                                            <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+                                                            Stock bajo en producto ABC
+                                                        </div>
+                                                        <span class="badge bg-warning rounded-pill">Hace 15 min</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tab Solicitudes Llegadas -->                           
+                            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel">
+                                <div class="row">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            Solicitudes de prestamos llegadas
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="datatablesSimple" class="table table-striped table-hover table-sm">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th scope="col"></th>
+                                                        <th scope="col">Solicitante</th>
+                                                        <th scope="col">Identificación</th>
+                                                        <th scope="col">Celular</th>
+                                                        <th scope="col">Fecha Solicitud</th>
+                                                        <th scope="col">Monto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if(solicitudes != null && solicitudes.Any())
+                                                    {
+                                                        @foreach (var solicitud in solicitudes)
+                                                        {                                                           
+                                                            <tr>
+                                                                <th scope="row" class="d-flex justify-content-center align-items-center">
+                                                                    <button type="button" class="btn btn-primary btn-sm" title="Ver"
+                                                                            onclick="verSolicitud(@solicitud.Id,@solicitud.EstadoId)">
+                                                                        <i class="bi bi-eye-fill"></i>
+                                                                    </button>
+                                                                </th>
+                                                                <td>@solicitud.NombreCompleto</td>
+                                                                <td>@solicitud.NumeroIdentificacion.ToString("N0")</td>
+                                                                <td>@solicitud.Celular</td>
+                                                                <td>@solicitud.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</td>
+                                                                <td>@(solicitud.Monto.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="6" class="text-center text-muted">
+                                                                <i class="bi bi-inbox"></i>
+                                                                No se encontraron solicitudes
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>                                               
+                                            </table>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                            </div>
+
+                            <!-- Tab Solicitudes en revision -->
+                          <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel">
+                                <div class="row">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <i class="fas fa-table me-1"></i>
+                                            Solicitudes de prestamos llegadas
+                                        </div>
+                                        <div class="card-body">
+                                            <table id="tablaSolicitudesRevision" class="table table-striped table-hover table-sm">
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        <th scope="col"></th>
+                                                        <th scope="col">Solicitante</th>
+                                                        <th scope="col">Identificación</th>
+                                                        <th scope="col">Celular</th>
+                                                        <th scope="col">Fecha Solicitud</th>
+                                                        <th scope="col">Monto</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (solicitudesRevi != null && solicitudesRevi.Any())
+                                                    {
+                                                        @foreach (var solicitud in solicitudesRevi)
+                                                        {
+                                                            <tr>
+                                                                <th scope="row" class="d-flex justify-content-center align-items-center">
+                                                                    <button type="button" class="btn btn-primary btn-sm" title="Ver">
+                                                                        <i class="bi bi-eye-fill"></i>
+                                                                    </button>
+                                                                </th>
+                                                                <td>@solicitud.NombreCompleto</td>
+                                                                <td>@solicitud.NumeroIdentificacion.ToString("N0")</td>
+                                                                <td>@solicitud.Celular</td>
+                                                                <td>@solicitud.FechaCreacion.ToString("dd/MM/yyyy HH:mm")</td>
+                                                                <td>@(solicitud.Monto.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <tr>
+                                                            <td colspan="6" class="text-center text-muted">
+                                                                <i class="bi bi-inbox"></i>
+                                                                No se encontraron solicitudes
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> 
+
+                            <!-- Tab Configuración -->
+                          @*   <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">
+                                                    <i class="bi bi-bell me-2"></i>
+                                                    Notificaciones
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="form-check form-switch mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="emailNotif" checked>
+                                                    <label class="form-check-label" for="emailNotif">
+                                                        Notificaciones por email
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-switch mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="smsNotif">
+                                                    <label class="form-check-label" for="smsNotif">
+                                                        Notificaciones por SMS
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-switch mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="pushNotif" checked>
+                                                    <label class="form-check-label" for="pushNotif">
+                                                        Notificaciones push
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-switch">
+                                                    <input class="form-check-input" type="checkbox" id="marketingNotif">
+                                                    <label class="form-check-label" for="marketingNotif">
+                                                        Comunicaciones de marketing
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card mt-3">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">
+                                                    <i class="bi bi-shield-lock me-2"></i>
+                                                    Seguridad
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="currentPassword" class="form-label">Contraseña Actual</label>
+                                                    <input type="password" class="form-control" id="currentPassword">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="newPassword" class="form-label">Nueva Contraseña</label>
+                                                    <input type="password" class="form-control" id="newPassword">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
+                                                    <input type="password" class="form-control" id="confirmPassword">
+                                                </div>
+                                                <button class="btn btn-warning">
+                                                    <i class="bi bi-key me-1"></i>
+                                                    Cambiar Contraseña
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">
+                                                    <i class="bi bi-palette me-2"></i>
+                                                    Preferencias de Interfaz
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label for="theme" class="form-label">Tema</label>
+                                                    <select class="form-select" id="theme">
+                                                        <option value="light" selected>Claro</option>
+                                                        <option value="dark">Oscuro</option>
+                                                        <option value="auto">Automático</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="language" class="form-label">Idioma</label>
+                                                    <select class="form-select" id="language">
+                                                        <option value="es" selected>Español</option>
+                                                        <option value="en">English</option>
+                                                        <option value="fr">Français</option>
+                                                        <option value="pt">Português</option>
+                                                    </select>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="timezone" class="form-label">Zona Horaria</label>
+                                                    <select class="form-select" id="timezone">
+                                                        <option value="america/bogota" selected>América/Bogotá (GMT-5)</option>
+                                                        <option value="america/mexico_city">América/Ciudad_de_México (GMT-6)</option>
+                                                        <option value="america/new_york">América/Nueva_York (GMT-5)</option>
+                                                        <option value="europe/madrid">Europa/Madrid (GMT+1)</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="checkbox" id="compactMode">
+                                                    <label class="form-check-label" for="compactMode">
+                                                        Modo compacto
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="card mt-3">
+                                            <div class="card-header">
+                                                <h6 class="mb-0">
+                                                    <i class="bi bi-download me-2"></i>
+                                                    Exportar Datos
+                                                </h6>
+                                            </div>
+                                            <div class="card-body">
+                                                <p class="text-muted">Descarga una copia de todos tus datos.</p>
+                                                <div class="d-grid gap-2">
+                                                    <button class="btn btn-outline-primary">
+                                                        <i class="bi bi-file-earmark-pdf me-1"></i>
+                                                        Exportar como PDF
+                                                    </button>
+                                                    <button class="btn btn-outline-success">
+                                                        <i class="bi bi-file-earmark-spreadsheet me-1"></i>
+                                                        Exportar como Excel
+                                                    </button>
+                                                    <button class="btn btn-outline-info">
+                                                        <i class="bi bi-filetype-json me-1"></i>
+                                                        Exportar como JSON
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-4">
+                                    <div class="col-12">
+                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                            <button class="btn btn-outline-secondary me-md-2" type="button">
+                                                <i class="bi bi-arrow-clockwise me-1"></i>
+                                                Restablecer
+                                            </button>
+                                            <button class="btn btn-success" type="button">
+                                                <i class="bi bi-check-lg me-1"></i>
+                                                Guardar Configuración
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> *@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/bootstrap/dist/js/bootstrap5.3.2.bundle.min.js"></script>
+    <script>
+        function verSolicitud(id, estadoId) {
+            window.location.href = '@Url.Action("Validar", "Solicitudes", new { Area = "Gestion" })' +
+                '?id=' + id + '&estadoId=' + estadoId;
+        }
+    </script>
+</body>

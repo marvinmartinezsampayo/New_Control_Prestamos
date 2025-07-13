@@ -81,7 +81,7 @@ namespace Negocio.Gestion
                 }
 
                 var cantidad = _context.SOLICITUD_PRESTAMO
-                                .Where(x=>x.Codigo_Acceso == _modelo.ToString())
+                                .Where(x=>x.CodigoAcceso == _modelo.ToString())
                                 .Count();
                 
                 var resCod = await _context.CODIGO_ACCESO

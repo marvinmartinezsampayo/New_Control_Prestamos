@@ -7,7 +7,7 @@
     const submitBtn = document.getElementById('submitBtn');
     const tratamientoDatos = document.getElementById('tratamientoDatos');
     const loanForm = document.getElementById('loanForm');
-    
+    const monto = document.getElementById('montoSolicitado');
 
     function validateStep(stepNumber) {
         const currentSection = document.getElementById(`step${stepNumber}`);
@@ -188,9 +188,10 @@
             id_mpio_residencia: parseInt(document.getElementById('ListaMunicipios').value),
             id_barrio_residencia: parseInt(document.getElementById('ListaBarrios').value),
             direccion_residencia: document.getElementById('direccion').value,
-            id_genero: 0, // No veo este campo en el formulario, asignar valor por defecto
+            id_estado: 12, // No veo este campo en el formulario, asignar valor por defecto
             email: document.getElementById('email').value,
             celular: document.getElementById('celular').value,
+            monto: document.getElementById('montoSolicitado').value,
             codigo_acceso: document.getElementById('codigoAcceso').value || null,
             habilitado: 1, // Habilitado por defecto
             usuario_creacion: "WEB_USER", // O el usuario actual si lo tienes
@@ -219,25 +220,43 @@
 
             if (response.ok) {
                 const result = await response.json();
-                console.log('Éxito:', result);
 
+
+                Swal.fire({
+                    title: "Señor(a) Usuario",
+                    text: "Su solicitud fue enviada exitosamente",
+                    icon: "success",
+                    showCancelButton: false,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Aceptar"
+                }).then((result) => {
+                    //if (result.isConfirmed) {
+                    //    Swal.fire({
+                    //        title: "Deleted!",
+                    //        text: "Your file has been deleted.",
+                    //        icon: "success"
+                    //    });
+                    //}
+                    window.location.href = '/Solicitud/prestamo/solicitar';
+                    loanForm.reset();
+                });
                 // Mostrar mensaje de éxito
-                showSuccessMessage('Solicitud enviada correctamente');
+                //showSuccessMessage('Solicitud enviada correctamente');
+                //redirigir o limpiar formulario               
 
-                // Opcional: redirigir o limpiar formulario
-                // window.location.href = '/success-page';
-                // loanForm.reset();
-
-            } else {
+            }
+            else
+            {
                 // Error del servidor
                 const errorData = await response.json();
-                console.error('Error del servidor:', errorData);
+                /*console.error('Error del servidor:', errorData);*/
                 showErrorMessage('Error al enviar la solicitud: ' + (errorData.message || 'Error desconocido'));
             }
 
         } catch (error) {
             // Error de red o JavaScript
-            console.error('Error:', error);
+           /* console.error('Error:', error);*/
             showErrorMessage('Error de conexión. Por favor, intenta nuevamente.');
         } finally {
             // Rehabilitar el botón
@@ -249,16 +268,27 @@
 
     // Funciones auxiliares para mostrar mensajes
     function showSuccessMessage(message) {
-        // Puedes usar SweetAlert, Bootstrap alerts, o crear tu propio sistema
-        alert(message); // Temporal - reemplaza con tu sistema de notificaciones
+        Swal.fire({
+            title: "Señor usuario:",
+            text: message,
+            icon: "success"
+        });
+        /*Puedes usar SweetAlert, Bootstrap alerts, o crear tu propio sistema*/
+        //alert(message); // Temporal - reemplaza con tu sistema de notificaciones
     }
 
     function showErrorMessage(message) {
+        Swal.fire({
+            title: "Señor usuario:",
+            text: message,
+            icon: "error"
+        });
         // Puedes usar SweetAlert, Bootstrap alerts, o crear tu propio sistema
-        alert(message); // Temporal - reemplaza con tu sistema de notificaciones
+        //alert(message); // Temporal - reemplaza con tu sistema de notificaciones
     }
 
     // Validación en tiempo real
+
     document.querySelectorAll('input, select').forEach(field => {
         field.addEventListener('input', function () {
             if (this.hasAttribute('required')) {
@@ -315,6 +345,7 @@
 
         return documentos;
     }
+
     //*************************/
     //*********Eventos**********
     //*************************/
@@ -416,6 +447,31 @@
         this.value = this.checked ? '1' : '0';
     });
 
+    monto.addEventListener('input', (e) => {
+        // Guardamos la posición del cursor para mantenerla después del formateo
+        const cursorPosition = monto.selectionStart;
+
+        // Eliminamos todo lo que no sea número para evitar caracteres inválidos
+        let valorSinFormato = monto.value.replace(/[^0-9]/g, '');
+
+        if (valorSinFormato === '') {
+            monto.value = '';
+            return;
+        }
+
+        // Convertimos el valor a número para formatearlo
+        const numero = parseInt(valorSinFormato, 10);
+
+        // Formateamos el número a pesos colombianos sin decimales
+        const valorFormateado = numero.toLocaleString('es-CO', {
+            style: 'currency',
+            currency: 'COP',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        });
+        monto.value = valorFormateado;
+    });
+
     //***********************************/
     //*********Floating Select **********/
     //**********************************/
@@ -469,4 +525,5 @@
         const stepActivo = document.querySelector('.step.active');
         return stepActivo ? parseInt(stepActivo.getAttribute('data-step')) : null;
     }
+
 });

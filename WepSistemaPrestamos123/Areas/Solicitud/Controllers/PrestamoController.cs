@@ -58,6 +58,7 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
             Parametros_Consulta_Lugares_Geograficos_DTO p_lugares = new Parametros_Consulta_Lugares_Geograficos_DTO();
 
             p_lugares.TIPO_LUGAR = "DE";
+            
             var listDepto = await _lugares.ObtenerAsync<Parametros_Consulta_Lugares_Geograficos_DTO,List<Respuesta_Consulta_Lugares_Geograficos_DTO>>(p_lugares);
 
             ViewBag.listaDepto = new SelectList(listDepto.Respuesta, "Id", "Descripcion");
