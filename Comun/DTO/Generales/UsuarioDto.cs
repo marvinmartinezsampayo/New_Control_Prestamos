@@ -22,5 +22,6 @@ namespace Comun.DTO.Generales
         public string TELEFONO { get; set; }
         public string CONTRASENA { get; set; }
         public bool HABILITADO { get; set; }
+        public Byte[]? FOTO { get; set; }
     }
 }

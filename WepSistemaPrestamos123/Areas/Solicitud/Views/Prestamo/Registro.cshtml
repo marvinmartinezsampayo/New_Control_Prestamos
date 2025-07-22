@@ -157,20 +157,33 @@
                                 <h3 class="mb-4 border-bottom pb-2">Información Financiera</h3>
                                 <div class="row g-3">
                                     <div class="col-md-6">
-                                        <select class="form-select" id="entidadBancaria" required>
-                                            <option value="">Entidad Bancaria</option>
-                                            <option value="1">Bancolombia</option>
-                                            <option value="2">Banco de Bogotá</option>
-                                            <option value="3">Davivienda</option>
-                                            <option value="4">BBVA</option>
-                                        </select>
+                                        <div class="floating-select">
+                                            @Html.DropDownList("EntidadBancaria",
+                                                     ViewBag.ListaEntidadesBancarias as SelectList,
+                                                     "Entidad Bancaria",
+                                                     htmlAttributes: new
+                                                     {
+                                                         @class = "form-select form-select-sm",
+                                                         @id = "entidadBancaria",
+                                                         required = "required"
+                                                     })
+                                            <label for="entidadBancaria">Entidad Bancaria</label>
+                                        </div>
                                     </div>
+
                                     <div class="col-md-6">
-                                        <select class="form-select" id="tipoCuenta" required>
-                                            <option value="">Tipo de Cuenta</option>
-                                            <option value="1">Cuenta de Ahorros</option>
-                                            <option value="2">Cuenta Corriente</option>
-                                        </select>
+                                        <div class="floating-select">
+                                            @Html.DropDownList("TipoCuenta",
+                                                     ViewBag.ListaTiposCuenta as SelectList,
+                                                     "Tipo de Cuenta",
+                                                     htmlAttributes: new
+                                                     {
+                                                         @class = "form-select form-select-sm",
+                                                         @id = "tipoCuenta",
+                                                         required = "required"
+                                                     })
+                                            <label for="tipoCuenta">Tipo de Cuenta</label>
+                                        </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="floating-label">

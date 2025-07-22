@@ -24,6 +24,47 @@ namespace Comun.Mapeo
             return destino;
         }
 
+        // Mapeador en caso de que no haya foto o devulva el arreglo vacio 
+        public static TDestination MapearObjetoSeguro<TOrigen, TDestination>(TOrigen origen)
+      where TDestination : new()
+        {
+            var destino = new TDestination();
+
+            foreach (var propDestino in typeof(TDestination).GetProperties())
+            {
+                var propOrigen = typeof(TOrigen).GetProperty(propDestino.Name);
+
+                if (propOrigen != null && propOrigen.CanRead && propDestino.CanWrite)
+                {
+                    try
+                    {
+                        var valor = propOrigen.GetValue(origen);
+
+                        // Verificación robusta para campos byte[]
+                        if (valor == DBNull.Value || (valor == null && propDestino.PropertyType == typeof(byte[])))
+                        {
+                            if (propDestino.PropertyType == typeof(byte[]))
+                                propDestino.SetValue(destino, Array.Empty<byte>());
+                            else
+                                propDestino.SetValue(destino, null);
+                        }
+                        else
+                        {
+                            propDestino.SetValue(destino, valor);
+                        }
+                    }
+                    catch
+                    {
+                        // Ignora errores de asignación
+                        continue;
+                    }
+                }
+            }
+
+            return destino;
+        }
+
+
         public static List<TReturn> ConvertirDataTableAListaDto<TReturn>(DataTable dt)
         {
             const BindingFlags bandera = BindingFlags.Public | BindingFlags.Instance;

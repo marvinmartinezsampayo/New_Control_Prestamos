@@ -113,5 +113,53 @@ namespace Negocio.Gestion
                 };
             }
         }
+
+        public async Task<RespuestaDto<bool>> ActualizarEstadoSolicitudAsync<TParam>(TParam _modelo)
+        {
+            if (_modelo is not Parametros_Actualizar_Estado_Solicitud_Dto param)
+            {
+                return new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = "No hay datos suficientes para ejecutar la acción.",
+                    Respuesta = false
+                };
+            }
+
+            try
+            {
+                var solicitud = await context.SOLICITUD_PRESTAMO.FirstOrDefaultAsync(x => x.Id == param.IdSolicitud);
+
+                if (solicitud == null)
+                {
+                    return new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "No se encontró la solicitud especificada.",
+                        Respuesta = false
+                    };
+                }
+
+                solicitud.EstadoId = param.NuevoEstadoId;
+                await context.SaveChangesAsync();
+
+                return new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "Estado actualizado correctamente.",
+                    Respuesta = true
+                };
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Ocurrió un error al actualizar el estado.",
+                    Respuesta = false
+                };
+            }
+        }
+
     }
 }
