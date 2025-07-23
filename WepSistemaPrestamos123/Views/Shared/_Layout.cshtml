@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Security.Claims
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -54,55 +55,61 @@
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
                 <div class="sb-sidenav-menu">
                     <div class="nav">
-                        <div class="sb-sidenav-menu-heading">Administración</div>
-                        <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmin" aria-expanded="false" aria-controls="collapseGestion">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Adminstración
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseAdmin" aria-labelledby="headingGestion" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/Administracion/GestionUsuarios/GestionUsuarios">Gestión Usuarios</a>
-                            </nav>
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/Administracion/AdministraUsuarios/index">Roles Usuario</a>
-                            </nav>
-                        </div>
-                        <!-- Menú gestion Perstamo -->
-                        <div class="sb-sidenav-menu-heading">Gestión</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseGestion" aria-expanded="false" aria-controls="collapseGestion">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Gestión Préstamo
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseGestion" aria-labelledby="headingGestion" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/gestion/solicitudes/index">Ver Solicitudes</a>
-                            </nav>
-                        </div>
+                        @if (User.IsInRole("6") || User.IsInRole("7"))
+                        {
+                            <div class="sb-sidenav-menu-heading">Administración</div>
+                            <a class="nav-link" href="#" data-bs-toggle="collapse" data-bs-target="#collapseAdmin" aria-expanded="false" aria-controls="collapseGestion">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Adminstración
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseAdmin" aria-labelledby="headingGestion" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/Administracion/GestionUsuarios/GestionUsuarios">Gestión Usuarios</a>
+                                </nav>
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/Administracion/AdministraUsuarios/index">Roles Usuario</a>
+                                </nav>
+                            </div>
+                        }
 
-                        <!-- Menú Solicitud prestamos -->
-                        <div class="sb-sidenav-menu-heading">Solicitar</div>
-                        <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSolicitud" aria-expanded="false" aria-controls="collapseSolicitud">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-pen"></i>  </div>
-                            Solicitud Préstamo
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseSolicitud" aria-labelledby="headingSolicitud" data-bs-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="/solicitud/prestamo/solicitar">Solicitud Nueva</a>
-                            </nav>
-                        </div>
+                        @if (User.IsInRole("9") || User.IsInRole("6") || User.IsInRole("7"))
+                        {
+                            <div class="sb-sidenav-menu-heading">Gestión</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseGestion" aria-expanded="false" aria-controls="collapseGestion">
+                                <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                                Gestión Préstamo
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseGestion" aria-labelledby="headingGestion" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/gestion/solicitudes/index">Ver Solicitudes</a>
+                                </nav>
+                            </div>
+                        }
 
+                        @if (User.IsInRole("6") || User.IsInRole("7") || User.IsInRole("8"))
+                        {
+                            <div class="sb-sidenav-menu-heading">Solicitar</div>
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseSolicitud" aria-expanded="false" aria-controls="collapseSolicitud">
+                                <div class="sb-nav-link-icon"><i class="fa-solid fa-pen"></i></div>
+                                Solicitud Préstamo
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapseSolicitud" aria-labelledby="headingSolicitud" data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" href="/solicitud/prestamo/solicitar">Solicitud Nueva</a>
+                                </nav>
+                            </div>
+                        }
 
-                        <!-- otros menus  -->
-                        <div class="sb-sidenav-menu-heading">otros menus</div>
+                        @* Este menú lo puedes restringir o dejarlo público *@
+                        <div class="sb-sidenav-menu-heading">Otros menús</div>
                         <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                            Otros menus
+                            Otros menús
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-
                         <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
                                 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
@@ -129,6 +136,7 @@
                                 </div>
                             </nav>
                         </div>
+
                         <div class="sb-sidenav-menu-heading">Addons</div>
                         <a class="nav-link" href="charts.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
@@ -139,7 +147,17 @@
                             Tables
                         </a>
                     </div>
+
                 </div>
+
+                <!-- DEBUG temporal para ver roles -->
+                @foreach (var claim in User.Claims)
+                {
+                    if (claim.Type == ClaimTypes.Role)
+                    {
+                        <div style="color:red;">Rol detectado: @claim.Value</div>
+                    }
+                }
            
                 <div class="sb-sidenav-footer text-truncate small" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
                     USUARIO: @(User.FindFirst("UsuarioEmpresarial")?.Value ?? "Invitado")

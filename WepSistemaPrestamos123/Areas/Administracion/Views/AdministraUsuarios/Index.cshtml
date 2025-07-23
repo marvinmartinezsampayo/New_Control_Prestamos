@@ -71,7 +71,9 @@
                                 <ul>
                                     @foreach (var rol in (List<Roles_X_UsuarioDto>)ViewBag.RolesUsuario)
                                     {
-                                        <li>@rol.ROL_STR</li>
+                                        <li>
+                                            <strong>@rol.ROL_STR</strong> - @rol.ROL_DESCRIPCION
+                                        </li>
                                     }
                                 </ul>
                             }
@@ -79,16 +81,24 @@
                             {
                                 <p>Este usuario aún no tiene roles asignados.</p>
                             }
+                           
 
-
-                            <form method="post" action="/Administracion/AdministraUsuarios/AsignarRol">
+                            <form method="post" action="/Administracion/AdministraUsuarios/GestionarRol">
                                 <div class="mb-3">
-                                    <label for="rol" class="form-label">Asignar rol:</label>
+                                    <label for="rol" class="form-label">Selecciona un rol:</label>
                                     @Html.DropDownList("rolSeleccionado", ViewBag.Roles as SelectList, "-- Selecciona un rol --", new { @class = "form-select", required = "required" })
                                 </div>
 
-                                <div class="text-end">
-                                    <button type="submit" class="btn btn-success">Guardar</button>
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <button type="submit" name="accion" value="asignar" class="btn btn-success">
+                                        <i class="bi bi-plus-circle"></i> Asignar Rol
+                                    </button>
+
+                                    <button type="submit" name="accion" value="quitar" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i> Quitar Rol
+                                    </button>
+
+                                    <input type="hidden" name="idUsuario" value="@usuario.ID" />
                                 </div>
                             </form>
                         </div>
@@ -98,11 +108,11 @@
         }
 
     </div>
-    <!--aqui los mensajes de que todo salio bien o mal -->
+
     <div id="sweetAlertData"
-         data-icon="@TempData["SweetAlert"]"
-         data-titulo="@TempData["Titulo"]"
-         data-mensaje="@TempData["Mensaje"]"
+         data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
+         data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
+         data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)"
          data-limpiar="@((ViewBag.LimpiarFormulario ?? false).ToString().ToLower())">
     </div>
 

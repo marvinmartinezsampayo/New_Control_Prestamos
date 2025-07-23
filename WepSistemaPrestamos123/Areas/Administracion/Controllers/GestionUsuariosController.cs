@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Negocio.InsertUsuario;
 
 namespace WepPrestamos.Areas.Administracion.Controllers
 {
@@ -20,14 +21,17 @@ namespace WepPrestamos.Areas.Administracion.Controllers
         private readonly IInsertUsuario _insertUsuario;
         private readonly IInsert_Auditoria _insertAuditoria;
         private readonly IBLConsultar_Detalle_Master _dominio;
+        private readonly IInsertRolUsuario _insertrolusuario;
         private readonly ContextoGeneral _context;
 
-        public GestionUsuariosController(IInsertUsuario insertUsuario, IInsert_Auditoria insertAuditoria, IBLConsultar_Detalle_Master dominio, ContextoGeneral context)
+        public GestionUsuariosController(IInsertUsuario insertUsuario, IInsert_Auditoria insertAuditoria, IBLConsultar_Detalle_Master dominio, IInsertRolUsuario insertrolusuario, ContextoGeneral context)
         {
             _insertUsuario = insertUsuario;
             _insertAuditoria = insertAuditoria;
-            _context = context;
+            _insertrolusuario = insertrolusuario;
             _dominio = dominio;
+            _context = context;
+           
         }
 
 
