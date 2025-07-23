@@ -78,9 +78,16 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
                 var ListDocumentos = await _codigo.ObtenerListaDocAsync<List<Respuesta_Consulta_Documentos_Requeridos>>();
                 var _listaTipoDoc = await _dominio.ListaDetalle(1);
                 var _departamentos = await _lugares.ObtenerAsync<Parametros_Consulta_Lugares_Geograficos_DTO,List<Respuesta_Consulta_Lugares_Geograficos_DTO> >(new Parametros_Consulta_Lugares_Geograficos_DTO { TIPO_LUGAR = "DE" });
-                
+               
+                var _entidadesBancarias = await _dominio.ListaDetalle(18);    // Entidad Bancaria
+                var _tiposCuenta = await _dominio.ListaDetalle(40);
+
                 ViewBag.listTipoDocumentos = new SelectList(_listaTipoDoc, "Id", "Nombre");
                 ViewBag.ListaDepartamentos = new SelectList(_departamentos.Respuesta, "CodigoDane", "Descripcion");
+
+                ViewBag.ListaEntidadesBancarias = new SelectList(_entidadesBancarias, "Id", "Nombre");
+                ViewBag.ListaTiposCuenta = new SelectList(_tiposCuenta, "Id", "Nombre");
+
                 ViewData["DocumentosRequeridos"] = (ListDocumentos.Estado && ListDocumentos?.Respuesta != null) ? ListDocumentos.Respuesta : new List<Respuesta_Consulta_Documentos_Requeridos>();
 
 

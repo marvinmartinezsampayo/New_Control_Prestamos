@@ -9,16 +9,12 @@
   <ItemGroup>
     <Compile Remove="Areas\PaginaWebUsuario\Data\**" />
     <Compile Remove="Areas\PaginaWebUsuario\Models\**" />
-    <Compile Remove="Areas\Solicitud\Models\**" />
     <Content Remove="Areas\PaginaWebUsuario\Data\**" />
     <Content Remove="Areas\PaginaWebUsuario\Models\**" />
-    <Content Remove="Areas\Solicitud\Models\**" />
     <EmbeddedResource Remove="Areas\PaginaWebUsuario\Data\**" />
     <EmbeddedResource Remove="Areas\PaginaWebUsuario\Models\**" />
-    <EmbeddedResource Remove="Areas\Solicitud\Models\**" />
     <None Remove="Areas\PaginaWebUsuario\Data\**" />
     <None Remove="Areas\PaginaWebUsuario\Models\**" />
-    <None Remove="Areas\Solicitud\Models\**" />
   </ItemGroup>
 
   <ItemGroup>

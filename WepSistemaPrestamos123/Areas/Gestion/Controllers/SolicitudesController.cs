@@ -1,5 +1,9 @@
-﻿using Comun.DTO.Solicitud;
+﻿using Comun.DTO.Auditoria;
+using Comun.DTO.Solicitud;
+using Comun.Enumeracion;
+using Datos.Contratos.Auditoria;
 using Datos.Contratos.Solicitud;
+using Datos.Modelos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -14,13 +18,15 @@ namespace WepPrestamos.Areas.Gestion.Controllers
         private readonly IRegistroSolicitud _solicitud;
         private readonly IBLConsultar_Detalle_Master _dominio;
         private readonly ILugaresGeograficos _lugares;
+        private readonly IInsert_Auditoria _InserAuditoria;
 
 
-        public SolicitudesController(IRegistroSolicitud solicitud, IBLConsultar_Detalle_Master dominio, ILugaresGeograficos lugares)
+        public SolicitudesController(IRegistroSolicitud solicitud, IBLConsultar_Detalle_Master dominio, ILugaresGeograficos lugares, IInsert_Auditoria insertAuditoria)
         {
             _solicitud = solicitud;
             _dominio = dominio;
             _lugares = lugares;
+            _InserAuditoria = insertAuditoria;
 
         }
         public async Task<IActionResult> Index()
@@ -48,7 +54,7 @@ namespace WepPrestamos.Areas.Gestion.Controllers
         {
             try
             {
-                
+       
                 if (id != null & id > 0 & estadoId != 0)
                 {
                    
@@ -70,8 +76,44 @@ namespace WepPrestamos.Areas.Gestion.Controllers
 
                     ViewBag.ListaMunicipios = new SelectList(_lista_Municipio.Respuesta, "CodigoDane", "Descripcion");
                     ViewBag.ListaBarrios = new SelectList(_lista_Barrios.Respuesta, "Id", "Nombre");
-                    
+
                     //Si el estado de la solicitud es 12 entonces actualizar a 13
+                    if (solDto.Respuesta.EstadoId == 12)
+                    {
+                        var parametros = new Parametros_Actualizar_Estado_Solicitud_Dto
+                        {
+                            IdSolicitud = id,
+                            NuevoEstadoId = 13 // En Revisión
+                        };
+
+                        var resultado = await _solicitud.ActualizarEstadoSolicitudAsync(parametros);
+
+                        if (!resultado.Estado)
+                        {
+                            TempData["ErrorActualizar"] = resultado.Mensaje;
+                        }
+
+                        else
+                        {
+                            // Aquí armamos la auditoría
+                            var ObjAuditoria = new Insert_AuditoriaDto
+                            {
+                                Id_Tipo_Auditoria = 1, // Puedes definir el tipo según tu lógica
+                                Ip_Maquina = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                                fecha = DateTime.Now.Date,
+                                Id_Usuario = long.Parse(User.FindFirst("IdUsuario")?.Value),
+                                Observacion = $"Cambio automático de estado de la solicitud #{id} de 12 a 13"
+                            };
+
+                            var respuestaAuditoria = await _InserAuditoria.InsertarAuditoriaAsync(ObjAuditoria);
+
+
+                            if (respuestaAuditoria.Codigo != EstadoOperacion.Bueno)
+                            {
+                                TempData["ErrorAuditoria"] = "No se pudo registrar la auditoría.";
+                            }
+                        }
+                    }
 
                     return View(solDto.Estado? solDto.Respuesta:new Respuesta_Consulta_Solicitudes_Prestamo_Dto());
                 }
