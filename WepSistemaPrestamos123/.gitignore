@@ -1,8 +1,8 @@
 # Ignorar todos los archivos DLL
 *.dll
 # Ignorar carpetas de compilación
-/bin/
-/obj/
+bin/
+obj/
 
 .vs/
 *.suo

@@ -113,3 +113,16 @@ C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.deps.json
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.pdb
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.AssemblyReference.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfoInputs.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfo.cs
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.CoreCompileInputs.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.sourcelink.json
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll

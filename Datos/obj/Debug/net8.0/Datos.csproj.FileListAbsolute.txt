@@ -156,3 +156,21 @@ C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Datos\obj\Debug
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.pdb
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.genruntimeconfig.cache
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Datos\obj\Debug\net8.0\ref\Datos.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.deps.json
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.runtimeconfig.json
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.pdb
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\bin\Debug\net8.0\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\bin\Debug\net8.0\Comun.pdb
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.csproj.AssemblyReference.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.AssemblyInfoInputs.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.AssemblyInfo.cs
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.csproj.CoreCompileInputs.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.sourcelink.json
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.csproj.Up2Date
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\refint\Datos.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.pdb
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.genruntimeconfig.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Datos\obj\Debug\net8.0\ref\Datos.dll
