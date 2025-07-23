@@ -1,13 +1,23 @@
-# Ignorar todos los archivos DLL
-*.dll
-# Ignorar carpetas de compilación
-/bin/
-/obj/
+# Build results
+**/bin/
+**/obj/
 
+# Visual Studio cache files
 .vs/
 *.suo
-*.bin
-*.v7.bin
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# Others
+*.dbmdl
+*.log
 *.vsidx
+*.v7.bin
 *.dtbcache.v2
 *.futdcache.v2
+*.DS_Store
+Thumbs.db
