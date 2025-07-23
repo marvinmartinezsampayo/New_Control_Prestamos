@@ -32,7 +32,7 @@ namespace Negocio.Implementacion
                     return new List<Roles_X_UsuarioDto>();
 
                 var user = await context.ROLES_X_USUARIO
-                                .Include(x => x.FK_ID_ROL) // MUY IMPORTANTE: para cargar la navegación
+                                .Include(x => x.FK_ID_ROL) 
                                 .Where(x => x.ID_USUARIO == _idUsuario && x.HABILITADO)
                                 .Select(u => new Roles_X_UsuarioDto
                               {

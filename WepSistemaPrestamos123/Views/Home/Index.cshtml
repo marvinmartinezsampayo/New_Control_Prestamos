@@ -8,29 +8,26 @@
 <link rel="stylesheet" href="~/lib/Home/css/HomeStyles.css" />
 
 
-<body class="d-flex flex-column min-vh-100">
-
-    <!-- LOADER -->
-    <div id="loader" class="loader-container">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
-        </div>
+<!-- LOADER -->
+<div id="loader" class="loader-container">
+    <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
     </div>
+</div>
 
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
 
-        <div class="container-fluid p-0 fade-in">
-            <!-- HEADER -->
-            <header class="bg-gradient-primary text-white text-center py-3 mb-4 shadow" style="background: linear-gradient(135deg, #007bff, #0056b3);">
-                <div class="container">
-                <!--    <i class="bi bi-house-door-fill display-1 mb-1"></i>-->
-                    <h5 class="display-2 fw-bold typewriter animated-title">Bienvenido al Sistema de Préstamos</h5>
+            <div class="text-center">
+                <h1 class="display-6 fw-bold text-primary typewriter animated-title ">
+                    <i class="bi bi-person-plus-fill me-2"></i>
+                    Bienvenido al Sistema de Préstamos
+                </h1>
+                <p class="lead">Gestione, solicite y consulte sus préstamos de forma fácil y segura</p>
+            </div>
 
-                    <p class="lead">Gestione, solicite y consulte sus préstamos de forma fácil y segura</p>
-                </div>
-            </header>
-
-            <!-- BODY -->
-            <div class="container my-5  mt-5">
+            <div class="container my-5">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
                         <div class="card shadow-lg border-0 rounded-4 card-hover">
@@ -49,16 +46,11 @@
                     </div>
                 </div>
             </div>
-
-            <!-- FOOTER -->
-            <footer class="bg-dark text-white text-center py-2 shadow-sm mt-3">
-                <div class="container">
-                    <small><i class="bi bi-c-circle me-1"></i>2025 Sistema de Préstamos | Desarrollado por el Grupo de Software</small><br />
-                    <small><i class="bi bi-envelope-fill me-1"></i>Contacto: soporte@sistemaprestamos.com</small>
-                </div>
-            </footer>
         </div>
-   
-</body>
-<script src="~/lib/Home/js/Home.js"></script>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/Home/js/Home.js"></script>
+            }
 

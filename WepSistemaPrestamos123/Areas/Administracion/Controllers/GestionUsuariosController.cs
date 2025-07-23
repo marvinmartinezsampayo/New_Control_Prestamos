@@ -49,7 +49,7 @@ namespace WepPrestamos.Areas.Administracion.Controllers
         {
             var ObjRegistro = new UsuarioDto
             {
-                USUARIO_EMPRESARIAL = form["USUARIO_EMPRESARIAL"].ToString().Trim().ToUpper(),
+                USUARIO_EMPRESARIAL = form["USUARIO"].ToString().Trim().ToUpper(),
                 ID_TIPO_IDENTIFICACION = Convert.ToInt64(form["ID_TIPO_IDENTIFICACION"]),
                 NRO_IDENTIFICACION = Convert.ToInt64(form["NRO_IDENTIFICACION"]),
                 PRIMER_NOMBRE = form["PRIMER_NOMBRE"].ToString().Trim().ToUpper(),

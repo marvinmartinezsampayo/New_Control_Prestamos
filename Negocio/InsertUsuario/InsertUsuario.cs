@@ -38,8 +38,19 @@ namespace Negocio.InsertUsuario
                 }
 
                 // Verifica si el usuario ya existe
-                var existe = await context.USUARIO.AnyAsync(u => u.USUARIO_EMPRESARIAL == usuarioDto.USUARIO_EMPRESARIAL);
-                if (existe)
+                var existeusuario = await context.USUARIO.AnyAsync(u => u.USUARIO_EMPRESARIAL == usuarioDto.USUARIO_EMPRESARIAL);
+                if (existeusuario)
+                {
+                    return new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "El usuario ya existe.",
+                        Respuesta = false
+                    };
+                } 
+                
+                var existenrousuario = await context.USUARIO.AnyAsync(u => u.NRO_IDENTIFICACION == usuarioDto.NRO_IDENTIFICACION);
+                if (existenrousuario)
                 {
                     return new RespuestaDto<bool>
                     {
