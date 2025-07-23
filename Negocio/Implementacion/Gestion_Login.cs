@@ -32,15 +32,17 @@ namespace Negocio.Implementacion
                     return new List<Roles_X_UsuarioDto>();
 
                 var user = await context.ROLES_X_USUARIO
+                                .Include(x => x.FK_ID_ROL) // MUY IMPORTANTE: para cargar la navegación
                                 .Where(x => x.ID_USUARIO == _idUsuario && x.HABILITADO)
                                 .Select(u => new Roles_X_UsuarioDto
-                                {
-                                    ID_USUARIO = u.ID_USUARIO,
-                                    ID_ROL = u.ID_ROL,
-                                    ROL_STR = u.FK_ID_ROL.Nombre,
-                                    HABILITADO = u.HABILITADO
-                                })
-                                .ToListAsync();
+                              {
+                                  ID_USUARIO = u.ID_USUARIO,
+                                  ID_ROL = u.ID_ROL,
+                                  ROL_STR = u.FK_ID_ROL.Nombre,
+                                  ROL_DESCRIPCION = u.FK_ID_ROL.Descripcion,
+                                  HABILITADO = u.HABILITADO
+                              })
+                              .ToListAsync();
 
                 return user;
             }

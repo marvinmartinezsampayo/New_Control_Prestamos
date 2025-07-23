@@ -64,6 +64,7 @@ builder.Services.AddScoped<IRegistroSolicitud, Gestion_Registro_Solicitud>();
 builder.Services.AddScoped<IInsert_Auditoria, Inserta_AuditoriaGeneral>();
 builder.Services.AddScoped<IInsertUsuario, InsertUsuario>();
 builder.Services.AddScoped<IBusacrUsuarioNurIdentificacion, BuscarUsuarioNurIdentificacion>();
+builder.Services.AddScoped<IInsertRolUsuario, InserRolUsuario>();
 
 
 

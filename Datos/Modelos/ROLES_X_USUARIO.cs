@@ -16,12 +16,10 @@ namespace Datos.Modelos
         public long ID { get; set; }
 
         [Required]
-        [ForeignKey("FK_ID_USUARIO")]
         [Column("ID_USUARIO")]
         public long ID_USUARIO { get; set; }
 
         [Required]
-        [ForeignKey("FK_ID_ROL")]
         [Column("ID_ROL")]
         public long ID_ROL { get; set; }
 
@@ -29,7 +27,12 @@ namespace Datos.Modelos
         [Column("HABILITADO")]
         public bool HABILITADO { get; set; }
 
-        public virtual USUARIO FK_ID_USUARIO { get; set; }
+        // Ambas propiedades deben apuntar a DETALLE_MASTER según tu esquema de BD
+        [ForeignKey(nameof(ID_USUARIO))]
+        public virtual DETALLE_MASTER FK_ID_USUARIO { get; set; }
+
+        [ForeignKey(nameof(ID_ROL))]
         public virtual DETALLE_MASTER FK_ID_ROL { get; set; }
     }
+
 }

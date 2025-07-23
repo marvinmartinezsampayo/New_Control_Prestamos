@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data;
 using System.Linq;
 using System.Reflection;
@@ -22,6 +23,24 @@ namespace Comun.Mapeo
                 }
             }
             return destino;
+        }
+
+        private static bool IsNavigationProperty(PropertyInfo prop)
+        {
+            // Simple detección de propiedades de navegación
+            return prop.PropertyType.IsClass &&
+                   prop.PropertyType != typeof(string) &&
+                   !prop.PropertyType.IsValueType;
+        }
+
+        private static bool IsCompatibleType(Type sourceType, Type targetType)
+        {
+            // Lógica básica de compatibilidad de tipos
+            if (sourceType == targetType) return true;
+            if (Nullable.GetUnderlyingType(sourceType) == targetType) return true;
+            if (Nullable.GetUnderlyingType(targetType) == sourceType) return true;
+
+            return false;
         }
 
         // Mapeador en caso de que no haya foto o devulva el arreglo vacio 

@@ -8,9 +8,11 @@ namespace Comun.DTO.Generales
 {
     public class Roles_X_UsuarioDto
     {
-        public decimal ID_USUARIO { get; set; }
-        public decimal ID_ROL { get; set; }
+        public long ID_USUARIO { get; set; }
+        public long ID_ROL { get; set; }
         public string ROL_STR { get; set; }
+        public string ROL_DESCRIPCION { get; set; }
         public bool HABILITADO { get; set; }
     }
+
 }
