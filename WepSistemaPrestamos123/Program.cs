@@ -2,6 +2,7 @@ using Datos.Administracion;
 using Datos.Contexto;
 using Datos.Contratos.Auditoria;
 using Datos.Contratos.Login;
+using Datos.Contratos.Prestamo;
 using Datos.Contratos.Solicitud;
 using Datos.Contratos.Usuario;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -65,7 +66,7 @@ builder.Services.AddScoped<IInsert_Auditoria, Inserta_AuditoriaGeneral>();
 builder.Services.AddScoped<IInsertUsuario, InsertUsuario>();
 builder.Services.AddScoped<IBusacrUsuarioNurIdentificacion, BuscarUsuarioNurIdentificacion>();
 builder.Services.AddScoped<IInsertRolUsuario, InserRolUsuario>();
-
+builder.Services.AddScoped<IGestionPrestamo, GestionPrestamo>();
 
 
 builder.Services.AddAuthorization();

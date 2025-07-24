@@ -1716,6 +1716,8 @@
   <ItemGroup>
     <Folder Include="Areas\Gestion\Data\" />
     <Folder Include="Areas\Gestion\Models\" />
+    <Folder Include="Areas\Prestamo\Data\" />
+    <Folder Include="Areas\Prestamo\Models\" />
   </ItemGroup>
 
 </Project>
