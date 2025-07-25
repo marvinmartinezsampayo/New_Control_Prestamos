@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "5oDNVBWdy/E=",
+  "dgSpecHash": "i4NkD0IoIx4=",
   "success": true,
-  "projectFilePath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj",
+  "projectFilePath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\SOPORTE\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
+    "C:\\Users\\julie\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512"
   ],
   "logs": []
 }

@@ -194,3 +194,23 @@ C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Negocio\obj\De
 C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.pdb
 C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.genruntimeconfig.cache
 C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Negocio\obj\Debug\net8.0\ref\Negocio.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.deps.json
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.runtimeconfig.json
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Negocio.pdb
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Comun.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Datos.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Comun.pdb
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\bin\Debug\net8.0\Datos.pdb
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.csproj.AssemblyReference.cache
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.AssemblyInfoInputs.cache
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.AssemblyInfo.cs
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.csproj.CoreCompileInputs.cache
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.sourcelink.json
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.csproj.Up2Date
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\refint\Negocio.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.pdb
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\Negocio.genruntimeconfig.cache
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Negocio\obj\Debug\net8.0\ref\Negocio.dll

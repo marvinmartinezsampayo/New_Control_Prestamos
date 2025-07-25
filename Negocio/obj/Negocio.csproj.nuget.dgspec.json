@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Negocio\\Negocio.csproj": {}
+    "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\Negocio.csproj": {}
   },
   "projects": {
-    "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj": {
+    "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj",
+        "projectUniqueName": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
         "projectName": "Comun",
-        "projectPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj",
-        "packagesPath": "C:\\Users\\SOPORTE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\obj\\",
+        "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj",
+        "packagesPath": "C:\\Users\\julie\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SOPORTE\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\julie\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -45,7 +45,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -72,24 +72,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Datos\\Datos.csproj": {
+    "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\Datos.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Datos\\Datos.csproj",
+        "projectUniqueName": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
         "projectName": "Datos",
-        "projectPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Datos\\Datos.csproj",
-        "packagesPath": "C:\\Users\\SOPORTE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Datos\\obj\\",
+        "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
+        "packagesPath": "C:\\Users\\julie\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SOPORTE\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\julie\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -105,8 +105,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj": {
-                "projectPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj"
+              "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
+                "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj"
               }
             }
           }
@@ -121,7 +121,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -166,24 +166,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Negocio\\Negocio.csproj": {
+    "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\Negocio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Negocio\\Negocio.csproj",
+        "projectUniqueName": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\Negocio.csproj",
         "projectName": "Negocio",
-        "projectPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Negocio\\Negocio.csproj",
-        "packagesPath": "C:\\Users\\SOPORTE\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Negocio\\obj\\",
+        "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\Negocio.csproj",
+        "packagesPath": "C:\\Users\\julie\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\SOPORTE\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\julie\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -199,11 +199,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj": {
-                "projectPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Comun\\Comun.csproj"
+              "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
+                "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj"
               },
-              "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Datos\\Datos.csproj": {
-                "projectPath": "C:\\Users\\SOPORTE\\Desktop\\IJ MARVIN\\Prestamo\\New_Control_Prestamos\\Datos\\Datos.csproj"
+              "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\Datos.csproj": {
+                "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\Datos.csproj"
               }
             }
           }
@@ -218,7 +218,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -259,7 +259,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.302/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.101/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

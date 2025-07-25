@@ -55,7 +55,7 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                 ViewBag.SweetAlert = "warning";
                 ViewBag.Titulo = "Campo vacío";
                 ViewBag.Mensaje = "Por favor ingresa un número de identificación.";
-                return View("Index");
+                return View("Pago");
             }
 
             var request = new BuscarUsuarioNurIdentificacionPet
@@ -70,14 +70,18 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                 var prestamos = resultado.Respuesta;
                 ViewBag.Prestamos = prestamos;                
 
-                if (prestamos == null)
+                if (prestamos == null || prestamos.Count() == 0)
                 {
-                    throw new Exception("El objeto 'usuario' es null");
+                    ViewBag.SweetAlert = "warning";
+                    ViewBag.Titulo = "Cliente NO encontrado";
+                    ViewBag.Mensaje = $"El numero de identificación ingresado no esta asociado a un prestamo.";
                 }
-
-                ViewBag.SweetAlert = "success";
-                ViewBag.Titulo = "Cliente Encontrado";
-                ViewBag.Mensaje = $"El usuario con identificación {nroIdentificacion} fue encontrado exitosamente.";
+                else
+                {
+                    ViewBag.SweetAlert = "success";
+                    ViewBag.Titulo = "Cliente Encontrado";
+                    ViewBag.Mensaje = $"El numero de identificación fue encontrado exitosamente, y esta asociado al usuario {prestamos[0].SOLICITANTE}.";
+                }
             }
             else
             {

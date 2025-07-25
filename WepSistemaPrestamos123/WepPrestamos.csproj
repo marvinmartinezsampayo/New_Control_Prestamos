@@ -7,12 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Gestion\Data\**" />
+    <Compile Remove="Areas\Gestion\Models\**" />
     <Compile Remove="Areas\PaginaWebUsuario\Data\**" />
     <Compile Remove="Areas\PaginaWebUsuario\Models\**" />
+    <Content Remove="Areas\Gestion\Data\**" />
+    <Content Remove="Areas\Gestion\Models\**" />
     <Content Remove="Areas\PaginaWebUsuario\Data\**" />
     <Content Remove="Areas\PaginaWebUsuario\Models\**" />
+    <EmbeddedResource Remove="Areas\Gestion\Data\**" />
+    <EmbeddedResource Remove="Areas\Gestion\Models\**" />
     <EmbeddedResource Remove="Areas\PaginaWebUsuario\Data\**" />
     <EmbeddedResource Remove="Areas\PaginaWebUsuario\Models\**" />
+    <None Remove="Areas\Gestion\Data\**" />
+    <None Remove="Areas\Gestion\Models\**" />
     <None Remove="Areas\PaginaWebUsuario\Data\**" />
     <None Remove="Areas\PaginaWebUsuario\Models\**" />
   </ItemGroup>
@@ -1714,8 +1722,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Gestion\Data\" />
-    <Folder Include="Areas\Gestion\Models\" />
     <Folder Include="Areas\Prestamo\Data\" />
     <Folder Include="Areas\Prestamo\Models\" />
   </ItemGroup>
