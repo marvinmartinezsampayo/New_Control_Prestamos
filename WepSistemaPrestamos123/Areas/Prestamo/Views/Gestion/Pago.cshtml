@@ -89,6 +89,7 @@
                                     <th scope="col">Fecha Inicio</th>
                                     <th scope="col">Fecha Final</th>
                                     <th scope="col">Monto</th>
+                                    <th scope="col">% Interes</th>
                                     <th scope="col">Cuotas</th>
                                     <th scope="col">Saldo</th>
                                     <th scope="col">Estado</th>
@@ -101,19 +102,26 @@
                                     <tr>
                                         <th scope="row" class="d-flex justify-content-center align-items-center">
                                             <button type="button" class="btn btn-success btn-sm" title="Ver"
-                                                    onclick="pagarPrestamo(@solicitud.ID,@solicitud.ID_ESTADO)">
+                                                        onclick="pagarPrestamo(@solicitud.ID,@solicitud.MONTO, @solicitud.INTERES,@solicitud.SALDO_MONTO, @solicitud.NUMERO_CUOTAS)">
                                                     <i class="bi bi-currency-dollar"></i>
                                             </button>
                                         </th>
-                                        <td>@solicitud.FECHA_INICIO.ToString("dd/MM/yyyy")</td>
-                                        <td>@solicitud.FECHA_FIN.ToString("dd/MM/yyyy")</td>
-                                        <td>@(solicitud.MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
-                                        <td>@solicitud.NUMERO_CUOTAS.ToString("N0")</td>
-                                        <td>@(solicitud.SALDO_MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
-                                        <td>@solicitud.ESTADO</td>                                        
+                                        <td class="text-center">@solicitud.FECHA_INICIO.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@solicitud.FECHA_FIN.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@(solicitud.MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                        <td class="text-center"> % @solicitud.INTERES.ToString()</td>
+                                        <td class="text-center">@solicitud.NUMERO_CUOTAS.ToString("N0")</td>
+                                        <td class="text-center">@(solicitud.SALDO_MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                        <td class="text-center">
+                                            <div class="w-100 alert alert-@(solicitud.ESTADO == "ACTIVO" ? "success" :
+                                                                        solicitud.ESTADO == "FINALIZADO" ? "primary" :
+                                                                        solicitud.ESTADO == "MORA" ? "warning" : "danger")
+                                                        py-1 px-2 mb-0 d-inline-block text-center">
+                                                    @solicitud.ESTADO
+                                            </div>
+                                        </td>
                                     </tr>
-                                }
-    
+                                }    
                             </tbody>
 
                         </table>
@@ -127,6 +135,65 @@
 
     </div>
 
+    <!-- Modal para Pagar Préstamo -->
+    <div class="modal fade" id="modalPagarPrestamo" tabindex="-1" aria-labelledby="modalPagarPrestamoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalPagarPrestamoLabel">
+                        <i class="bi bi-credit-card me-2"></i>Registrar Pago de Préstamo
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="formPagarPrestamo">
+                    @Html.AntiForgeryToken()
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- ID_PRESTAMO -->
+                            <div class="col-md-6 mb-3 ocultar">
+                                <label for="idPrestamo" class="form-label">ID Préstamo</label>
+                                <input type="number" class="form-control" id="idPrestamo" name="ID_PRESTAMO" readonly>
+                            </div>
+
+                            <!-- FECHA_PAGO -->
+                            <div class="col-md-6 mb-3">
+                                <label for="fechaPago" class="form-label">Fecha de Pago <span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" id="fechaPago" name="FECHA_PAGO" required>
+                            </div>
+
+                            <!-- MONTO -->
+                            <div class="col-md-6 mb-3">
+                                <label for="monto" class="form-label">Monto <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="monto" name="MONTO" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="alert alert-info d-flex align-items-center" role="alert">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    <div style="text-align: justify">
+                                        El valor ingresado sera distribuido entre pago de interes y luego en pago a capital. El valor correspondiente a intereses es de $ <strong id="valInteresPago"></strong> 
+                                        y el valor correspondiente a capital es de $ <strong id="valCapitalPago"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Registrar Pago</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <div id="sweetAlertData"
          data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
@@ -134,12 +201,14 @@
          data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)">
         @*  data-limpiar="@((ViewBag.LimpiarFormulario ?? false).ToString().ToLower())"> *@
     </div>
+       
+
 </body>
 
 @section Scripts {
     <script src="~/lib/bootstrap/dist/js/bootstrap5.3.2.bundle.min.js"></script>
     <script src="~/lib/sweetalert2@11.js"></script>
-    <script src="~/lib/prestamo/js/pago.js"></script>
+    <script src="~/lib/prestamo/js/pago.js"></script>    
 }
 
 
