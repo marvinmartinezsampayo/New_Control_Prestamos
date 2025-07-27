@@ -34,30 +34,56 @@ namespace Negocio.Gestion
                 List<Prestamo_Dto> resp = new List<Prestamo_Dto>();
 
                 if (_modelo is Int64 IdSolicitud)
-                {
+                {  
                     var estadosExcluidos = new List<long> { 52, 54 };
                     var consulta = await _context.PRESTAMOS
-                            .Include(p => p.FK_ID_PERIODICIDAD)  // Relación de navegación a periodicidad
-                            .Include(p => p.FK_ID_ESTADO)        // Relación de navegación a estado
-                            .Include(p => p.FK_ID_SOLICITUD)        // Relación con la solicitud
-                            .Where(p => !estadosExcluidos.Contains(p.ID_ESTADO) && p.FK_ID_SOLICITUD.NumeroIdentificacion == IdSolicitud)
-                            .Select(p => new Prestamo_Dto
-                            {
-                                ID = p.ID,
-                                ID_SOLICITUD = p.ID_SOLICITUD,
-                                SOLICITANTE = (p.FK_ID_SOLICITUD.PrimerNombreSolicitante ?? "") + " " +  (p.FK_ID_SOLICITUD.SegundoNombreSolicitante ?? "") + " " + (p.FK_ID_SOLICITUD.PrimerApellidoSolicitante ?? "") + " " + (p.FK_ID_SOLICITUD.SegundoApellidoSolicitante ?? ""),
-                                MONTO = p.MONTO,
-                                NUMERO_CUOTAS = p.NUMERO_CUOTAS,
-                                ID_PERIODICIDAD = p.ID_PERIODICIDAD,
-                                PERIODICIDAD = p.FK_ID_PERIODICIDAD.Nombre,
-                                INTERES = p.INTERES,
-                                FECHA_INICIO = p.FECHA_INICIO,
-                                FECHA_FIN = p.FECHA_FIN,
-                                SALDO_MONTO = p.SALDO_MONTO,
-                                ID_ESTADO = p.ID_ESTADO,
-                                ESTADO = p.FK_ID_ESTADO.Nombre
-                            })
-                            .ToListAsync();
+                        .Include(p => p.FK_ID_PERIODICIDAD)  // Relación de navegación a periodicidad
+                        .Include(p => p.FK_ID_ESTADO)        // Relación de navegación a estado
+                        .Include(p => p.FK_ID_SOLICITUD)     // Relación con la solicitud
+                        .Where(p => !estadosExcluidos.Contains(p.ID_ESTADO) && p.FK_ID_SOLICITUD.NumeroIdentificacion == IdSolicitud)
+                        .Select(p => new Prestamo_Dto
+                        {
+                            ID = p.ID,
+                            ID_SOLICITUD = p.ID_SOLICITUD,
+                            SOLICITANTE = (p.FK_ID_SOLICITUD.PrimerNombreSolicitante ?? "") + " " +
+                                         (p.FK_ID_SOLICITUD.SegundoNombreSolicitante ?? "") + " " +
+                                         (p.FK_ID_SOLICITUD.PrimerApellidoSolicitante ?? "") + " " +
+                                         (p.FK_ID_SOLICITUD.SegundoApellidoSolicitante ?? ""),
+                            MONTO = p.MONTO,
+                            NUMERO_CUOTAS = p.NUMERO_CUOTAS,
+                            ID_PERIODICIDAD = p.ID_PERIODICIDAD,
+                            PERIODICIDAD = p.FK_ID_PERIODICIDAD.Nombre,
+                            INTERES = p.INTERES,
+                            FECHA_INICIO = p.FECHA_INICIO,
+                            FECHA_FIN = p.FECHA_FIN,
+                            SALDO_MONTO = p.SALDO_MONTO,
+                            ID_ESTADO = p.ID_ESTADO,
+                            ESTADO = p.FK_ID_ESTADO.Nombre,
+
+                            // Conteo de pagos realizados para este préstamo
+                            CANTIDAD_PAGOS = _context.PAGOS.Count(pg => pg.ID_PRESTAMO == p.ID),
+
+                            // Monto total pagado (opcional)
+                            MONTO_TOTAL_PAGADO = _context.PAGOS
+                                .Where(pg => pg.ID_PRESTAMO == p.ID)
+                                .Sum(pg => (long?)pg.MONTO) ?? 0,
+
+                            // Número de la última cuota pagada (opcional)
+                            ULTIMA_CUOTA_PAGADA = _context.PAGOS
+                                .Where(pg => pg.ID_PRESTAMO == p.ID)
+                                .Max(pg => (int?)pg.NUMERO_CUOTA) ?? 0,
+
+                            // Fecha del último pago (opcional)
+                            FECHA_ULTIMO_PAGO = _context.PAGOS
+                                .Where(pg => pg.ID_PRESTAMO == p.ID)
+                                .Max(pg => (DateTime?)pg.FECHA_PAGO),
+
+                            // Saldo pendiente calculado (opcional)
+                            SALDO_PENDIENTE = p.MONTO - (_context.PAGOS
+                                .Where(pg => pg.ID_PRESTAMO == p.ID)
+                                .Sum(pg => (long?)pg.MONTO) ?? 0)
+                        })
+                        .ToListAsync();
 
                     return new RespuestaDto<TReturn>
                     {

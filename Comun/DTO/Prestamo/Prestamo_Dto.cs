@@ -21,5 +21,10 @@ namespace Comun.DTO.Prestamo
         public long SALDO_MONTO { get; set; }
         public long ID_ESTADO { get; set; }
         public string ESTADO { get; set; }
+        public long CANTIDAD_PAGOS { get; set; }
+        public long MONTO_TOTAL_PAGADO { get; set; }
+        public long ULTIMA_CUOTA_PAGADA { get; set; }
+        public DateTime? FECHA_ULTIMO_PAGO { get; set; }
+        public long SALDO_PENDIENTE { get; set; }
     }
 }
