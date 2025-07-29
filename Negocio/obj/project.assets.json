@@ -3733,11 +3733,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\Negocio.csproj",
+      "projectUniqueName": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Negocio\\Negocio.csproj",
       "projectName": "Negocio",
-      "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\Negocio.csproj",
+      "projectPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Negocio\\Negocio.csproj",
       "packagesPath": "C:\\Users\\julie\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Negocio\\obj\\",
+      "outputPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Negocio\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3759,11 +3759,11 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
-              "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Comun\\Comun.csproj"
+            "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Comun\\Comun.csproj": {
+              "projectPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Comun\\Comun.csproj"
             },
-            "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\Datos.csproj": {
-              "projectPath": "C:\\Users\\julie\\Downloads\\OneDrive_1_24-7-2025\\New_Control_Prestamos\\Datos\\Datos.csproj"
+            "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Datos\\Datos.csproj": {
+              "projectPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Datos\\Datos.csproj"
             }
           }
         }

@@ -93,5 +93,113 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
             return View("Pago");
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> RegistrarPago([FromBody] RegistrarPagoDto modelo)
+        {
+            try
+            {
+                // Validar modelo
+                if (!ModelState.IsValid)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        message = "Datos inválidos",
+                        errors = ModelState.Values
+                            .SelectMany(v => v.Errors)
+                            .Select(e => e.ErrorMessage)
+                            .ToList()
+                    });
+                }
+
+                //// Validaciones adicionales de negocio
+                //if (modelo.MONTO <= 0)
+                //{
+                //    return Json(new
+                //    {
+                //        success = false,
+                //        message = "El monto debe ser mayor a cero"
+                //    });
+                //}
+
+                //if (modelo.FECHA_PAGO > DateTime.Now)
+                //{
+                //    return Json(new
+                //    {
+                //        success = false,
+                //        message = "La fecha de pago no puede ser futura"
+                //    });
+                //}
+
+                //// Aquí iría tu lógica de negocio
+                //// Ejemplo: obtener información del préstamo
+                //var prestamo = await ObtenerPrestamoPorId(modelo.ID_PRESTAMO);
+                //if (prestamo == null)
+                //{
+                //    return Json(new
+                //    {
+                //        success = false,
+                //        message = "Préstamo no encontrado"
+                //    });
+                //}
+
+                //// Calcular distribución del pago (interés vs capital)
+                //var distribucionPago = CalcularDistribucionPago(prestamo, modelo.MONTO);
+
+                //// Registrar el pago en la base de datos
+                //var resultadoPago = await RegistrarPagoEnBD(new PagoEntity
+                //{
+                //    IdPrestamo = modelo.ID_PRESTAMO,
+                //    FechaPago = modelo.FECHA_PAGO,
+                //    MontoTotal = modelo.MONTO,
+                //    MontoInteres = distribucionPago.MontoInteres,
+                //    MontoCapital = distribucionPago.MontoCapital,
+                //    FechaRegistro = DateTime.Now
+                //});
+
+                //if (resultadoPago.Exitoso)
+                //{
+                //    return Json(new
+                //    {
+                //        success = true,
+                //        message = "Pago registrado exitosamente",
+                //        data = new
+                //        {
+                //            idPago = resultadoPago.IdPago,
+                //            montoInteres = distribucionPago.MontoInteres,
+                //            montoCapital = distribucionPago.MontoCapital,
+                //            saldoPendiente = prestamo.SaldoPendiente - distribucionPago.MontoCapital
+                //        }
+                //    });
+                //}
+                //else
+                //{
+                //    return Json(new
+                //    {
+                //        success = false,
+                //        message = resultadoPago.MensajeError
+                //    });
+                //}
+
+                return View("Pago");
+
+            }
+            catch (Exception ex)
+            {
+                // Log del error
+                // _logger.LogError(ex, "Error al registrar pago para préstamo {IdPrestamo}", modelo.ID_PRESTAMO);
+
+                return Json(new
+                {
+                    success = false,
+                    message = "Ocurrió un error interno. Intente nuevamente."
+                });
+            }
+        }
+
+
+
+
     }
 }

@@ -18,28 +18,7 @@ function pagarPrestamo(idPrestamo, monto, interes, saldo, num_cuotas) {
     //Calculado el valor de interes y el capital
     valInteresPago.innerHTML = inter.toLocaleString('es-CO');
     valCapitalPago.innerHTML = cap.toLocaleString('es-CO');
-
-
-    //// Generar opciones de cuotas
-    //const selectCuotas = document.getElementById('numeroCuota');
-    //selectCuotas.innerHTML = '<option value="">Seleccione la cuota</option>';
-
-    //for (let i = 1; i <= nroCuota; i++) {
-    //    const option = document.createElement('option');
-    //    option.value = i;
-    //    option.textContent = `Cuota ${i} de ${nroCuota}`;
-
-    //    // Bloquear  id = valInteresPagocuotas ya pagadas
-    //    if (i <= nroCuotaPagas) {
-    //        option.disabled = true;
-    //        option.textContent = `Cuota ${i} de ${nroCuota} (PAGADA)`;
-    //        option.style.color = '#6c757d'; // Color gris para indicar que está pagada
-    //        option.style.fontStyle = 'italic';
-    //    }
-
-    //    selectCuotas.appendChild(option);
-    //}
-
+        
 
     // Establecer fecha actual
     const ahora = new Date();
@@ -48,6 +27,88 @@ function pagarPrestamo(idPrestamo, monto, interes, saldo, num_cuotas) {
 
 
     modalPago.show(); 
+}
+
+
+function formatearNumero(numero) {
+    // Convertir a string si no lo es
+    const numeroStr = numero.toString();
+
+    // Separar parte entera y decimal (si existe)
+    const partes = numeroStr.split('.');
+    const parteEntera = partes[0];
+    const parteDecimal = partes[1];
+
+    // Agregar puntos cada 3 dígitos desde la derecha
+    const numeroFormateado = parteEntera.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    // Retornar con decimales si existen
+    return parteDecimal ? numeroFormateado + ',' + parteDecimal : numeroFormateado;
+}
+
+// IMPORTANTE: Cambiar el input HTML a:
+// <input type="text" id="monto" inputmode="numeric">
+
+document.getElementById('monto').addEventListener('input', function (e) {
+    const input = e.target;
+    let valor = input.value;
+
+    // Guardar posición del cursor
+    const cursorPos = input.selectionStart;
+
+    // Remover todos los caracteres no numéricos
+    const numeroLimpio = valor.replace(/[^\d]/g, '');
+
+    let resultado;
+    let nuevaCursorPos = cursorPos;
+
+    if (numeroLimpio.length > 3 && numeroLimpio !== '') {
+        resultado = formatearNumero1(Number(numeroLimpio));
+
+        // Calcular nueva posición del cursor
+        const caracteresOriginales = valor.length;
+        const caracteresNuevos = resultado.length;
+        const diferencia = caracteresNuevos - caracteresOriginales;
+        nuevaCursorPos = Math.max(0, cursorPos + diferencia);
+
+    } else if (numeroLimpio !== '') {
+        resultado = numeroLimpio;
+        nuevaCursorPos = Math.min(cursorPos, resultado.length);
+    } else {
+        resultado = '';
+        nuevaCursorPos = 0;
+    }
+
+    // Actualizar valor
+    input.value = resultado;
+
+    // Restaurar posición del cursor
+    requestAnimationFrame(() => {
+        const posicionFinal = Math.max(0, Math.min(nuevaCursorPos, resultado.length));
+        input.setSelectionRange(posicionFinal, posicionFinal);
+    });
+});
+
+function formatearNumero1(numero) {
+    return numero.toLocaleString('es-CO');
+}
+
+// Función auxiliar para obtener el valor numérico real
+function obtenerValorNumerico(inputId) {
+    const valor = document.getElementById(inputId).value;
+    return Number(valor.replace(/[^\d]/g, ''));
+}
+
+// Función para establecer valor inicial
+function establecerValor(inputId, valor) {
+    const input = document.getElementById(inputId);
+    const numeroLimpio = String(valor).replace(/[^\d]/g, '');
+
+    if (numeroLimpio.length > 3) {
+        input.value = formatearNumero1(Number(numeroLimpio));
+    } else {
+        input.value = numeroLimpio;
+    }
 }
 
 
@@ -108,8 +169,8 @@ document.addEventListener('DOMContentLoaded', function () {
         e.preventDefault();
 
         const formData = new FormData(this);
-
-        fetch('@Url.Action("RegistrarPago", "Prestamos")', {
+               
+        fetch('/Prestamo/Gestion/RegistrarPago', {
             method: 'POST',
             body: formData
         })
@@ -126,7 +187,7 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .catch(error => {
             alert('Error al procesar el pago');
-            console.error(error);
+            //console.error(error);
         });
     });
 
