@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Datos\Datos.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CodigoAcceso\NewFolder\" />
+  </ItemGroup>
+
 </Project>

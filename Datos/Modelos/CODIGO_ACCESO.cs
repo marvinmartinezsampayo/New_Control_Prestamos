@@ -23,11 +23,11 @@ namespace Datos.Modelos
         public string Codigo { get; set; }
 
         [Required]
-        [Column("FECHA_INICIO", TypeName = "DATE")]
+        [Column("FECHA_INICIO", TypeName = "DATETIME")]
         public DateTime FechaInicio { get; set; }
 
         [Required]
-        [Column("FECHA_FIN", TypeName = "DATE")]
+        [Column("FECHA_FIN", TypeName = "DATETIME")]
         public DateTime FechaFin { get; set; }
 
         [StringLength(200)]

@@ -2,13 +2,17 @@
     let currentStep = 1;
     const totalSteps = 4;
     const form = document.getElementById('loanForm');
-    const nextBtn = document.getElementById('nextBtn');
+   
     const prevBtn = document.getElementById('prevBtn');
-    const submitBtn = document.getElementById('submitBtn');
+  
     const tratamientoDatos = document.getElementById('tratamientoDatos');
     const loanForm = document.getElementById('loanForm');
+    const nextBtn = document.getElementById('nextBtn');
+    const submitBtn = document.getElementById('submitBtn');
     const monto = document.getElementById('montoSolicitado');
-
+    const btnCodeudor = document.getElementById('btnCodeudor');
+    const modalCodeudor = new bootstrap.Modal(document.getElementById('modalCodeudor'));
+    const modalCodeudorFormulario = new bootstrap.Modal(document.getElementById('modalCodeudorFormulario'));
     function validateStep(stepNumber) {
         const currentSection = document.getElementById(`step${stepNumber}`);
         let isValid = true;
@@ -119,29 +123,45 @@
         });
     }
 
+
     nextBtn.addEventListener('click', () => {
         const pasoActual = obtenerPasoActual();
-        const sw = tratamientoDatos.value == 1 ? true : false;
-        if (pasoActual === 3 ) {
-            
+        const sw = tratamientoDatos.value == 1;
 
+        if (pasoActual === 3) {
             if (validateStep(currentStep) && sw) {
                 tratamientoDatos.classList.remove("is-invalid");
                 tratamientoDatos.classList.add("is-valid");
+
+                const monto = Number(document.getElementById('montoSolicitado').value.replace(/\D/g, ''));
+                console.log(monto)
+                if (monto > 2000000) {
+                    modalCodeudor.show();
+                } else {
+                    // Ocultamos el botón por si quedó visible
+                    btnCodeudor.style.display = "none";
+                }
 
                 if (currentStep < totalSteps) {
                     currentStep++;
                     updateSteps();
                     updateButtons();
+
+                    if (currentStep === 4) {
+                        if (monto > 2000000) {
+                            submitBtn.style.display = "none";
+                            btnCodeudor.style.display = "inline";
+                        } else {
+                            submitBtn.style.display = "inline";
+                            btnCodeudor.style.display = "none";
+                        }
+                    }
                 }
-            }
-            else {
+            } else {
                 tratamientoDatos.classList.remove("is-valid");
                 tratamientoDatos.classList.add("is-invalid");
             }
-        }
-        else
-        {
+        } else {
             if (validateStep(currentStep)) {
                 if (currentStep < totalSteps) {
                     currentStep++;
@@ -162,6 +182,7 @@
             updateButtons();
         }
     });
+
     loanForm.addEventListener('submit',async function (event) {
         event.preventDefault();
         event.stopPropagation();
@@ -171,17 +192,18 @@
             console.log('Formulario tiene errores de validación');
             return;
         }
-
+        const nuevomonto = Number(document.getElementById('montoSolicitado').value.replace(/\D/g, ''));
+        console.log(nuevomonto);
         ////Armamos el documento
         var doc1 = await extraerDocumentos(archivosCargas);
         var doc = JSON.stringify(await extraerDocumentos(archivosCargas));
                        
         const formData = {
             id: 0, // Nuevo registro
-            p_nombre_solicitante: document.getElementById('pNombre').value,
-            s_nombre_solicitante: document.getElementById('sNombre').value || null,
-            p_apellido_solicitante: document.getElementById('pApellido').value,
-            s_apellido_solicitante: document.getElementById('sApellido').value || null,
+            p_nombre_solicitante: document.getElementById('pNombre').value.trim().toUpperCase(),
+            s_nombre_solicitante: document.getElementById('sNombre').value.trim().toUpperCase() || null,
+            p_apellido_solicitante: document.getElementById('pApellido').value.trim().toUpperCase(),
+            s_apellido_solicitante: document.getElementById('sApellido').value.trim().toUpperCase() || null,
             tipo_identificacion: parseInt(document.getElementById('listTipoDocumentos').value),
             numero_identificacion: parseInt(document.getElementById('identificacion').value),
             id_depto_residencia: parseInt(document.getElementById('ListaDepartamentos').value),
@@ -191,7 +213,7 @@
             id_estado: 12, // No veo este campo en el formulario, asignar valor por defecto
             email: document.getElementById('email').value,
             celular: document.getElementById('celular').value,
-            monto: document.getElementById('montoSolicitado').value,
+            monto: Number(document.getElementById('montoSolicitado').value.replace(/\D/g, '')),
             codigo_acceso: document.getElementById('codigoAcceso').value || null,
             habilitado: 1, // Habilitado por defecto
             usuario_creacion: "WEB_USER", // O el usuario actual si lo tienes
@@ -205,65 +227,54 @@
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enviando...';
-
+        debugger; 
+        console.log(formData);
         try {
-            // Realizar la petición POST
             const response = await fetch('/Solicitud/Prestamo/Add_Loan_Request', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    // Si usas token CSRF en ASP.NET MVC
                     'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value
                 },
                 body: JSON.stringify(formData)
             });
 
+            const result = await response.json(); 
+            debugger; 
             if (response.ok) {
-                const result = await response.json();
-
-
-                Swal.fire({
-                    title: "Señor(a) Usuario",
-                    text: "Su solicitud fue enviada exitosamente",
-                    icon: "success",
-                    showCancelButton: false,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Aceptar"
-                }).then((result) => {
-                    //if (result.isConfirmed) {
-                    //    Swal.fire({
-                    //        title: "Deleted!",
-                    //        text: "Your file has been deleted.",
-                    //        icon: "success"
-                    //    });
-                    //}
-                    window.location.href = '/Solicitud/prestamo/solicitar';
-                    loanForm.reset();
-                });
-                // Mostrar mensaje de éxito
-                //showSuccessMessage('Solicitud enviada correctamente');
-                //redirigir o limpiar formulario               
-
-            }
-            else
-            {
-                // Error del servidor
-                const errorData = await response.json();
-                /*console.error('Error del servidor:', errorData);*/
-                showErrorMessage('Error al enviar la solicitud: ' + (errorData.message || 'Error desconocido'));
+                if (result.estado === true) {
+                    Swal.fire({
+                        title: "Señor(a) Usuario",
+                        text: "Su solicitud fue enviada exitosamente",
+                        icon: "success",
+                        confirmButtonColor: "#3085d6",
+                        confirmButtonText: "Aceptar"
+                    }).then(() => {
+                        window.location.href = '/Solicitud/prestamo/solicitar';
+                        loanForm.reset();
+                    });
+                } else {
+                  
+                    showErrorMessage(result.mensaje || 'No se pudo enviar la solicitud. Intente nuevamente.');
+                }
+            } else {
+               
+                showErrorMessage('Error al enviar la solicitud. Por favor, inténtelo de nuevo.');
             }
 
         } catch (error) {
-            // Error de red o JavaScript
-           /* console.error('Error:', error);*/
             showErrorMessage('Error de conexión. Por favor, intenta nuevamente.');
         } finally {
-            // Rehabilitar el botón
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalText;
         }
 
+
+    });
+
+    // funcion para mostrar la modal del codeudor 
+    btnCodeudor.addEventListener('click', function () {
+        modalCodeudorFormulario.show();
     });
 
     // Funciones auxiliares para mostrar mensajes
@@ -303,14 +314,15 @@
         });
     });
 
-    form.addEventListener('submit', function (event) {
-        event.preventDefault();
-        if (validateStep(currentStep) && form.checkValidity()) {
-            // Aquí iría la lógica para enviar el formulario
-            alert('Formulario enviado correctamente');
-        }
-        form.classList.add('was-validated');
-    });
+    //form.addEventListener('submit', function (event) {
+    //    event.preventDefault();
+    //    debugger;
+    //    if (validateStep(currentStep) && form.checkValidity()) {
+    //        // Aquí iría la lógica para enviar el formulario
+    //        alert('Formulario enviado correctamente');
+    //    }
+    //    form.classList.add('was-validated');
+    //});
 
     document.querySelectorAll('.floating-label select').forEach(select => {
         select.addEventListener('change', function () {

@@ -241,6 +241,7 @@
                             <div class="d-flex justify-content-between mt-4">
                                 <button type="button" class="btn btn-secondary" id="prevBtn" style="display: none;">Anterior</button>
                                 <button type="button" class="btn btn-primary" id="nextBtn">Siguiente</button>
+                                <button type="button" class="btn btn-warning" id="btnCodeudor" style="display: none;">Llenar Papeles del Codeudor</button>
                                 <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">Enviar Solicitud</button>
                             </div>
                         </form>
@@ -249,6 +250,127 @@
             </div>
         </div>
     </div>
+    @* aqui mi modal  *@
+
+    <!-- Modal Informativa para monto mayor a 2 millones -->
+    <div class="modal fade" id="modalCodeudor" tabindex="-1" aria-labelledby="modalCodeudorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="modalCodeudorLabel">Información adicional requerida</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    El monto solicitado supera los <strong>$2.000.000</strong>. <br>
+                    Por favor, completa la información del <strong>codeudor</strong> para continuar con tu solicitud.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* modal para codeudor *@
+
+    <!-- Modal del Codeudor -->
+    <div class="modal fade" id="modalCodeudorFormulario" tabindex="-1" aria-labelledby="modalCodeudorLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="modalCodeudorLabel"><i class="fas fa-user-friends me-2"></i> Información del Codeudor</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCodeudor">
+                        <div class="row g-3">
+
+                            <!-- Nombre y Apellido -->
+                            <div class="col-md-6">
+                                <label for="pNombreCodeudor" class="form-label">Primer Nombre *</label>
+                                <input type="text" class="form-control" id="pNombreCodeudor" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sNombreCodeudor" class="form-label">Segundo Nombre</label>
+                                <input type="text" class="form-control" id="sNombreCodeudor">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="pApellidoCodeudor" class="form-label">Primer Apellido *</label>
+                                <input type="text" class="form-control" id="pApellidoCodeudor" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="sApellidoCodeudor" class="form-label">Segundo Apellido</label>
+                                <input type="text" class="form-control" id="sApellidoCodeudor">
+                            </div>
+
+                            <!-- Tipo y Número de Identificación -->
+                            <div class="col-md-6">
+                                <label for="tipoIdentificacionCodeudor" class="form-label">Tipo de Identificación *</label>
+                                <select class="form-select" id="tipoIdentificacionCodeudor" required>
+                                    <option value="">Seleccione...</option>
+                                    <option value="1">Cédula de Ciudadanía</option>
+                                    <option value="2">Cédula de Extranjería</option>
+                                    <option value="3">Pasaporte</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="numeroIdentificacionCodeudor" class="form-label">Número de Identificación *</label>
+                                <input type="number" class="form-control" id="numeroIdentificacionCodeudor" required>
+                            </div>
+
+                            <!-- Dirección, Email, Celular -->
+                            <div class="col-md-6">
+                                <label for="direccionCodeudor" class="form-label">Dirección *</label>
+                                <input type="text" class="form-control" id="direccionCodeudor" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="emailCodeudor" class="form-label">Correo Electrónico *</label>
+                                <input type="email" class="form-control" id="emailCodeudor" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="celularCodeudor" class="form-label">Celular *</label>
+                                <input type="tel" class="form-control" id="celularCodeudor" required>
+                            </div>
+
+                        </div>
+
+                        <!-- Documentos del codeudor -->
+                        <hr class="my-4">
+                        <h5 class="mb-3">Documentos del Codeudor</h5>
+
+                        <div class="row g-3">
+                            <div class="col-12" id="zonaDocumentosCodeudor">
+                                <!-- Aquí se cargan las tarjetas como en el paso 4 -->
+                            </div>
+
+                            <div class="col-12 text-center mt-3">
+                                <button type="button" class="btn btn-primary btn-lg me-3" onclick="procesarDocumentosCodeudor()">
+                                    <i class="fas fa-cloud-upload-alt me-2"></i> Procesar Documentos Codeudor
+                                </button>
+                                <button type="button" class="btn btn-outline-danger" onclick="limpiarDocumentosCodeudor()">
+                                    <i class="fas fa-trash-alt me-2"></i> Limpiar Documentos
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" onclick="guardarCodeudor()">
+                        <i class="fas fa-save me-2"></i> Guardar Codeudor
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
     <script src="~/lib/sweetalert2@11.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap5.0.2.bundle.min.js"></script>

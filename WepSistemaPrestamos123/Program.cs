@@ -1,4 +1,5 @@
 using Datos.Administracion;
+using Datos.CodigoAcceso;
 using Datos.Contexto;
 using Datos.Contratos.Auditoria;
 using Datos.Contratos.Login;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Negocio.BuscarUsuario;
+using Negocio.CodigoAcceso;
 using Negocio.Gestion;
 using Negocio.Implementacion;
 using Negocio.InsertUsuario;
@@ -65,6 +67,8 @@ builder.Services.AddScoped<IInsert_Auditoria, Inserta_AuditoriaGeneral>();
 builder.Services.AddScoped<IInsertUsuario, InsertUsuario>();
 builder.Services.AddScoped<IBusacrUsuarioNurIdentificacion, BuscarUsuarioNurIdentificacion>();
 builder.Services.AddScoped<IInsertRolUsuario, InserRolUsuario>();
+builder.Services.AddScoped<IInsertCodigoAcceso, InsertCodigoAcceso>();
+builder.Services.AddScoped<IListarCodigosAcceso, ListarCodigosAcceso>();
 
 
 
