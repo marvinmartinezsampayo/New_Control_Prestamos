@@ -1,0 +1,210 @@
+﻿@using Comun.DTO.CodigoAcceso
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Gestión de Códigos de Acceso";
+}
+
+
+<div class="container-fluid px-4">
+    <div class="text-center mb-5">
+        <h1 class="display-6 fw-bold text-primary">
+            <i class="bi bi-pass-fill me-2"></i>
+            Modulo Para Generar Codigo Acceso
+        </h1>
+        <p class="lead text-muted">Modulo permite generar los codigos de acceso y ademas permite buscar los codigos por fechas</p>
+    </div>
+    <!-- Formulario para generar código -->
+    <div class="card mb-4">
+
+        <div class="card-body">
+            <form id="formGenerarCodigo">
+                <div class="row mb-3">
+                    <div class="col-md-3">
+                        <label for="codigoGenerado" class="form-label">Código</label>
+                        <input type="text" id="codigoGenerado" class="form-control" readonly />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="fechaInicio" class="form-label">Fecha Inicio</label>
+                        <input type="datetime-local" id="fechaInicio" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="fechaFin" class="form-label">Fecha Fin</label>
+                        <input type="datetime-local" id="fechaFin" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label for="cantidadUsos" class="form-label">Cantidad Usos</label>
+                        <input type="number" id="cantidadUsos" class="form-control" min="1" />
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-outline-secondary w-100 " onclick="generarCodigo()">
+                            <i class="bi bi-magic me-2"></i>
+                            Generar
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="submit" class="btn btn-success w-100 mt-2 mt-md-0">
+                            <i class="bi bi-save"></i>
+                            Guardar Código
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Filtro de búsqueda por fechas -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">
+            <i class="fas fa-search"></i>
+            Buscar códigos generados
+        </div>
+        <div class="card-body">
+            <form id="formBuscarCodigos">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="fechaDesde" class="form-label">Fecha desde</label>
+                        <input type="datetime-local" id="fechaDesde" class="form-control" />
+                    </div>
+                    <div class="col-md-4">
+                        <label for="fechaHasta" class="form-label">Fecha hasta</label>
+                        <input type="datetime-local" id="fechaHasta" class="form-control" />
+                    </div>
+                    <div class="col-md-4 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary w-100 mt-2 mt-md-0"> <i class="bi bi-search"></i> Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Tabla de códigos generados -->
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Códigos de acceso generados hoy
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table id="tablaCodigos" class="datatable table table-striped table-hover table-sm">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">Código</th>
+                            <th scope="col">Fecha inicio</th>
+                            <th scope="col">Fecha fin</th>
+                            <th scope="col">Registros</th>
+                            <th scope="col">Usuario</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col" class="text-center">Ver</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">
+                                <i class="bi bi-inbox"></i> No se encontraron códigos para hoy.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalEditarCodigo" tabindex="-1" aria-labelledby="modalEditarLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content rounded-4 shadow">
+            <div class="modal-header bg-primary text-white rounded-top-4">
+                <h5 class="modal-title d-flex align-items-center gap-2" id="modalEditarLabel">
+                    <i class="bi bi-pencil-square fs-4"></i> Editar Código de Acceso
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body bg-light">
+                <div class="card border-0 shadow-sm rounded-3">
+                    <div class="card-body">
+                        <form id="formEditarCodigo">
+                            <input type="hidden" id="editId">
+
+                            <div class="mb-3">
+                                <label for="editCodigo" class="form-label">Código</label>
+                                <input type="text" class="form-control" id="editCodigo" disabled>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editFechaInicio" class="form-label">Fecha Inicio</label>
+                                <input type="datetime-local" class="form-control" id="editFechaInicio">
+                            </div>
+                            <div class="md-3">
+                                <label for="editcantidadUsos" class="form-label">Cantidad Usos</label>
+                                <input type="number" class="form-control" id="editcantidadUsos" />
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="editFechaFin" class="form-label">Fecha Fin</label>
+                                <input type="datetime-local" class="form-control" id="editFechaFin">
+                            </div>
+
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="checkbox" id="editHabilitado">
+                                <label class="form-check-label" for="editHabilitado">
+                                    Habilitado
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer bg-light border-top-0">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x-circle me-1"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" onclick="guardarEdicionCodigo()">
+                    <i class="bi bi-save me-1"></i> Guardar cambios
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- SweetAlert (usa TempData o ViewBag para notificaciones) -->
+<div id="sweetAlertData"
+     data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
+     data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
+     data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)"
+     data-limpiar="@((ViewBag.LimpiarFormulario ?? false).ToString().ToLower())">
+</div>
+@section Scripts {
+    <script src="~/lib/Soliciud/js/GenerarCodigoAcceso.js"></script>
+
+    <script>
+        const usuarioLogueado = {
+            idUsuario: '@User.FindFirst("IdUsuario")?.Value',
+            nroIdentificacion: '@User.FindFirst("Identificacion")?.Value',
+            usuarioEmpresarial: '@User.FindFirst("UsuarioEmpresarial")?.Value',
+            email: '@User.FindFirst("Email")?.Value',
+            telefono: '@User.FindFirst("Telefono")?.Value',
+            ipMaquina: '@User.FindFirst("Identificacion")?.Value',
+            nombreCompleto: '@User.FindFirst("NombreFull")?.Value',
+            rol: '@User.FindFirst("RoleName")?.Value'
+        };
+        window.usuarioLogueado = usuarioLogueado;
+    </script>
+}
+
+
+
+
