@@ -1,18 +1,11 @@
 ﻿using Comun.DTO.Generales;
 using Comun.DTO.Seguridad;
+using Comun.Mapeo;
+using Comun.Seguridad;
 using Datos.Contexto;
 using Datos.Contratos.Login;
-using Microsoft.EntityFrameworkCore;
-using Org.BouncyCastle.Crypto.Generators;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BCrypt.Net;
-using Comun.Mapeo;
 using Datos.Modelos;
-using Comun.Seguridad;
+using Microsoft.EntityFrameworkCore;
 
 namespace Negocio.Implementacion
 {
@@ -27,7 +20,7 @@ namespace Negocio.Implementacion
 
 
         public Task<List<Detalle_MasterDto>> ConsultarDetalleMaster(decimal _idTipoDetalle)
-        {            
+        {
             throw new NotImplementedException();
         }
 
@@ -39,17 +32,19 @@ namespace Negocio.Implementacion
                     return new List<Roles_X_UsuarioDto>();
 
                 var user = await context.ROLES_X_USUARIO
+                                .Include(x => x.FK_ID_ROL) // MUY IMPORTANTE: para cargar la navegación
                                 .Where(x => x.ID_USUARIO == _idUsuario && x.HABILITADO)
                                 .Select(u => new Roles_X_UsuarioDto
-                                {
-                                    ID_USUARIO = u.ID_USUARIO,
-                                    ID_ROL = u.ID_ROL,
-                                    ROL_STR = u.FK_ID_ROL.Nombre,
-                                    HABILITADO = u.HABILITADO
-                                })
-                                .ToListAsync();
+                              {
+                                  ID_USUARIO = u.ID_USUARIO,
+                                  ID_ROL = u.ID_ROL,
+                                  ROL_STR = u.FK_ID_ROL.Nombre,
+                                  ROL_DESCRIPCION = u.FK_ID_ROL.Descripcion,
+                                  HABILITADO = u.HABILITADO
+                              })
+                              .ToListAsync();
 
-                return user; 
+                return user;
             }
             catch (Exception)
             {
@@ -62,7 +57,7 @@ namespace Negocio.Implementacion
             try
             {
                 if (string.IsNullOrEmpty(_user.Usuario) || string.IsNullOrEmpty(_user.Clave))
-                    return new UsuarioDto(){ };
+                    return new UsuarioDto() { };
 
                 var user = await context.USUARIO
                             .Where(u => u.USUARIO_EMPRESARIAL.ToUpper() == _user.Usuario.ToUpper() && u.HABILITADO == true)
@@ -73,6 +68,9 @@ namespace Negocio.Implementacion
                     return new UsuarioDto() { };
                 string ps = new PasswordService().HashPassword(_user.Clave);
 
+                //string nuevoHash = BCrypt.Net.BCrypt.HashPassword("Colombia*2024*+");
+                //Console.WriteLine(nuevoHash); // Copia este valor a la BD.
+
                 bool validacion = VerifyPassword(_user.Clave, user.CONTRASENA);
 
                 if (validacion)
@@ -80,13 +78,13 @@ namespace Negocio.Implementacion
                     try
                     {
                         var respUser = await context.USUARIO.Where(u => u.ID == user.ID).FirstOrDefaultAsync();
-                        UsuarioDto RESP =  Mapeador.MapearObjeto<USUARIO, UsuarioDto>(respUser);
+                        UsuarioDto RESP = Mapeador.MapearObjetoSeguro<USUARIO, UsuarioDto>(respUser);
                         return RESP;
                     }
                     catch (Exception ex)
                     {
                         return new UsuarioDto() { };
-                    }                    
+                    }
                 }
                 else
                 {
@@ -102,7 +100,7 @@ namespace Negocio.Implementacion
         // Verificar una contraseña
         public bool VerifyPassword(string password, string hashedPassword)
         {
-            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);            
+            return BCrypt.Net.BCrypt.Verify(password, hashedPassword);
         }
     }
 }

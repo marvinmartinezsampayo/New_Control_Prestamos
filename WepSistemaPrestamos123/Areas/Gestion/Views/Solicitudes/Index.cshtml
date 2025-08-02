@@ -18,6 +18,7 @@
         color: #000 !important;
     }
 </style>
+
 <body class="bg-light">
     <div class="container py-5">
         <div class="row justify-content-center">
@@ -32,6 +33,7 @@
 
                 <!-- Tabs Container -->
                 <div class="card shadow-lg border-0">
+
                     <div class="card-header bg-primary">
                         <ul class="nav nav-tabs card-header-tabs nav-fill" id="mainTabs" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -182,8 +184,10 @@
                                                         <th scope="col">Celular</th>
                                                         <th scope="col">Fecha Solicitud</th>
                                                         <th scope="col">Monto</th>
+                                                        <th scope="col">Estado</th>
                                                     </tr>
                                                 </thead>
+
                                                 <tbody>
                                                     @if(solicitudes != null && solicitudes.Any())
                                                     {
@@ -436,10 +440,11 @@
         </div>
     </div>
     <script src="~/lib/bootstrap/dist/js/bootstrap5.3.2.bundle.min.js"></script>
-    <script>
-        function verSolicitud(id, estadoId) {
-            window.location.href = '@Url.Action("Validar", "Solicitudes", new { Area = "Gestion" })' +
-                '?id=' + id + '&estadoId=' + estadoId;
-        }
-    </script>
+    <script src="~/lib/Soliciud/js/ValidarCod.js" />
+    // <script>
+    //     function verSolicitud(id, estadoId) {
+    //         window.location.href = '@Url.Action("Validar", "Solicitudes", new { Area = "Gestion" })' +
+    //             '?id=' + id + '&estadoId=' + estadoId;
+    //     }
+    // </script>
 </body>

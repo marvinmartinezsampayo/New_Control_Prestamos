@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Comun.DTO.Generales;
 using Datos.Contratos.Login;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 
 namespace WepPrestamos.Controllers
@@ -17,31 +16,27 @@ namespace WepPrestamos.Controllers
         private readonly IGestionUsuario _gestionUsuario;
 
         public LoginController(IGestionUsuario gestionUsuario, IHttpContextAccessor httpContextAccessor)
-        {           
+        {
             _gestionUsuario = gestionUsuario;
             _httpContextAccessor = httpContextAccessor;
         }
-              
-
 
         [HttpGet]
         [AllowAnonymous]
         public IActionResult Login(string returnurl = null)
         {
-
-            if (User.Identity.IsAuthenticated == true)
+            if (User.Identity.IsAuthenticated)
             {
                 if (string.IsNullOrEmpty(returnurl))
                 {
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(HttpContext.User.Identity));
                     return RedirectToAction(nameof(HomeController.Index), "Home");
                 }
                 else
                 {
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(HttpContext.User.Identity));
-                    return RedirectToAction(nameof(HomeController.Index), "Home", new { id = returnurl });
+                    return Redirect(returnurl);
                 }
             }
+
             ViewData["ReturnUrl"] = returnurl;
             return View();
         }
@@ -51,86 +46,75 @@ namespace WepPrestamos.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginDto loginUsuario, string returnurl = null)
         {
-            // Configurar encabezados para evitar caché
             Response.Headers.Add("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
             Response.Headers.Add("Pragma", "no-cache");
             Response.Headers.Add("Expires", "0");
 
-            ViewData["ReturnUrl"] = returnurl;
-            returnurl = returnurl ?? Url.Action(nameof(HomeController.Index), "Home");
-            //Url.Content("~/Home/Index");
+            ViewData["ReturnUrl"] = returnurl ?? Url.Action(nameof(HomeController.Index), "Home");
 
             if (!ModelState.IsValid)
                 return View(loginUsuario);
 
-            string usuario = loginUsuario.Usuario;
-            string contrasena = loginUsuario.Clave;
+            UsuarioDto UsuarioActivo = await _gestionUsuario.ValidarLogin(loginUsuario);
 
-
-            //****** Validamos la contraseña del usuario
-            UsuarioDto UsuarioActivo = await _gestionUsuario.ValidarLogin(loginUsuario);            
-
-            if (UsuarioActivo.PRIMER_APELLIDO =="" || UsuarioActivo.HABILITADO == false)
+            if (string.IsNullOrWhiteSpace(UsuarioActivo.PRIMER_APELLIDO) || !UsuarioActivo.HABILITADO)
             {
-                ViewData["ReturnUrl"] = returnurl;
-                ModelState.AddModelError("", "Usuario o Contraseña incorrecta, revise");
+                ModelState.AddModelError("", "Usuario o Contraseña incorrecta.");
                 return View();
             }
-            else
+
+            // Obtener IP
+            var Ip = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
+            HttpContext.Session.SetString("IpMaquina", Ip ?? "");
+
+            // Roles
+            List<Roles_X_UsuarioDto> listRoles = await _gestionUsuario.ConsultarRolesUsuario(UsuarioActivo.ID);
+
+            // Claims
+            var claims = new List<Claim>
             {
-                //Obtener IP
-                var Ip = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
-                HttpContext.Session.SetString("IpMaquina", Ip);
+                new Claim(ClaimTypes.Name, Convert.ToString(UsuarioActivo.NRO_IDENTIFICACION)),
+                new Claim("IdUsuario", UsuarioActivo.ID.ToString()),
+                new Claim("UsuarioEmpresarial", UsuarioActivo.USUARIO_EMPRESARIAL ?? ""),
+                new Claim("Identificacion", Convert.ToString(UsuarioActivo.NRO_IDENTIFICACION)),
+                new Claim("IdTipoIdentificacion", UsuarioActivo.ID_TIPO_IDENTIFICACION.ToString()),
+                new Claim("PrimerNombre", UsuarioActivo.PRIMER_NOMBRE ?? ""),
+                new Claim("SegundoNombre", UsuarioActivo.SEGUNDO_NOMBRE ?? ""),
+                new Claim("PrimerApellido", UsuarioActivo.PRIMER_APELLIDO ?? ""),
+                new Claim("SegundoApellido", UsuarioActivo.SEGUNDO_APELLIDO ?? ""),
+                new Claim("NombreFull", $"{UsuarioActivo.PRIMER_NOMBRE} {UsuarioActivo.SEGUNDO_NOMBRE} {UsuarioActivo.PRIMER_APELLIDO} {UsuarioActivo.SEGUNDO_APELLIDO}".Trim()),
+                new Claim("Email", UsuarioActivo.EMAIL ?? ""),
+                new Claim("Telefono", UsuarioActivo.TELEFONO ?? ""),
+                new Claim("Estado", UsuarioActivo.HABILITADO.ToString())
+            };
 
-                //Consultamos los Roles
-
-                List <Roles_X_UsuarioDto> listRoles = await _gestionUsuario.ConsultarRolesUsuario(UsuarioActivo.ID);
-
-                //generamos los claims
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, Convert.ToString(UsuarioActivo.NRO_IDENTIFICACION)),
-                    new Claim("IdUsuario", Convert.ToString(UsuarioActivo.ID)),
-                    new Claim("UsuarioEmpresarial", Convert.ToString(UsuarioActivo.USUARIO_EMPRESARIAL)),
-                    new Claim("Identificacion", Convert.ToString(UsuarioActivo.NRO_IDENTIFICACION)),
-                    new Claim("IdTipoIdentificacion", Convert.ToString(UsuarioActivo.ID_TIPO_IDENTIFICACION)),
-                    new Claim("PrimerNombre", Convert.ToString(UsuarioActivo.PRIMER_NOMBRE)),
-                    new Claim("SegundoNombre", Convert.ToString(UsuarioActivo.SEGUNDO_NOMBRE)),
-                    new Claim("PrimerApellido", Convert.ToString(UsuarioActivo.PRIMER_APELLIDO)),
-                    new Claim("SegundoApellido", Convert.ToString( UsuarioActivo.SEGUNDO_APELLIDO)),
-                    new Claim("NombreFull", Convert.ToString(UsuarioActivo.PRIMER_NOMBRE + " " + UsuarioActivo.SEGUNDO_NOMBRE + " " + UsuarioActivo.PRIMER_APELLIDO + " " + UsuarioActivo.SEGUNDO_APELLIDO)),
-                    new Claim("Email",Convert.ToString( UsuarioActivo.EMAIL)),
-                    new Claim("Telefono",Convert.ToString( UsuarioActivo.TELEFONO)),
-                    new Claim("Clave",Convert.ToString( UsuarioActivo.CONTRASENA)),
-                    new Claim("Estado",Convert.ToString( UsuarioActivo.HABILITADO))
-                };
-
-                foreach (var rol in listRoles)
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, Convert.ToString(rol.ID_ROL)));
-                    claims.Add(new Claim(ClaimTypes.Actor, Convert.ToString(rol.ROL_STR)));
-                }
-
-                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-                await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
-                        new ClaimsPrincipal(claimsIdentity),
-                        new AuthenticationProperties
-                        {
-                            IsPersistent = true, // Para que la cookie sea persistente
-                            ExpiresUtc = DateTime.UtcNow.AddMinutes(1) // Tiempo de expiración
-                        });
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+            foreach (var rol in listRoles)
+            {
+             
+                claims.Add(new Claim(ClaimTypes.Role, rol.ID_ROL.ToString()));
+              
+                claims.Add(new Claim("RoleName", rol.ROL_STR ?? ""));
+             
+                claims.Add(new Claim("RoleData", $"{rol.ID_ROL}|{rol.ROL_STR}|{rol.ROL_DESCRIPCION}"));
             }
-        }
 
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                new AuthenticationProperties
+                {
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddMinutes(30) // o el tiempo que desees
+                });
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
 
         [HttpGet]
         public async Task<IActionResult> CerrarSesion()
         {
-            //HttpContext.Session.Clear();
-            //await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            //return RedirectToAction(nameof(Login));
-            //// Cierra la sesión del usuario
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction(nameof(Login));
         }

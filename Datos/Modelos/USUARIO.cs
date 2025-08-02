@@ -59,6 +59,8 @@ namespace Datos.Modelos
         [Column("HABILITADO")]
         public bool HABILITADO { get; set; }
 
+        [Column("FOTO")]
+        public byte[]? FOTO { get; set; }
 
         public virtual DETALLE_MASTER ID_TIPO { get; set; }
     }

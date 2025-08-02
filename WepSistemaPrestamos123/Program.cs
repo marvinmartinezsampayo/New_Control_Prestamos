@@ -1,11 +1,17 @@
+using Datos.Administracion;
 using Datos.Contexto;
+using Datos.Contratos.Auditoria;
 using Datos.Contratos.Login;
+using Datos.Contratos.Prestamo;
 using Datos.Contratos.Solicitud;
+using Datos.Contratos.Usuario;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Negocio.BuscarUsuario;
 using Negocio.Gestion;
 using Negocio.Implementacion;
+using Negocio.InsertUsuario;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +27,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.Cookie.Name = "Prestamo";
         options.Cookie.HttpOnly = true;
         //vencimiento
-        options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         options.Cookie.MaxAge = options.ExpireTimeSpan;
         options.SlidingExpiration = true;
         // ReturnUrlParameter requires 
@@ -31,7 +37,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 //cadena conexión
 
 builder.Services.AddDbContext<ContextoGeneral>(options =>
-{   
+{
     options.UseMySQL(builder.Configuration.GetConnectionString("strConexionMySqlLocal"));
 });
 
@@ -56,6 +62,11 @@ builder.Services.AddScoped<IGenerar_Codigo, Gestion_Codigo_Acceso>();
 builder.Services.AddScoped<IBLConsultar_Detalle_Master, BLConsultar_Detalle_Master>();
 builder.Services.AddScoped<IAlmacenarDocumentos, Gestion_Documentos_X_Solicitud>();
 builder.Services.AddScoped<IRegistroSolicitud, Gestion_Registro_Solicitud>();
+builder.Services.AddScoped<IInsert_Auditoria, Inserta_AuditoriaGeneral>();
+builder.Services.AddScoped<IInsertUsuario, InsertUsuario>();
+builder.Services.AddScoped<IBusacrUsuarioNurIdentificacion, BuscarUsuarioNurIdentificacion>();
+builder.Services.AddScoped<IInsertRolUsuario, InserRolUsuario>();
+builder.Services.AddScoped<IGestionPrestamo, GestionPrestamo>();
 
 
 builder.Services.AddAuthorization();
@@ -77,9 +88,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseSession();
+
 
 app.MapControllerRoute(
     name: "area",

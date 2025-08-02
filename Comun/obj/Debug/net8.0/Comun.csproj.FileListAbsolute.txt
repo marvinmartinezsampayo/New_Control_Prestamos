@@ -100,6 +100,7 @@ C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Co
 C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
 C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
 C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll
+<<<<<<< HEAD
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.deps.json
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.dll
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.pdb
@@ -113,3 +114,57 @@ C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll
+=======
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.deps.json
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.dll
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.pdb
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.AssemblyReference.cache
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfoInputs.cache
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfo.cs
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.CoreCompileInputs.cache
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.sourcelink.json
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.dll
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
+C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.deps.json
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.pdb
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.AssemblyReference.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfoInputs.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfo.cs
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.CoreCompileInputs.cache
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.sourcelink.json
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
+C:\Users\SOPORTE\Desktop\IJ MARVIN\Prestamo\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.deps.json
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.pdb
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.AssemblyReference.cache
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfoInputs.cache
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfo.cs
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.CoreCompileInputs.cache
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.sourcelink.json
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
+C:\Users\julie\Downloads\OneDrive_1_24-7-2025\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\bin\Debug\net8.0\Comun.deps.json
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\bin\Debug\net8.0\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\bin\Debug\net8.0\Comun.pdb
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.csproj.AssemblyReference.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.AssemblyInfoInputs.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.AssemblyInfo.cs
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.csproj.CoreCompileInputs.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.sourcelink.json
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\refint\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.pdb
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\ref\Comun.dll
+>>>>>>> 9a1cb3f3137d5679184a7ca436e3c13912083bf4

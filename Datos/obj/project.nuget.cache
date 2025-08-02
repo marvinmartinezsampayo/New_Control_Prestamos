@@ -1,8 +1,14 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "dgSpecHash": "RJuWqR2DJJE=",
   "success": true,
   "projectFilePath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
+=======
+  "dgSpecHash": "upVDNFL5PYs=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Datos\\Datos.csproj",
+>>>>>>> 9a1cb3f3137d5679184a7ca436e3c13912083bf4
   "expectedPackageFiles": [
     "C:\\Users\\julie\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\julie\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",

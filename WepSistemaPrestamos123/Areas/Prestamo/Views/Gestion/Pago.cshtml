@@ -1,0 +1,215 @@
+﻿@using Comun.DTO.Generales
+@using Comun.DTO.Prestamo
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Prestamos Pagos";
+}
+
+
+<link href="~/lib/bootstrap/dist/css/bootstrap-icons.min.css" rel="stylesheet" />
+
+<style>
+    .nav-link.active {
+        color: #000 !important;
+    }
+</style>
+
+
+<body class="bg-light">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="text-center mb-5">
+                    <h1 class="display-6 fw-bold text-primary">
+                        <i class="bi bi-currency-exchange me-2"></i>
+                        Consulta y Registro de Pagos
+                    </h1>
+                    <p class="lead text-muted">Sistema de Prestamos Florencia</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="bi bi-info-circle-fill me-2"></i>
+                        <div style="text-align: justify">
+                            Bienvenido al panel de consulta y registro de pagos. Aquí encontrarás un resumen de los prestamos y los aportes que les ha realizado un cliente.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-header">
+                    <i class="fas fa-table me-1"></i>
+                    Consultar prestamos cliente.
+                </div>
+
+                <div class="row">
+                    <!-- Buscar por identificación -->
+                    <form method="get" action="/Prestamo/Gestion/BuscarPorIdentificacion">
+                        @Html.AntiForgeryToken()
+                        <div class="row mb-4 mt-4 d-flex justify-content-center">
+                            <div class="col-8 col-md-6 mb-3 mb-md-0">
+                                <input type="text" name="nroIdentificacion" class="form-control p-2" placeholder="Buscar por identificación..." />
+                            </div>
+                            <div class="col-8 col-md-2">
+                                <button class="btn btn-primary w-100 p-2" type="submit">Buscar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="card-body">
+
+                    <!-- Resultado del usuario -->
+                    @{
+                        var listPres = ViewBag.Prestamos as List<Prestamo_Dto>;
+                    }
+
+                    @if (listPres != null && listPres.Any())
+                    {
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="alert alert-success d-flex align-items-center p-1" role="alert">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    <div style="text-align: justify">
+                                       La identificación esta asociada al usuario <strong class="h5"> @listPres[0].SOLICITANTE</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                             <table id="datatablesSimple" class="table table-striped table-hover table-sm">
+                            <thead class="table-light">
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col">Fecha Inicio</th>
+                                    <th scope="col">Fecha Final</th>
+                                    <th scope="col">Monto</th>
+                                    <th scope="col">% Interes</th>
+                                    <th scope="col">Cuotas</th>
+                                    <th scope="col">Saldo</th>
+                                    <th scope="col">Estado</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach (var solicitud in listPres)
+                                {
+                                    <tr>
+                                        <th scope="row" class="d-flex justify-content-center align-items-center">
+                                            <button type="button" class="btn btn-success btn-sm" title="Ver"
+                                                        onclick="pagarPrestamo(@solicitud.ID,@solicitud.MONTO, @solicitud.INTERES,@solicitud.SALDO_MONTO, @solicitud.NUMERO_CUOTAS)">
+                                                    <i class="bi bi-currency-dollar"></i>
+                                            </button>
+                                        </th>
+                                        <td class="text-center">@solicitud.FECHA_INICIO.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@solicitud.FECHA_FIN.ToString("dd/MM/yyyy")</td>
+                                        <td class="text-center">@(solicitud.MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                        <td class="text-center"> % @solicitud.INTERES.ToString()</td>
+                                        <td class="text-center">@solicitud.NUMERO_CUOTAS.ToString("N0")</td>
+                                        <td class="text-center">@(solicitud.SALDO_MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                        <td class="text-center">
+                                            <div class="w-100 alert alert-@(solicitud.ESTADO == "ACTIVO" ? "success" :
+                                                                        solicitud.ESTADO == "FINALIZADO" ? "primary" :
+                                                                        solicitud.ESTADO == "MORA" ? "warning" : "danger")
+                                                        py-1 px-2 mb-0 d-inline-block text-center">
+                                                    @solicitud.ESTADO
+                                            </div>
+                                        </td>
+                                    </tr>
+                                }    
+                            </tbody>
+
+                        </table>
+                        </div>
+                    } 
+                    
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Modal para Pagar Préstamo -->
+    <div class="modal fade" id="modalPagarPrestamo" tabindex="-1" aria-labelledby="modalPagarPrestamoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalPagarPrestamoLabel">
+                        <i class="bi bi-credit-card me-2"></i>Registrar Pago de Préstamo
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+
+                <form id="formPagarPrestamo">
+                    <div class="modal-body">
+                        <div class="row">
+                            <!-- ID_PRESTAMO -->
+                            <div class="col-md-6 mb-3 ocultar">
+                                <label for="idPrestamo" class="form-label">ID Préstamo</label>
+                                <input type="number" class="form-control" id="idPrestamo" name="ID_PRESTAMO" readonly>
+                            </div>
+
+                            <!-- FECHA_PAGO -->
+                            <div class="col-md-6 mb-3">
+                                <label for="fechaPago" class="form-label">Fecha de Pago <span class="text-danger">*</span></label>
+                                <input type="datetime-local" class="form-control" id="fechaPago" name="FECHA_PAGO" required>
+                            </div>
+
+                            <!-- MONTO -->
+                             <div class="col-md-6 mb-3">
+                                <label for="monto1" class="form-label">Monto <span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="text" class="form-control" id="monto" name="MONTO" placeholder="0" required>
+                                </div>                               
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mb-4">
+                                <div class="alert alert-info d-flex align-items-center" role="alert">
+                                    <i class="bi bi-info-circle-fill me-2"></i>
+                                    <div style="text-align: justify">
+                                        El valor ingresado sera distribuido entre pago de interes y luego en pago a capital. El valor correspondiente a intereses es de $ <strong id="valInteresPago"></strong> 
+                                        y el valor correspondiente a capital es de $ <strong id="valCapitalPago"></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Registrar Pago</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="sweetAlertData"
+         data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
+         data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
+         data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)">
+        @*  data-limpiar="@((ViewBag.LimpiarFormulario ?? false).ToString().ToLower())"> *@
+    </div>
+       
+
+</body>
+
+@section Scripts {
+    <script src="~/lib/bootstrap/dist/js/bootstrap5.3.2.bundle.min.js"></script>
+    <script src="~/lib/sweetalert2@11.js"></script>
+    <script src="~/lib/prestamo/js/pago.js"></script>    
+}
+
+
+
