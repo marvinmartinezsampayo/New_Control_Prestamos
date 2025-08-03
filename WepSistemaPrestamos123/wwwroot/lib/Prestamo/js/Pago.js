@@ -2,6 +2,8 @@
 let modalPago = new bootstrap.Modal(document.getElementById('modalPagarPrestamo'));
 let valInteresPago = document.getElementById("valInteresPago");
 let valCapitalPago = document.getElementById("valCapitalPago");
+let valTotalPago = document.getElementById("valTotalPago");
+let monto = document.getElementById("monto");
 
 //Funciones
 function pagarPrestamo(idPrestamo, monto, interes, saldo, num_cuotas) {
@@ -14,11 +16,13 @@ function pagarPrestamo(idPrestamo, monto, interes, saldo, num_cuotas) {
 
     let inter = Math.round(saldo * (interes / 100));
     let cap = Math.round(monto / num_cuotas);
+    let total = inter + cap;
 
     //Calculado el valor de interes y el capital
     valInteresPago.innerHTML = inter.toLocaleString('es-CO');
     valCapitalPago.innerHTML = cap.toLocaleString('es-CO');
-        
+    valTotalPago.innerHTML = total.toLocaleString('es-CO');
+
 
     // Establecer fecha actual
     const ahora = new Date();
@@ -26,9 +30,8 @@ function pagarPrestamo(idPrestamo, monto, interes, saldo, num_cuotas) {
     document.getElementById('fechaPago').value = fechaLocal.toISOString().slice(0, 16);
 
 
-    modalPago.show(); 
+    modalPago.show();
 }
-
 
 function formatearNumero(numero) {
     // Convertir a string si no lo es
@@ -111,11 +114,22 @@ function establecerValor(inputId, valor) {
     }
 }
 
+document.getElementById('checkSoloPagoInteres').addEventListener('change', function () {
+    if (this.checked) {
+        monto.value = valInteresPago.innerHTML;
+        monto.setAttribute('disabled', 'disabled');
+    }
+    else
+    {
+        monto.removeAttribute('disabled');
+        monto.value = "";
+    }
+});
 
 document.addEventListener('DOMContentLoaded', function () {
     const inputIdentificacion = document.getElementById('nroIdentificacion');
     const form = inputIdentificacion?.closest('form');
-    
+
     if (inputIdentificacion) {
         // Solo permitir números
         inputIdentificacion.addEventListener('input', function (e) {
@@ -159,40 +173,42 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-
     window.addEventListener('beforeunload', function () {
         if (inputIdentificacion) inputIdentificacion.value = '';
     });
 
     // Manejar envío del formulario
-    document.getElementById('formPagarPrestamo').addEventListener('submit', function (e) {
+    document.getElementById('formPagarPrestamo').addEventListener('submit', async function (e) {
         e.preventDefault();
 
-        const formData = new FormData(this);
-               
-        fetch('/Prestamo/Gestion/RegistrarPago', {
+        let idPrestamo = document.getElementById('idPrestamo').value;
+        let fechaPago = document.getElementById('fechaPago').value;
+        let monto = document.getElementById('monto').value;
+        let soloInteres = document.getElementById('checkSoloPagoInteres').checked;
+
+        // Obtener el token antifalsificación
+        let token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+        const formData = new FormData();
+        formData.append('ID_PRESTAMO', idPrestamo);
+        formData.append('FECHA_PAGO', fechaPago);
+        formData.append('MONTO', Number(monto.replace(/\./g, '')));       
+        formData.append('PAGO_INTERESES', soloInteres);
+        formData.append('__RequestVerificationToken', token); // ← Agregar esta línea
+
+        const resPost = await fetch('/Prestamo/Gestion/RegistrarPago', {
             method: 'POST',
             body: formData
-        })
-        .then(response => response.json())
-        .then(result => {
-            if (result.success) {
-                modalPagarPrestamo.hide();
-                alert('Pago registrado exitosamente');
-                // Recargar la página o actualizar la tabla
-                location.reload();
-            } else {
-                alert('Error: ' + result.message);
-            }
-        })
-        .catch(error => {
-            alert('Error al procesar el pago');
-            //console.error(error);
         });
+
+        const post = await resPost.json();
+        if (post.estado) {
+            modalPagarPrestamo.hide();
+            alert('Pago registrado exitosamente');
+            location.reload();
+        } else {
+            alert('Error: ' + post.message); // ← Corregir: era "result.message"
+        }
     });
 
 });
-
-
-
-

@@ -3,11 +3,14 @@ using Comun.DTO.Generales;
 using Comun.DTO.Prestamo;
 using Comun.DTO.Solicitud;
 using Comun.Enumeracion;
+using Comun.Generales;
 using Datos.Contratos.Prestamo;
 using Datos.Contratos.Solicitud;
 using Datos.Contratos.Usuario;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Org.BouncyCastle.Asn1.Ocsp;
+using Org.BouncyCastle.Utilities;
 using WepPrestamos.Areas.Solicitud.Controllers;
 using WepPrestamos.Helpers;
 
@@ -32,10 +35,10 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
         {
             _configuration = configuration;
             _logger = logger;
-            _dominio = dominio; 
+            _dominio = dominio;
             _prestamo = prestamo;
         }
- 
+
         public IActionResult Index()
         {
             return View();
@@ -49,7 +52,7 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
         [HttpGet]
         public async Task<IActionResult> BuscarPorIdentificacion(string nroIdentificacion)
         {
-            
+
             if (string.IsNullOrWhiteSpace(nroIdentificacion))
             {
                 ViewBag.SweetAlert = "warning";
@@ -63,12 +66,12 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                 NRO_IDENTIFICACION = Convert.ToInt64(nroIdentificacion)
             };
 
-            var resultado = await _prestamo.Obtener_X_Identificacion_Async<Int64 ,List<Prestamo_Dto>>(request.NRO_IDENTIFICACION);
+            var resultado = await _prestamo.Obtener_X_Identificacion_Async<Int64, List<Prestamo_Dto>>(request.NRO_IDENTIFICACION);
 
             if (resultado.Codigo == EstadoOperacion.Bueno)
             {
                 var prestamos = resultado.Respuesta;
-                ViewBag.Prestamos = prestamos;                
+                ViewBag.Prestamos = prestamos;
 
                 if (prestamos == null || prestamos.Count() == 0)
                 {
@@ -95,107 +98,127 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrarPago([FromBody] RegistrarPagoDto modelo)
+        public async Task<IActionResult> RegistrarPago(InsertPagoPrestamoDto modelo)
         {
             try
-            {
-                // Validar modelo
+            {                
                 if (!ModelState.IsValid)
                 {
-                    return Json(new
+                    return Json(new RespuestaDto<bool>
                     {
-                        success = false,
-                        message = "Datos inválidos",
-                        errors = ModelState.Values
-                            .SelectMany(v => v.Errors)
-                            .Select(e => e.ErrorMessage)
-                            .ToList()
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Datos incompletos, valide e intente nuevamente."
+                    });
+                }
+                
+                if (modelo.MONTO <= 0)
+                {
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "El monto debe ser mayor a cero."
                     });
                 }
 
-                //// Validaciones adicionales de negocio
-                //if (modelo.MONTO <= 0)
-                //{
-                //    return Json(new
-                //    {
-                //        success = false,
-                //        message = "El monto debe ser mayor a cero"
-                //    });
-                //}
+                if (modelo.FECHA_PAGO > DateTime.Now)
+                {
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "La fecha de pago no puede ser futura."
+                    });
+                }
 
-                //if (modelo.FECHA_PAGO > DateTime.Now)
-                //{
-                //    return Json(new
-                //    {
-                //        success = false,
-                //        message = "La fecha de pago no puede ser futura"
-                //    });
-                //}
+                var resultado = await _prestamo.Obtener_X_ID_Async<Int64, Prestamo_Dto>(modelo.ID_PRESTAMO);
 
-                //// Aquí iría tu lógica de negocio
-                //// Ejemplo: obtener información del préstamo
-                //var prestamo = await ObtenerPrestamoPorId(modelo.ID_PRESTAMO);
-                //if (prestamo == null)
-                //{
-                //    return Json(new
-                //    {
-                //        success = false,
-                //        message = "Préstamo no encontrado"
-                //    });
-                //}
+                if (resultado.Codigo == EstadoOperacion.Bueno)
+                {
+                    var prestamos = resultado.Respuesta;
 
-                //// Calcular distribución del pago (interés vs capital)
-                //var distribucionPago = CalcularDistribucionPago(prestamo, modelo.MONTO);
+                    long saldo = long.Parse(prestamos.SALDO_MONTO.ToString()); 
+                    long intereses = long.Parse(prestamos.INTERES.ToString());
+                    long interes = (long)(saldo * ((double)intereses / 100));
 
-                //// Registrar el pago en la base de datos
-                //var resultadoPago = await RegistrarPagoEnBD(new PagoEntity
-                //{
-                //    IdPrestamo = modelo.ID_PRESTAMO,
-                //    FechaPago = modelo.FECHA_PAGO,
-                //    MontoTotal = modelo.MONTO,
-                //    MontoInteres = distribucionPago.MontoInteres,
-                //    MontoCapital = distribucionPago.MontoCapital,
-                //    FechaRegistro = DateTime.Now
-                //});
+                    if (modelo.PAGO_INTERESES)
+                    {
+                        if(modelo.MONTO == interes)
+                        {
+                            //Guardamos el pago
+                            RegistrarActualizarPagoDto p = new RegistrarActualizarPagoDto();
+                            p.ID = 0;
+                            p.ID_PRESTAMO = resultado.Respuesta.ID;
+                            p.FECHA_PAGO = modelo.FECHA_PAGO;
+                            p.MONTO = modelo.MONTO;
+                            p.ID_TIPO_PAGO = 44;
 
-                //if (resultadoPago.Exitoso)
-                //{
-                //    return Json(new
-                //    {
-                //        success = true,
-                //        message = "Pago registrado exitosamente",
-                //        data = new
-                //        {
-                //            idPago = resultadoPago.IdPago,
-                //            montoInteres = distribucionPago.MontoInteres,
-                //            montoCapital = distribucionPago.MontoCapital,
-                //            saldoPendiente = prestamo.SaldoPendiente - distribucionPago.MontoCapital
-                //        }
-                //    });
-                //}
-                //else
-                //{
-                //    return Json(new
-                //    {
-                //        success = false,
-                //        message = resultadoPago.MensajeError
-                //    });
-                //}
+                            var respPagar = await _prestamo.Insertar_Pago_Async<RegistrarActualizarPagoDto, string>(p);
 
-                return View("Pago");
+                            return Json(new RespuestaDto<bool>
+                            {
+                                Codigo = EstadoOperacion.Bueno,
+                                Mensaje = "El monto indicado fue registrado exitosamente."
+                            });
+                        }
+                        else
+                        {
+                            return Json(new RespuestaDto<bool>
+                            {
+                                Codigo = EstadoOperacion.Malo,
+                                Mensaje = "El monto ingresado no corresponde a los intereses calculados. El monto minimo esperado es de $" + interes
+                            });
+                        }
+                    }
+                    else
+                    {
+                        if (modelo.MONTO >= interes)
+                        {
+                            var saldoMonto = modelo.MONTO - interes;
 
+                            //Guardar los intereses
+
+                            //Si saldoMonto es mayor a 0 entonces identificar a que cuota se le agrega el monto
+
+                            //Guardar el saldo del monto y abonarlo a capital.
+
+                            //Actualizar el valor restante del saldo al registro de la tabla prestamo
+
+                            return Json(new RespuestaDto<bool>
+                            {
+                                Codigo = EstadoOperacion.Bueno,
+                                Mensaje = "El monto indicado fue registrado exitosamente."
+                            });
+                        }
+                        else
+                        {
+                            return Json(new RespuestaDto<bool>
+                            {
+                                Codigo = EstadoOperacion.Malo,
+                                Mensaje = "El monto ingresado no corresponde a los intereses calculados. El monto minimo esperado es de $" + interes
+                            });
+                        }
+                    }
+
+                }
+                else
+                {
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Se generó un error al insertar el pago"
+                    });
+                }
             }
             catch (Exception ex)
             {
                 // Log del error
                 // _logger.LogError(ex, "Error al registrar pago para préstamo {IdPrestamo}", modelo.ID_PRESTAMO);
-
-                return Json(new
+                return Json(new RespuestaDto<bool>
                 {
-                    success = false,
-                    message = "Ocurrió un error interno. Intente nuevamente."
-                });
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Ocurrió un error interno. Intente nuevamente."
+                });                
             }
+
         }
 
 
