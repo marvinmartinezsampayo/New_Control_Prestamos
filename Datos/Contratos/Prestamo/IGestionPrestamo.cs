@@ -10,5 +10,9 @@ namespace Datos.Contratos.Prestamo
     public interface IGestionPrestamo
     {
         Task<RespuestaDto<TReturn>> Obtener_X_Identificacion_Async<TParam, TReturn>(TParam _modelo);
+
+        Task<RespuestaDto<TReturn>> Obtener_X_ID_Async<TParam, TReturn>(TParam _modelo);
+
+        Task<RespuestaDto<TReturn>> Insertar_Pago_Async<TParam, TReturn>(TParam _modelo);
     }
 }

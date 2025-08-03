@@ -25,13 +25,14 @@ namespace Datos.Modelos
 
         [Required]
         [Column("MONTO")]
-        public long MONTO { get; set; }
+        public decimal MONTO { get; set; }
 
-        [Required]
+       
         [Column("NUMERO_CUOTA")]
         [Range(1, 999)]  // El número de cuota debe estar entre 1 y 999
-        public int NUMERO_CUOTA { get; set; }
+        public int? NUMERO_CUOTA { get; set; }
 
+        [Required]
         [Column("ID_TIPO_PAGO")]
         public long? ID_TIPO_PAGO { get; set; }
 
