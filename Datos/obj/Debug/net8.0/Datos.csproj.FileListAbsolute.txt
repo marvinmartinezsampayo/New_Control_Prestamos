@@ -138,6 +138,26 @@ C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Da
 C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.pdb
 C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.genruntimeconfig.cache
 C:\Users\Poliadmin\Desktop\1-New SIstema Prestamos 2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\ref\Datos.dll
+<<<<<<< HEAD
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.deps.json
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.runtimeconfig.json
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.pdb
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\bin\Debug\net8.0\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\bin\Debug\net8.0\Comun.pdb
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.csproj.AssemblyReference.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.AssemblyInfoInputs.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.AssemblyInfo.cs
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.csproj.CoreCompileInputs.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.sourcelink.json
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.csproj.Up2Date
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\refint\Datos.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.pdb
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\Datos.genruntimeconfig.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\Datos\obj\Debug\net8.0\ref\Datos.dll
+=======
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.deps.json
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.runtimeconfig.json
 C:\Users\leald\Documents\Proyecto_IjMarvin\New_Control_Prestamos\Datos\bin\Debug\net8.0\Datos.dll
@@ -210,3 +230,4 @@ C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Dat
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Datos\obj\Debug\net8.0\Datos.pdb
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Datos\obj\Debug\net8.0\Datos.genruntimeconfig.cache
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Datos\obj\Debug\net8.0\ref\Datos.dll
+>>>>>>> 9a1cb3f3137d5679184a7ca436e3c13912083bf4

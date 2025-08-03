@@ -3711,11 +3711,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
+      "projectUniqueName": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
+      "projectName": "Datos",
+      "projectPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\New_Control_Prestamos\\Datos\\Datos.csproj",
+      "packagesPath": "C:\\Users\\julie\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\New_Control_Prestamos\\Datos\\obj\\",
+=======
       "projectUniqueName": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Datos\\Datos.csproj",
       "projectName": "Datos",
       "projectPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Datos\\Datos.csproj",
       "packagesPath": "C:\\Users\\julie\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Datos\\obj\\",
+>>>>>>> 9a1cb3f3137d5679184a7ca436e3c13912083bf4
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -3737,8 +3745,13 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
+<<<<<<< HEAD
+            "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\New_Control_Prestamos\\Comun\\Comun.csproj": {
+              "projectPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\New_Control_Prestamos\\Comun\\Comun.csproj"
+=======
             "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Comun\\Comun.csproj": {
               "projectPath": "C:\\Users\\julie\\OneDrive\\Escritorio\\0-MARVIN\\ProyectoPrestamo\\0-2025\\Proyecto\\Comun\\Comun.csproj"
+>>>>>>> 9a1cb3f3137d5679184a7ca436e3c13912083bf4
             }
           }
         }
