@@ -168,3 +168,16 @@ C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Com
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\Comun.pdb
 C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\Proyecto\Comun\obj\Debug\net8.0\ref\Comun.dll
 >>>>>>> 9a1cb3f3137d5679184a7ca436e3c13912083bf4
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.deps.json
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\bin\Debug\net8.0\Comun.pdb
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.AssemblyReference.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfoInputs.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.AssemblyInfo.cs
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.csproj.CoreCompileInputs.cache
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.sourcelink.json
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\refint\Comun.dll
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\Comun.pdb
+C:\Users\julie\OneDrive\Escritorio\0-MARVIN\ProyectoPrestamo\0-2025\New_Control_Prestamos\New_Control_Prestamos\Comun\obj\Debug\net8.0\ref\Comun.dll
