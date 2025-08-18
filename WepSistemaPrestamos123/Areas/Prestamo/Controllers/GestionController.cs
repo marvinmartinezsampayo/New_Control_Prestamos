@@ -173,27 +173,83 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                         if (modelo.MONTO >= interes)
                         {
                             var saldoMonto = modelo.MONTO - interes;
+                            bool sw_respPagoInte =false;
+                            bool sw_respPagoCap = false;
+                            //-----------------------------------------------------------------
+                            //------------------ Guardamos los intereses ----------------------
+                            //-----------------------------------------------------------------
 
-                            //Guardar los intereses
-
-                            //Si saldoMonto es mayor a 0 entonces identificar a que cuota se le agrega el monto
-
-                            //Guardar el saldo del monto y abonarlo a capital.
-
-                            //Actualizar el valor restante del saldo al registro de la tabla prestamo
-
-                            return Json(new RespuestaDto<bool>
+                            try
                             {
-                                Codigo = EstadoOperacion.Bueno,
-                                Mensaje = "El monto indicado fue registrado exitosamente."
-                            });
+                                RegistrarActualizarPagoDto p = new RegistrarActualizarPagoDto();
+                                p.ID = 0;
+                                p.ID_PRESTAMO = resultado.Respuesta.ID;
+                                p.FECHA_PAGO = modelo.FECHA_PAGO;
+                                p.MONTO = modelo.MONTO;
+                                p.ID_TIPO_PAGO = 44;
+
+                                var respPagoInte = await _prestamo.Insertar_Pago_Async<RegistrarActualizarPagoDto, string>(p);
+                                sw_respPagoInte = respPagoInte.Estado;
+                            }
+                            catch (Exception) { }
+
+
+                            //---------------------------------------------------------------------------
+                            //--------Si saldoMonto es mayor a 0 entonces -------------------------------
+                            //---------------------------------------------------------------------------
+
+                            if (saldoMonto > 0)
+                            {
+                                try
+                                {
+                                    RegistrarActualizarPagoDto p = new RegistrarActualizarPagoDto();
+                                    p.ID = 0;
+                                    p.ID_PRESTAMO = resultado.Respuesta.ID;
+                                    p.FECHA_PAGO = modelo.FECHA_PAGO;
+                                    p.MONTO = saldoMonto;
+                                    p.ID_TIPO_PAGO = 45;
+
+                                    var respPagoCap = await _prestamo.Insertar_Pago_Async<RegistrarActualizarPagoDto, string>(p);
+                                    sw_respPagoCap = respPagoCap.Estado;
+                                }
+                                catch (Exception) { }
+                            }
+
+                            if (sw_respPagoInte)
+                            {
+                                //Actualizar el valor restante del saldo al registro de la tabla prestamo
+                            }
+
+                            if (sw_respPagoInte && sw_respPagoCap)
+                            {
+                                return Json(new RespuestaDto<bool>
+                                {
+                                    Codigo = EstadoOperacion.Bueno,
+                                    Mensaje = "Los montos a intereses y capital fueron registrados exitosamente."
+                                });
+                            }
+                            else
+                            {
+                                string txt_mensaje = "Precaución: Se almacenó el pago de intereses: " +
+                                                     (sw_respPagoInte ? "SI" : "NO") +
+                                                     " y Se almacenó el pago a capital: " +
+                                                     (sw_respPagoCap ? "SI" : "NO");
+
+                                return Json(new RespuestaDto<bool>
+                                {
+                                    Codigo = EstadoOperacion.Malo,
+                                    Mensaje = txt_mensaje
+                                });
+
+                            }
+
                         }
                         else
                         {
                             return Json(new RespuestaDto<bool>
                             {
                                 Codigo = EstadoOperacion.Malo,
-                                Mensaje = "El monto ingresado no corresponde a los intereses calculados. El monto minimo esperado es de $" + interes
+                                Mensaje = "El monto ingresado no corresponde a los intereses calculados. El monto mínimo esperado es de $" + interes
                             });
                         }
                     }
