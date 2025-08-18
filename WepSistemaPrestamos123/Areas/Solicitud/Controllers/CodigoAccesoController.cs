@@ -80,9 +80,9 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> BuscarCodigosPorFechas(DateTime fechaInicio, DateTime fechaFin)
+        public async Task<IActionResult> BuscarCodigosPorFechas(DateTime fechaInicio, DateTime fechaFin, string Codigo)
         {
-            var resultado = await _listarCodigosAcceso.ObtenerCodigosPorFechasAsync<List<Codigo_AccesoDto>>(fechaInicio, fechaFin);
+            var resultado = await _listarCodigosAcceso.ObtenerCodigosPorFechasAsync<List<Codigo_AccesoDto>>(fechaInicio, fechaFin,Codigo);
 
             if (resultado.Codigo == EstadoOperacion.Bueno && resultado.Respuesta != null)
                 return Json(resultado.Respuesta);

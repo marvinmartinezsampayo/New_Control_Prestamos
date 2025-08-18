@@ -67,16 +67,25 @@
         <div class="card-body">
             <form id="formBuscarCodigos">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
+                        <label for="codigoBuscar" class="form-label">Digite Codigo Buscar</label>
+                        <input type="text" id="codigoBuscar" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
                         <label for="fechaDesde" class="form-label">Fecha desde</label>
                         <input type="datetime-local" id="fechaDesde" class="form-control" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <label for="fechaHasta" class="form-label">Fecha hasta</label>
                         <input type="datetime-local" id="fechaHasta" class="form-control" />
                     </div>
-                    <div class="col-md-4 d-flex align-items-end">
+                    <div class="col-md-2 d-flex align-items-end">
                         <button type="submit" class="btn btn-primary w-100 mt-2 mt-md-0"> <i class="bi bi-search"></i> Buscar</button>
+                    </div>
+                    <div class="col-md-1 d-flex align-items-end">
+                        <button type="button" class="btn btn-danger w-100 mt-2 mt-md-0" onclick="limpiarBusqueda()">
+                            <i class="bi bi-x-circle"></i>
+                        </button>
                     </div>
                 </div>
             </form>
