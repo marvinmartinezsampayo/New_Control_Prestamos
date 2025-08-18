@@ -1,0 +1,23 @@
+# Build results
+**/bin/
+**/obj/
+
+# Visual Studio cache files
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+
+# Others
+*.dbmdl
+*.log
+*.vsidx
+*.v7.bin
+*.dtbcache.v2
+*.futdcache.v2
+*.DS_Store
+Thumbs.db
