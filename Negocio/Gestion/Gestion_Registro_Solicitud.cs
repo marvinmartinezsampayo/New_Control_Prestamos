@@ -292,7 +292,7 @@ namespace Negocio.Gestion
                     Respuesta = (TReturn)Convert.ChangeType(resp, typeof(TReturn))
                 };
             }
-        }
+        }        
 
         private async Task<RespuestaDto<long>> Insert_Solicitud_Prestamo_Async (Parametros_Insert_Solicitud_Prestamo_Dto _modelo)
         {
@@ -406,8 +406,6 @@ namespace Negocio.Gestion
             }
         }
 
-
-
-
+        
     }
 }

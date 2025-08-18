@@ -3,6 +3,7 @@ using Datos.CodigoAcceso;
 using Datos.Contexto;
 using Datos.Contratos.Auditoria;
 using Datos.Contratos.Login;
+using Datos.Contratos.Prestamo;
 using Datos.Contratos.Solicitud;
 using Datos.Contratos.Usuario;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -35,7 +36,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
     });
 
-//cadena conexión
+//cadena conexiï¿½n
 
 builder.Services.AddDbContext<ContextoGeneral>(options =>
 {
@@ -49,7 +50,7 @@ builder.Services.AddDbContext<ContextoLocal>(options =>
 
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Tiempo de expiración
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Tiempo de expiraciï¿½n
     options.Cookie.HttpOnly = true; // Seguridad
     options.Cookie.IsEssential = true; // Necesaria para GDPR
 });
@@ -70,6 +71,7 @@ builder.Services.AddScoped<IInsertRolUsuario, InserRolUsuario>();
 builder.Services.AddScoped<IInsertCodigoAcceso, InsertCodigoAcceso>();
 builder.Services.AddScoped<IListarCodigosAcceso, ListarCodigosAcceso>();
 
+builder.Services.AddScoped<IGestionPrestamo, GestionPrestamo>();
 
 
 builder.Services.AddAuthorization();

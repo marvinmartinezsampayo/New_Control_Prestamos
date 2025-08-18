@@ -26,6 +26,8 @@ namespace Datos.Contexto
         public DbSet<DOCUMENTOS_REQUERIDOS> DOCUMENTOS_REQUERIDOS { get; set; }
         public DbSet<AUDITORIA> AUDITORIA { get; set; }
         public DbSet<CODEUDOR> CODEUDOR { get; set; }
+        public DbSet<PRESTAMOS> PRESTAMOS { get; set; }
+        public DbSet<PAGOS> PAGOS { get; set; }
 
     }
 }
