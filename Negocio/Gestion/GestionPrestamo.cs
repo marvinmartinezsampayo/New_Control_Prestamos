@@ -73,6 +73,64 @@ namespace Negocio.Gestion
             }
         }
 
+        public async Task<RespuestaDto<TReturn>> Actualizar_Prestamo_Async<TParam, TReturn>(TParam _modelo)
+        {
+            try
+            {
+                if (_modelo is ActualizarPrestamoDto pago)
+                {
+                    var prestamo = await _context.PRESTAMOS.FirstOrDefaultAsync(p => p.ID == pago.ID);
+                    
+                    if (prestamo != null)
+                    {
+                        prestamo.SALDO_MONTO = (long)pago.SALDO;
+
+                        if (pago.ID_ESTADO.HasValue && pago.ID_ESTADO.Value > 0)
+                        {
+                            prestamo.ID_ESTADO = (long)pago.ID_ESTADO;
+                        }
+                        
+                        await _context.SaveChangesAsync();
+
+                        return new RespuestaDto<TReturn>
+                        {
+                            Codigo = EstadoOperacion.Bueno,
+                            Mensaje = "OK",
+                            Respuesta = (TReturn)Convert.ChangeType(true, typeof(TReturn))
+                        };
+                    }
+                    else
+                    {
+                        return new RespuestaDto<TReturn>
+                        {
+                            Codigo = EstadoOperacion.Malo,
+                            Mensaje = "No de encuentra el prestamo seleccionado.",
+                            Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                        };
+                    }
+
+                }
+                else
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "ERROR",
+                        Respuesta = (TReturn)Convert.ChangeType(_modelo, typeof(TReturn))
+                    };
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Excepcion"
+                };
+            }
+        }
+
         public async Task<RespuestaDto<TReturn>> Obtener_X_Identificacion_Async<TParam, TReturn>(TParam _modelo)
         {
             try
@@ -136,6 +194,58 @@ namespace Negocio.Gestion
                         Codigo = EstadoOperacion.Bueno,
                         Mensaje = "OK",
                         Respuesta = (TReturn)Convert.ChangeType(consulta, typeof(TReturn))
+                    };
+                }
+                else
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "ERROR",
+                        Respuesta = (TReturn)Convert.ChangeType(resp, typeof(TReturn))
+                    };
+                }
+            }
+            catch (Exception)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Excepcion"
+                };
+            }
+        }
+
+        public async Task<RespuestaDto<TReturn>> Obtener_Pagos_Async<TParam, TReturn>(TParam _modelo)
+        {
+            try
+            {
+                List<Pago_Dto> resp = new List<Pago_Dto>();
+
+                if (_modelo is Int64 IdPrestamo)
+                {
+                    var listPagos = await _context.PAGOS
+                                        .Include(p => p.FK_ID_PRESTAMO)
+                                        .Include(p => p.FK_ID_TIPO_PAGO)
+                                        .Where(p => p.ID_PRESTAMO == IdPrestamo)
+                                        .Select(p => new Pago_Dto
+                                        {
+                                            ID = p.ID,
+                                            ID_PRESTAMO = IdPrestamo,
+                                            FECHA_PAGO = p.FECHA_PAGO,
+                                            MONTO = p.MONTO,
+                                            NUMERO_CUOTA = p.NUMERO_CUOTA,
+                                            ID_TIPO_PAGO = p.ID_TIPO_PAGO,
+                                            TIPO_PAGO = p.FK_ID_TIPO_PAGO.Descripcion
+                                        })
+                                        .OrderBy(p => p.FECHA_PAGO)
+                                        .ToListAsync();
+
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "OK",
+                        Respuesta = (TReturn)Convert.ChangeType(listPagos, typeof(TReturn))
                     };
                 }
                 else

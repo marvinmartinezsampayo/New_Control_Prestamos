@@ -7,6 +7,7 @@ using Comun.Generales;
 using Datos.Contratos.Prestamo;
 using Datos.Contratos.Solicitud;
 using Datos.Contratos.Usuario;
+using Datos.Modelos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -172,26 +173,58 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                     {
                         if (modelo.MONTO >= interes)
                         {
+                            //=========================================================================
+                            //-- Validamos si ya pago los intereses del mes si no se pagan intereses --
+                            //=========================================================================
+
+                            var listPagos = await _prestamo.Obtener_Pagos_Async<Int64, List<Pago_Dto>>(modelo.ID_PRESTAMO);
+
+                            var maxCuota = listPagos.Respuesta?
+                                                    .Where(p => p.NUMERO_CUOTA.HasValue)
+                                                    .Select(p => p.NUMERO_CUOTA.Value)
+                                                    .DefaultIfEmpty(0)
+                                                    .Max() ?? 0;
+
+                            var sumInter = listPagos.Respuesta ? 
+                                                        .Where(p => p.ID_PRESTAMO == modelo.ID_PRESTAMO &&
+                                                        p.NUMERO_CUOTA == maxCuota &&
+                                                        p.ID_TIPO_PAGO == 44) 
+                                                        .Sum(p => p.MONTO);
+
+                            var sumCapital = listPagos.Respuesta?
+                                                        .Where(p => p.ID_PRESTAMO == modelo.ID_PRESTAMO &&
+                                                        p.NUMERO_CUOTA == maxCuota &&
+                                                        p.ID_TIPO_PAGO == 45)
+                                                        .Sum(p => p.MONTO);
+
+                            //var CantidadMesesFechas = CantidadMesesEntreFechas(prestamos.FECHA_INICIO, DateTime.Now);
+
+
                             var saldoMonto = modelo.MONTO - interes;
                             bool sw_respPagoInte =false;
                             bool sw_respPagoCap = false;
-                            //-----------------------------------------------------------------
-                            //------------------ Guardamos los intereses ----------------------
-                            //-----------------------------------------------------------------
 
-                            try
+                            if(sumInter < interes)
                             {
-                                RegistrarActualizarPagoDto p = new RegistrarActualizarPagoDto();
-                                p.ID = 0;
-                                p.ID_PRESTAMO = resultado.Respuesta.ID;
-                                p.FECHA_PAGO = modelo.FECHA_PAGO;
-                                p.MONTO = modelo.MONTO;
-                                p.ID_TIPO_PAGO = 44;
+                                //-----------------------------------------------------------------
+                                //------------------ Guardamos los intereses ----------------------
+                                //-----------------------------------------------------------------
+                                try
+                                {
+                                    RegistrarActualizarPagoDto p = new RegistrarActualizarPagoDto();
+                                    p.ID = 0;
+                                    p.ID_PRESTAMO = resultado.Respuesta.ID;
+                                    p.FECHA_PAGO = modelo.FECHA_PAGO;
+                                    p.MONTO = interes;
+                                    p.ID_TIPO_PAGO = 44;
 
-                                var respPagoInte = await _prestamo.Insertar_Pago_Async<RegistrarActualizarPagoDto, string>(p);
-                                sw_respPagoInte = respPagoInte.Estado;
+                                    var respPagoInte = await _prestamo.Insertar_Pago_Async<RegistrarActualizarPagoDto, string>(p);
+                                    sw_respPagoInte = respPagoInte.Estado;
+                                }
+                                catch (Exception) { }
                             }
-                            catch (Exception) { }
+
+                           
 
 
                             //---------------------------------------------------------------------------
@@ -213,13 +246,26 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                                     sw_respPagoCap = respPagoCap.Estado;
                                 }
                                 catch (Exception) { }
-                            }
 
-                            if (sw_respPagoInte)
-                            {
-                                //Actualizar el valor restante del saldo al registro de la tabla prestamo
-                            }
+                                try
+                                { 
+                                    var _saldo = prestamos.SALDO_MONTO - saldoMonto;
 
+                                    ActualizarPrestamoDto a = new ActualizarPrestamoDto();
+                                    a.ID = modelo.ID_PRESTAMO;
+                                    a.SALDO = _saldo;
+
+                                    if (_saldo <= 0)
+                                    {
+                                        a.ID_ESTADO = 52;
+                                    }
+
+                                    var actuPrestamo = await _prestamo.Actualizar_Prestamo_Async<ActualizarPrestamoDto,bool>(a);
+                                }
+                                catch (Exception) { }
+
+                            }
+                            
                             if (sw_respPagoInte && sw_respPagoCap)
                             {
                                 return Json(new RespuestaDto<bool>
@@ -275,6 +321,41 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                 });                
             }
 
+        }
+
+
+        private int CalcularCuotasVencidas(DateTime fechaConsulta, DateTime FechaInicio, Int64 NumeroCuotas)
+        {
+            // Si la fecha de consulta es anterior al inicio, no hay cuotas vencidas
+            if (fechaConsulta < FechaInicio)
+                return 0;
+
+            // Calcular la diferencia total en meses entre FechaInicio y fechaConsulta
+            int mesesTranscurridos = (fechaConsulta.Year - FechaInicio.Year) * 12 + fechaConsulta.Month - FechaInicio.Month;
+
+            // Si el día del mes de fechaConsulta es menor que el día de FechaInicio, restamos un mes
+            if (fechaConsulta.Day < FechaInicio.Day)
+            {
+                mesesTranscurridos--;
+            }
+
+            // Las cuotas vencidas no pueden ser mayores a NumeroCuotas
+            if (mesesTranscurridos < 0) mesesTranscurridos = 0;
+            return (int)Math.Min(mesesTranscurridos, NumeroCuotas);
+        }
+
+        private int CantidadMesesEntreFechas(DateTime fechaInicio, DateTime fechaFin)
+        {
+            // Diferencia en años multiplicada por 12 más la diferencia en meses
+            int diferenciaMeses = (fechaFin.Year - fechaInicio.Year) * 12 + fechaFin.Month - fechaInicio.Month;
+
+            // Si quieres considerar solo meses completos, puedes ajustar según el día
+            if (fechaFin.Day < fechaInicio.Day)
+            {
+                diferenciaMeses--;
+            }
+
+            return diferenciaMeses;
         }
 
 
