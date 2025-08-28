@@ -39,7 +39,8 @@ namespace Negocio.Gestion
                         ID_PRESTAMO = pago.ID_PRESTAMO,
                         FECHA_PAGO = pago.FECHA_PAGO,
                         MONTO = pago.MONTO,
-                        ID_TIPO_PAGO = pago.ID_TIPO_PAGO
+                        ID_TIPO_PAGO = pago.ID_TIPO_PAGO,
+                        NUMERO_CUOTA = (int?)pago.NUMERO_CUOTA
                     };
 
                     await _context.PAGOS.AddAsync(nuevoPago);                    
