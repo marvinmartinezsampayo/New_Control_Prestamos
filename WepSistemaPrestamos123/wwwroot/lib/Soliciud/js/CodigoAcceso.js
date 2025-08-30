@@ -47,8 +47,7 @@ async function ValidarCodigo(codigo)
                 /*var json = JSON.stringify(prestamo);*/
                 var url = `/Solicitud/Prestamo/Registro?json=${encodeURIComponent(post.respuesta)}`;
 
-                // Realiza una llamada AJAX o redirige a la URL
-                window.location.href = url;
+               window.location.href = url;
 
             }
             else

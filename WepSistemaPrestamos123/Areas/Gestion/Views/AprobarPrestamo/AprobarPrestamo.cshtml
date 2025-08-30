@@ -1,0 +1,63 @@
+﻿<link href="~/lib/bootstrap/dist/css/bootstrap-icons.min.css" rel="stylesheet" />
+<style>
+    .nav-link.active {
+        color: #000 !important;
+    }
+</style>
+
+
+<body class="bg-light">
+    <div class="container-fluid py-3">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+                <div class="text-center mb-5">
+                    <h1 class="display-6 fw-bold text-primary">
+                        <i class="bi bi-layout-text-window-reverse me-2"></i>
+                        Gestion de Prestamos
+                    </h1>
+                    <p class="lead text-muted">Sistema de Préstamos Florencia</p>
+                </div>
+
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <i class="fas fa-hand-holding-usd me-1"></i>
+                        Préstamos pendientes de aprobación
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tablaPrestamos" class="datatable table table-striped table-hover table-sm">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th scope="col">Solicitante</th>
+                                        <th scope="col">Identificación</th>
+                                        <th scope="col">Celular</th>
+                                        <th scope="col">Fecha Solicitud</th>
+                                        <th scope="col">Monto</th>
+                                        <th scope="col">Estado</th>
+                                        <th scope="col" class="text-center">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted">
+                                            <i class="bi bi-inbox"></i> No se encontraron préstamos pendientes.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+@section Scripts {
+    <script src="~/lib/AprobacionPrestamo/AprobacionPrestamo.js"></script>
+   
+}

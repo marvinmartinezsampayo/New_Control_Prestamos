@@ -20,7 +20,7 @@ namespace Negocio.Gestion
         private readonly IConfiguration _configuration;
         private readonly IAlmacenarDocumentos _documentos;
         private readonly ContextoGeneral _context;
-       
+
 
         public Gestion_Registro_Solicitud(IConfiguration configuration, ContextoGeneral context, IAlmacenarDocumentos documentos)
         {
@@ -96,7 +96,7 @@ namespace Negocio.Gestion
                             {
                                 Codigo = EstadoOperacion.Malo,
                                 Mensaje = "FALLO",
-                                Respuesta= (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                                Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
                             };
                         }
 
@@ -111,7 +111,7 @@ namespace Negocio.Gestion
                         };
                     }
                 }
-                else 
+                else
                 {
                     return new RespuestaDto<TReturn>
                     {
@@ -120,7 +120,7 @@ namespace Negocio.Gestion
                         Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
                     };
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -141,40 +141,40 @@ namespace Negocio.Gestion
         public async Task<RespuestaDto<TReturn>> ObtenerAsync<TReturn>()
         {
             List<Respuesta_Consulta_Solicitudes_Prestamo_Dto> resp = new List<Respuesta_Consulta_Solicitudes_Prestamo_Dto>();
-                        
-                var consulta = await _context.SOLICITUD_PRESTAMO
-                                    .Where(s => s.Habilitado)
-                                    .OrderByDescending(s => s.FechaCreacion)
-                                    .Select(s => new Respuesta_Consulta_Solicitudes_Prestamo_Dto
-                                    {
-                                        Id = s.Id,
-                                        PrimerNombreSolicitante = s.PrimerNombreSolicitante,
-                                        SegundoNombreSolicitante = s.SegundoNombreSolicitante,
-                                        PrimerApellidoSolicitante = s.PrimerApellidoSolicitante,
-                                        SegundoApellidoSolicitante = s.SegundoApellidoSolicitante,
-                                        TipoIdentificacionId = s.TipoIdentificacionId,
-                                        NumeroIdentificacion = s.NumeroIdentificacion,
-                                        DepartamentoResidenciaId = s.DepartamentoResidenciaId,
-                                        MunicipioResidenciaId = s.MunicipioResidenciaId,
-                                        BarrioResidenciaId = s.BarrioResidenciaId,
-                                        DireccionResidencia = s.DireccionResidencia,
-                                        EstadoId = s.EstadoId,
-                                        Monto = s.Monto,
-                                        Email = s.Email,
-                                        Celular = s.Celular,
-                                        CodigoAcceso = s.CodigoAcceso,
-                                        Habilitado = s.Habilitado,
-                                        FechaCreacion = s.FechaCreacion
-                                    })
-                                    .ToListAsync();
 
-                return new RespuestaDto<TReturn>
-                {
-                    Codigo = EstadoOperacion.Bueno,
-                    Mensaje = "OK",
-                    Respuesta = (TReturn)Convert.ChangeType(consulta, typeof(TReturn))
-                };
-            
+            var consulta = await _context.SOLICITUD_PRESTAMO
+                                .Where(s => s.Habilitado)
+                                .OrderByDescending(s => s.FechaCreacion)
+                                .Select(s => new Respuesta_Consulta_Solicitudes_Prestamo_Dto
+                                {
+                                    Id = s.Id,
+                                    PrimerNombreSolicitante = s.PrimerNombreSolicitante,
+                                    SegundoNombreSolicitante = s.SegundoNombreSolicitante,
+                                    PrimerApellidoSolicitante = s.PrimerApellidoSolicitante,
+                                    SegundoApellidoSolicitante = s.SegundoApellidoSolicitante,
+                                    TipoIdentificacionId = s.TipoIdentificacionId,
+                                    NumeroIdentificacion = s.NumeroIdentificacion,
+                                    DepartamentoResidenciaId = s.DepartamentoResidenciaId,
+                                    MunicipioResidenciaId = s.MunicipioResidenciaId,
+                                    BarrioResidenciaId = s.BarrioResidenciaId,
+                                    DireccionResidencia = s.DireccionResidencia,
+                                    EstadoId = s.EstadoId,
+                                    Monto = s.Monto,
+                                    Email = s.Email,
+                                    Celular = s.Celular,
+                                    CodigoAcceso = s.CodigoAcceso,
+                                    Habilitado = s.Habilitado,
+                                    FechaCreacion = s.FechaCreacion
+                                })
+                                .ToListAsync();
+
+            return new RespuestaDto<TReturn>
+            {
+                Codigo = EstadoOperacion.Bueno,
+                Mensaje = "OK",
+                Respuesta = (TReturn)Convert.ChangeType(consulta, typeof(TReturn))
+            };
+
         }
 
         public async Task<RespuestaDto<TReturn>> ObtenerAsync<TParam, TReturn>(TParam _modelo)
@@ -183,7 +183,7 @@ namespace Negocio.Gestion
 
             if (_modelo is Parametros_Consulta_Solicitudes_X_Estado_Dto parametros)
             {
-                var consulta =  await _context.SOLICITUD_PRESTAMO
+                var consulta = await _context.SOLICITUD_PRESTAMO
                                     .Where(s => s.EstadoId == parametros.ID_ESTADO && s.Habilitado)
                                     .OrderByDescending(s => s.FechaCreacion)
                                     .Select(s => new Respuesta_Consulta_Solicitudes_Prestamo_Dto
@@ -224,7 +224,7 @@ namespace Negocio.Gestion
                     Mensaje = "ERROR",
                     Respuesta = (TReturn)Convert.ChangeType(resp, typeof(TReturn))
                 };
-            }         
+            }
 
         }
 
@@ -261,9 +261,9 @@ namespace Negocio.Gestion
                                     .FirstOrDefaultAsync();
 
                 consulta.Documentos = await _context.DOCUMENTOS_X_SOLICITUD
-                                        .Where(x=>x.IdSolicitud == IdSolicitud)
+                                        .Where(x => x.IdSolicitud == IdSolicitud)
                                          .Select(s => new Parametros_Add_Documento_X_Solicitud_Dto
-                                         { 
+                                         {
                                              IdSolicitud = s.IdSolicitud,
                                              IdDocumento = s.IdDocumento,
                                              ContenidoDoc = s.ContenidoDoc,
@@ -271,7 +271,7 @@ namespace Negocio.Gestion
                                              Tamanio = s.Tamanio,
                                              UsuarioCreacion = s.UsuarioCreacion,
                                              MaquinaCreacion = s.MaquinaCreacion,
-                                             Habilitado = s.Habilitado                                         
+                                             Habilitado = s.Habilitado
                                          })
                                         .ToListAsync();
 
@@ -292,9 +292,9 @@ namespace Negocio.Gestion
                     Respuesta = (TReturn)Convert.ChangeType(resp, typeof(TReturn))
                 };
             }
-        }        
+        }
 
-        private async Task<RespuestaDto<long>> Insert_Solicitud_Prestamo_Async (Parametros_Insert_Solicitud_Prestamo_Dto _modelo)
+        private async Task<RespuestaDto<long>> Insert_Solicitud_Prestamo_Async(Parametros_Insert_Solicitud_Prestamo_Dto _modelo)
         {
             try
             {
@@ -319,7 +319,7 @@ namespace Negocio.Gestion
                         Email = parametros.Email,
                         Celular = parametros.Celular,
                         CodigoAcceso = parametros.CodigoAcceso,
-                        Habilitado = true, 
+                        Habilitado = true,
                         UsuarioCreacion = parametros.UsuarioCreacion ?? "SISTEMA",
                         MaquinaCreacion = Environment.MachineName,
                         FechaCreacion = DateTime.Now
@@ -327,8 +327,8 @@ namespace Negocio.Gestion
 
                     _context.SOLICITUD_PRESTAMO.Add(nuevaSolicitud);
                     await _context.SaveChangesAsync();
-                    long idGenerado =  nuevaSolicitud.Id;
-                                        
+                    long idGenerado = nuevaSolicitud.Id;
+
                     return new RespuestaDto<long>
                     {
                         Codigo = EstadoOperacion.Bueno,
@@ -352,8 +352,8 @@ namespace Negocio.Gestion
                 return new RespuestaDto<long>
                 {
                     Codigo = EstadoOperacion.Excepcion,
-                    Mensaje="Error al Insertar Solicitud",
-                    Respuesta=0
+                    Mensaje = "Error al Insertar Solicitud",
+                    Respuesta = 0
                 };
             }
         }
@@ -391,7 +391,7 @@ namespace Negocio.Gestion
                 return new RespuestaDto<bool>
                 {
                     Codigo = EstadoOperacion.Bueno,
-                    Mensaje = "Estado actualizado correctamente.",
+                    Mensaje = "Operación realizada exitosamente. ",
                     Respuesta = true
                 };
             }
@@ -400,12 +400,15 @@ namespace Negocio.Gestion
                 return new RespuestaDto<bool>
                 {
                     Codigo = EstadoOperacion.Excepcion,
-                    Mensaje = "Ocurrió un error al actualizar el estado.",
+                    Mensaje = "Ocurrió un error en la Operaciónel estado.",
                     Respuesta = false
                 };
             }
         }
 
-        
+
+
+
+
     }
 }

@@ -240,6 +240,13 @@ async function guardarEdicionCodigo() {
     const cantidadRegistros = document.getElementById('editcantidadUsos').value;
     const habilitado = document.getElementById('editHabilitado').checked;
 
+    debugger; 
+    
+    //new Date(fechaHasta) < new Date(fechaDesde)
+    if (fechaFin < fechaInicio ){
+        Swal.fire('Fechas inválidas', 'La fecha fin no puede ser anterior a la fecha de inicio.', 'error');
+        return;
+    }
     // Creo el objeto 
     const datos = {
         codigo,
@@ -260,7 +267,7 @@ async function guardarEdicionCodigo() {
         });
 
         const resultado = await response.json();
-        debugger; 
+      
         if (resultado.estado) {
             Swal.fire('¡Actualizado!', 'El código fue actualizado correctamente.', 'success');
             cargarCodigosDeHoy();
