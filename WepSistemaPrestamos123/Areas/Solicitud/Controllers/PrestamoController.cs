@@ -74,7 +74,7 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
                 //Obtener IP
                 var IpMaquina = _httpContextAccessor.HttpContext?.Connection?.RemoteIpAddress?.ToString();
                               
-                //============= Carga Inicial=================================
+                //============= Carga Inicial ===============
                 var ListDocumentos = await _codigo.ObtenerListaDocAsync<List<Respuesta_Consulta_Documentos_Requeridos>>();
                 var _listaTipoDoc = await _dominio.ListaDetalle(1);
                 var _departamentos = await _lugares.ObtenerAsync<Parametros_Consulta_Lugares_Geograficos_DTO,List<Respuesta_Consulta_Lugares_Geograficos_DTO> >(new Parametros_Consulta_Lugares_Geograficos_DTO { TIPO_LUGAR = "DE" });

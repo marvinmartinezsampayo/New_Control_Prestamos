@@ -4,6 +4,7 @@ using Comun.Enumeracion;
 using Datos.Contratos.Auditoria;
 using Datos.Contratos.Solicitud;
 using Datos.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ using System.Collections.Generic;
 namespace WepPrestamos.Areas.Gestion.Controllers
 {
     [Area("Gestion")]
-    //[Authorize]
+    [Authorize]
     public class SolicitudesController : Controller
     {
         private readonly IRegistroSolicitud _solicitud;
@@ -127,6 +128,53 @@ namespace WepPrestamos.Areas.Gestion.Controllers
             {
                 return NotFound();
             }            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Aprobar([FromBody] Parametros_Actualizar_Estado_Solicitud_Dto Obj)
+        {
+            if (Obj.NuevoEstadoId == 13 )
+            {
+                Obj.NuevoEstadoId = 14;
+            }
+            try
+            {
+                var resultado = await _solicitud.ActualizarEstadoSolicitudAsync(Obj);
+
+                if (resultado.Codigo == EstadoOperacion.Bueno)
+                {
+                    return Json(new { success = true, message = resultado.Mensaje });
+                }
+
+                return Json(new { success = false, message = resultado.Mensaje });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error en el servidor: {ex.Message}" });
+            }
+        }
+
+        public async Task<IActionResult> cancelarSolicitud([FromBody] Parametros_Actualizar_Estado_Solicitud_Dto Obj)
+        {
+            if (Obj.NuevoEstadoId == 13)
+            {
+                Obj.NuevoEstadoId = 17;
+            }
+            try
+            {
+                var resultado = await _solicitud.ActualizarEstadoSolicitudAsync(Obj);
+
+                if (resultado.Codigo == EstadoOperacion.Bueno)
+                {
+                    return Json(new { success = true, message = resultado.Mensaje });
+                }
+
+                return Json(new { success = false, message = resultado.Mensaje });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error en el servidor: {ex.Message}" });
+            }
         }
     }
 }

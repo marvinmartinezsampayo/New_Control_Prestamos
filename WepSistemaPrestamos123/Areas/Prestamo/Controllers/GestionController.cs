@@ -8,6 +8,7 @@ using Datos.Contratos.Prestamo;
 using Datos.Contratos.Solicitud;
 using Datos.Contratos.Usuario;
 using Datos.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -18,7 +19,7 @@ using WepPrestamos.Helpers;
 namespace WepPrestamos.Areas.Prestamo.Controllers
 {
     [Area("Prestamo")]
-    //[Authorize]
+    [Authorize]
     public class GestionController : Controller
     {
         private readonly ILogger<GestionController> _logger;

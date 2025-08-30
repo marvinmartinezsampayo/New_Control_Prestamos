@@ -14,10 +14,12 @@ using Datos.Contratos.Login;
 using Datos.Administracion;
 using Comun.DTO.InsertRolUsuario;
 using Comun.DTO.Auditoria;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WepPrestamos.Areas.Administracion.Controllers
 {
     [Area("Administracion")]
+    [Authorize]
     public class AdministraUsuariosController : Controller
     {
         private readonly IBusacrUsuarioNurIdentificacion _iBusacrUsuarioNurIdentificacion;

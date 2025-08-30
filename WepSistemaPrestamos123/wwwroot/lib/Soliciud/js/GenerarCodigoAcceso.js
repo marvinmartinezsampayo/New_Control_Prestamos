@@ -134,27 +134,73 @@ function cargarCodigosDeHoy() {
         });
 }
 
-// busqueda por fechas filtradas 
+// busqueda por fechas filtradas
 document.getElementById('formBuscarCodigos').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     const fechaDesde = document.getElementById('fechaDesde').value;
     const fechaHasta = document.getElementById('fechaHasta').value;
+    const codigoBuscar = document.getElementById('codigoBuscar').value.trim();
 
-    if (!fechaDesde || !fechaHasta) {
-        Swal.fire('Faltan datos', 'Debe ingresar ambas fechas', 'warning');
+    debugger;
+    // Validación: Todos los campos están vacíos
+    if (!fechaDesde && !fechaHasta && !codigoBuscar) {
+        Swal.fire('Faltan datos', 'Debe ingresar un código o un rango de fechas.', 'warning');
         return;
     }
 
-    try {
-        const response = await fetch(`/Solicitud/CodigoAcceso/BuscarCodigosPorFechas?fechaInicio=${fechaDesde}&fechaFin=${fechaHasta}`);
-        const codigos = await response.json();
-        renderizarCodigos(codigos);
-    } catch (error) {
-        console.error('Error al buscar códigos:', error);
-        Swal.fire('Error', 'Ocurrió un error al buscar los códigos.', 'error');
+    // Validación: Código + fechas => no permitido
+    if (codigoBuscar && (fechaDesde || fechaHasta)) {
+        Swal.fire('Validación', 'Debe buscar por *código* o por *fechas*, pero no ambos.', 'warning');
+        return;
+    }
+
+    // Validación: Solo fechas (fechaInicio y fechaFin deben estar presentes y válidas)
+    if ((fechaDesde || fechaHasta) && !codigoBuscar) {
+        if (!fechaDesde || !fechaHasta) {
+            Swal.fire('Faltan fechas', 'Debe seleccionar ambas fechas para buscar por rango.', 'warning');
+            return;
+        }
+
+        if (new Date(fechaHasta) < new Date(fechaDesde)) {
+            Swal.fire('Fechas inválidas', 'La fecha fin no puede ser anterior a la fecha de inicio.', 'error');
+            return;
+        }
+
+        // Ejecutar búsqueda solo por fechas
+        try {
+            const response = await fetch(`/Solicitud/CodigoAcceso/BuscarCodigosPorFechas?fechaInicio=${fechaDesde}&fechaFin=${fechaHasta}&Codigo=`);
+            const codigos = await response.json();
+            renderizarCodigos(codigos);
+        } catch (error) {
+            console.error('Error al buscar por fechas:', error);
+            Swal.fire('Error', 'Ocurrió un error al buscar los códigos por fechas.', 'error');
+        }
+
+        return;
+    }
+
+    // Ejecutar búsqueda solo por código
+    if (codigoBuscar) {
+        try {
+            const response = await fetch(`/Solicitud/CodigoAcceso/BuscarCodigosPorFechas?fechaInicio=&fechaFin=&Codigo=${encodeURIComponent(codigoBuscar)}`);
+            const codigos = await response.json();
+            renderizarCodigos(codigos);
+        } catch (error) {
+            console.error('Error al buscar por código:', error);
+            Swal.fire('Error', 'Ocurrió un error al buscar el código.', 'error');
+        }
     }
 });
+
+function limpiarBusqueda() {
+    document.getElementById('codigoBuscar').value = '';
+    document.getElementById('fechaDesde').value = '';
+    document.getElementById('fechaHasta').value = '';
+
+    Swal.fire('Campos limpiados', '', 'success');
+}
+
 //funcion para las tabla 
 function inicializarTablaCodigos(idTabla = "tablaCodigos") {
     const tabla = document.querySelector(`#${idTabla}`);
@@ -194,6 +240,13 @@ async function guardarEdicionCodigo() {
     const cantidadRegistros = document.getElementById('editcantidadUsos').value;
     const habilitado = document.getElementById('editHabilitado').checked;
 
+    debugger; 
+    
+    //new Date(fechaHasta) < new Date(fechaDesde)
+    if (fechaFin < fechaInicio ){
+        Swal.fire('Fechas inválidas', 'La fecha fin no puede ser anterior a la fecha de inicio.', 'error');
+        return;
+    }
     // Creo el objeto 
     const datos = {
         codigo,
@@ -214,7 +267,7 @@ async function guardarEdicionCodigo() {
         });
 
         const resultado = await response.json();
-
+      
         if (resultado.estado) {
             Swal.fire('¡Actualizado!', 'El código fue actualizado correctamente.', 'success');
             cargarCodigosDeHoy();
@@ -222,7 +275,7 @@ async function guardarEdicionCodigo() {
             modal.hide();
             limpiarCamposGenerarCodigo();
         } else {
-            Swal.fire('Error', 'No se pudo actualizar el código.', 'error');
+            Swal.fire('Error', `${resultado.mensaje}`,'error');
             limpiarCamposGenerarCodigo();
         }
 
@@ -275,6 +328,7 @@ function limpiarCamposGenerarCodigo() {
     document.getElementById("cantidadUsos").value = "";
     document.getElementById("fechaDesde").value = "";
     document.getElementById("fechaHasta").value = "";
+    document.getElementById('codigoBuscar').value = '';
 
 }
 
