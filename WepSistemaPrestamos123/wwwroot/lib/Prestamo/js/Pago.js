@@ -203,11 +203,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const post = await resPost.json();
         if (post.estado) {
-            modalPagarPrestamo.hide();
-            alert('Pago registrado exitosamente');
-            location.reload();
-        } else {
-            alert('Error: ' + post.message); // ← Corregir: era "result.message"
+
+            Swal.fire({
+                icon: "success",
+                title: "Operación Realizada!",
+                text: post.mensaje
+            });
+
+            modalPago.hide();
+            //alert('Pago registrado exitosamente');
+            //location.reload();
+        }
+        else
+        {
+            if (post.codigo < 0)
+            {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error!",
+                    text: post.mensaje
+                });
+            }
+            else
+            {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Precaución !",
+                    text: post.mensaje
+                });
+            }
+            
+            //alert('Error: ' + post.mensaje); // ← Corregir: era "result.message"
         }
     });
 
