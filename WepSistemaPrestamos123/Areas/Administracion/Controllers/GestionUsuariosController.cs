@@ -14,7 +14,7 @@ using Negocio.InsertUsuario;
 namespace WepPrestamos.Areas.Administracion.Controllers
 {
     [Area("Administracion")]
-    //[Authorize]
+    [Authorize]
     public class GestionUsuariosController : Controller
     {
 

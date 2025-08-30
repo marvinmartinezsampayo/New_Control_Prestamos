@@ -90,11 +90,11 @@ namespace WepPrestamos.Controllers
 
             foreach (var rol in listRoles)
             {
-             
+
                 claims.Add(new Claim(ClaimTypes.Role, rol.ID_ROL.ToString()));
-              
+
                 claims.Add(new Claim("RoleName", rol.ROL_STR ?? ""));
-             
+
                 claims.Add(new Claim("RoleData", $"{rol.ID_ROL}|{rol.ROL_STR}|{rol.ROL_DESCRIPCION}"));
             }
 
@@ -116,7 +116,10 @@ namespace WepPrestamos.Controllers
         public async Task<IActionResult> CerrarSesion()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Clear();
             return RedirectToAction(nameof(Login));
         }
+      
+
     }
 }

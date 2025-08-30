@@ -253,9 +253,27 @@
                                                             @foreach (var solicitud in solicitudesRevi)
                                                             {
                                                                 <tr>
-                                                                    <th scope="row" class="d-flex justify-content-center align-items-center">
-                                                                        <button type="button" class="btn btn-primary btn-sm" title="Ver">
+                                                                    <th scope="row" class="d-flex justify-content-center align-items-center gap-2">
+                                                                        <!-- Botón Ver -->
+                                                                        <button type="button"
+                                                                                class="btn btn-primary btn-sm"
+                                                                                title="Ver"
+                                                                                onclick="verSolicitud(@solicitud.Id,@solicitud.EstadoId)">
                                                                             <i class="bi bi-eye-fill"></i>
+                                                                        </button>
+                                                                        <!-- Botón Aprobar -->
+                                                                        <button type="button"
+                                                                                class="btn btn-success btn-sm"
+                                                                                title="Aprobar"
+                                                                                onclick="aprobarSolicitud(@solicitud.Id,@solicitud.EstadoId)">
+                                                                            <i class="bi bi-check-circle-fill"></i>
+                                                                        </button>
+                                                                        <!-- Botón Cancelar -->
+                                                                        <button type="button"
+                                                                                class="btn btn-danger btn-sm"
+                                                                                title="Cancelar"
+                                                                                onclick="cancelarSolicitud(@solicitud.Id, @solicitud.EstadoId)">
+                                                                            <i class="bi bi-x-circle-fill"></i>
                                                                         </button>
                                                                     </th>
                                                                     <td>@solicitud.NombreCompleto</td>
@@ -283,167 +301,14 @@
                                 </div>
                             </div>
 
-                            <!-- Tab Configuración -->
-                            @*   <div class="tab-pane fade" id="settings-tab-pane" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h6 class="mb-0">
-                                                    <i class="bi bi-bell me-2"></i>
-                                                    Notificaciones
-                                                </h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="form-check form-switch mb-3">
-                                                    <input class="form-check-input" type="checkbox" id="emailNotif" checked>
-                                                    <label class="form-check-label" for="emailNotif">
-                                                        Notificaciones por email
-                                                    </label>
-                                                </div>
-                                                <div class="form-check form-switch mb-3">
-                                                    <input class="form-check-input" type="checkbox" id="smsNotif">
-                                                    <label class="form-check-label" for="smsNotif">
-                                                        Notificaciones por SMS
-                                                    </label>
-                                                </div>
-                                                <div class="form-check form-switch mb-3">
-                                                    <input class="form-check-input" type="checkbox" id="pushNotif" checked>
-                                                    <label class="form-check-label" for="pushNotif">
-                                                        Notificaciones push
-                                                    </label>
-                                                </div>
-                                                <div class="form-check form-switch">
-                                                    <input class="form-check-input" type="checkbox" id="marketingNotif">
-                                                    <label class="form-check-label" for="marketingNotif">
-                                                        Comunicaciones de marketing
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card mt-3">
-                                            <div class="card-header">
-                                                <h6 class="mb-0">
-                                                    <i class="bi bi-shield-lock me-2"></i>
-                                                    Seguridad
-                                                </h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label for="currentPassword" class="form-label">Contraseña Actual</label>
-                                                    <input type="password" class="form-control" id="currentPassword">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="newPassword" class="form-label">Nueva Contraseña</label>
-                                                    <input type="password" class="form-control" id="newPassword">
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="confirmPassword" class="form-label">Confirmar Contraseña</label>
-                                                    <input type="password" class="form-control" id="confirmPassword">
-                                                </div>
-                                                <button class="btn btn-warning">
-                                                    <i class="bi bi-key me-1"></i>
-                                                    Cambiar Contraseña
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h6 class="mb-0">
-                                                    <i class="bi bi-palette me-2"></i>
-                                                    Preferencias de Interfaz
-                                                </h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="mb-3">
-                                                    <label for="theme" class="form-label">Tema</label>
-                                                    <select class="form-select" id="theme">
-                                                        <option value="light" selected>Claro</option>
-                                                        <option value="dark">Oscuro</option>
-                                                        <option value="auto">Automático</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="language" class="form-label">Idioma</label>
-                                                    <select class="form-select" id="language">
-                                                        <option value="es" selected>Español</option>
-                                                        <option value="en">English</option>
-                                                        <option value="fr">Français</option>
-                                                        <option value="pt">Português</option>
-                                                    </select>
-                                                </div>
-                                                <div class="mb-3">
-                                                    <label for="timezone" class="form-label">Zona Horaria</label>
-                                                    <select class="form-select" id="timezone">
-                                                        <option value="america/bogota" selected>América/Bogotá (GMT-5)</option>
-                                                        <option value="america/mexico_city">América/Ciudad_de_México (GMT-6)</option>
-                                                        <option value="america/new_york">América/Nueva_York (GMT-5)</option>
-                                                        <option value="europe/madrid">Europa/Madrid (GMT+1)</option>
-                                                    </select>
-                                                </div>
-                                                <div class="form-check mb-3">
-                                                    <input class="form-check-input" type="checkbox" id="compactMode">
-                                                    <label class="form-check-label" for="compactMode">
-                                                        Modo compacto
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="card mt-3">
-                                            <div class="card-header">
-                                                <h6 class="mb-0">
-                                                    <i class="bi bi-download me-2"></i>
-                                                    Exportar Datos
-                                                </h6>
-                                            </div>
-                                            <div class="card-body">
-                                                <p class="text-muted">Descarga una copia de todos tus datos.</p>
-                                                <div class="d-grid gap-2">
-                                                    <button class="btn btn-outline-primary">
-                                                        <i class="bi bi-file-earmark-pdf me-1"></i>
-                                                        Exportar como PDF
-                                                    </button>
-                                                    <button class="btn btn-outline-success">
-                                                        <i class="bi bi-file-earmark-spreadsheet me-1"></i>
-                                                        Exportar como Excel
-                                                    </button>
-                                                    <button class="btn btn-outline-info">
-                                                        <i class="bi bi-filetype-json me-1"></i>
-                                                        Exportar como JSON
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row mt-4">
-                                    <div class="col-12">
-                                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                            <button class="btn btn-outline-secondary me-md-2" type="button">
-                                                <i class="bi bi-arrow-clockwise me-1"></i>
-                                                Restablecer
-                                            </button>
-                                            <button class="btn btn-success" type="button">
-                                                <i class="bi bi-check-lg me-1"></i>
-                                                Guardar Configuración
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> *@
+                         
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script src="~/lib/bootstrap/dist/js/bootstrap5.3.2.bundle.min.js"></script>
+
     <script src="~/lib/Soliciud/js/ValidarCod.js" />
     //
     <script>

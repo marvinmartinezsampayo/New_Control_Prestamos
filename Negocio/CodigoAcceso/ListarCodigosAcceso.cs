@@ -3,6 +3,7 @@ using Comun.Enumeracion;
 using Comun.Generales;
 using Datos.CodigoAcceso;
 using Datos.Contexto;
+using Datos.Modelos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -64,24 +65,49 @@ namespace Negocio.CodigoAcceso
             }
         }
 
-        public async Task<RespuestaDto<TReturn>> ObtenerCodigosPorFechasAsync<TReturn>(DateTime fechaInicio, DateTime fechaFin)
+        public async Task<RespuestaDto<TReturn>> ObtenerCodigosPorFechasAsync<TReturn>(DateTime fechaInicio, DateTime fechaFin, string Codigo)
         {
             try
             {
-                var codigos = await _context.CODIGO_ACCESO
-                 .Where(c =>
-                     c.FechaInicio >= fechaInicio &&
-                     c.FechaFin <= fechaFin)
-                 .Select(c => new Codigo_AccesoDto
-                 {
-                     Codigo = c.Codigo,
-                     FechaInicio = c.FechaInicio,
-                     FechaFin = c.FechaFin,
-                     CantidadRegistros = (int)c.CantidadRegistros,
-                     UsuarioCreacion = c.UsuarioCreacion,
-                     Habilitado = c.Habilitado
-                 })
-                 .ToListAsync();
+                IQueryable<CODIGO_ACCESO> query = _context.CODIGO_ACCESO;
+
+                // Validar si vienen parámetros útiles
+                bool vieneCodigo = !string.IsNullOrWhiteSpace(Codigo);
+                bool vieneFechas = fechaInicio != DateTime.MinValue && fechaFin != DateTime.MinValue;
+
+                // Si viene código, filtra por código
+                if (vieneCodigo)
+                {
+                    query = query.Where(c => c.Codigo.Contains(Codigo));
+                }
+                // Si no viene código, pero sí fechas válidas, filtra por fechas
+                else if (vieneFechas)
+                {
+                    query = query.Where(c => c.FechaInicio >= fechaInicio && c.FechaFin <= fechaFin);
+                }
+                // Si no viene ni código ni fechas válidas, se retorna advertencia
+                else
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Excepcion,
+                        Mensaje = "Debe ingresar al menos un filtro (código o fechas).",
+                        Respuesta = default
+                    };
+                }
+
+                // Ejecutar la consulta y transformar resultados
+                var codigos = await query
+                    .Select(c => new Codigo_AccesoDto
+                    {
+                        Codigo = c.Codigo,
+                        FechaInicio = c.FechaInicio,
+                        FechaFin = c.FechaFin,
+                        CantidadRegistros = (int)c.CantidadRegistros,
+                        UsuarioCreacion = c.UsuarioCreacion,
+                        Habilitado = c.Habilitado
+                    })
+                    .ToListAsync();
 
                 return new RespuestaDto<TReturn>
                 {
@@ -101,6 +127,7 @@ namespace Negocio.CodigoAcceso
             }
         }
 
+
         public async Task<RespuestaDto<string>> ActualizarCodigoAccesoAsync(UpdateCodigoosAcccesoDto dto)
         {
             try
@@ -118,15 +145,32 @@ namespace Negocio.CodigoAcceso
                     };
                 }
 
-                // Solo actualiza si el campo viene con valor
+                
+                if (dto.CantidadRegistros.HasValue)
+                {
+                    // Contar cuántas solicitudes ya usan este código
+                    int totalUsosCodigo = await _context.SOLICITUD_PRESTAMO
+                        .CountAsync(s => s.CodigoAcceso == dto.Codigo);
+
+                    if (dto.CantidadRegistros.Value < totalUsosCodigo)
+                    {
+                        return new RespuestaDto<string>
+                        {
+                            Codigo = EstadoOperacion.Excepcion,
+                            Mensaje = $"No se puede establecer la cantidad en {dto.CantidadRegistros.Value}, ya existen {totalUsosCodigo} solicitudes con este código.",
+                            Respuesta = null
+                        };
+                    }
+
+                    // Solo si pasa la validación, actualizamos
+                    codigoAcceso.CantidadRegistros = dto.CantidadRegistros.Value;
+                }
+
                 if (dto.FechaInicio.HasValue)
                     codigoAcceso.FechaInicio = dto.FechaInicio.Value;
 
                 if (dto.FechaFin.HasValue)
                     codigoAcceso.FechaFin = dto.FechaFin.Value;
-
-                if (dto.CantidadRegistros.HasValue)
-                    codigoAcceso.CantidadRegistros = dto.CantidadRegistros.Value;
 
                 if (dto.Habilitado.HasValue)
                     codigoAcceso.Habilitado = dto.Habilitado.Value;
@@ -150,6 +194,7 @@ namespace Negocio.CodigoAcceso
                 };
             }
         }
+
 
 
     }
