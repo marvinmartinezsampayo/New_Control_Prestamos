@@ -64,9 +64,11 @@
                                             <span asp-validation-for="Usuario" class="text-yellow"></span>
                                             <label for="Usuario">Usuario</label>
                                         </div>
-                                        <div class="form-floating mb-3">
-                                            <input asp-for="Clave" class="form-control" type="password" placeholder="Contraseña" required />
-                                            @* <i class="bi bi-lock-fill fs-4 position-absolute top-50 end-0 translate-middle-y me-3"></i> *@
+                                        <div class="form-floating mb-3" position-relative">
+                                            <input asp-for="Clave" id="Clave" class="form-control" type="password" placeholder="Contraseña" required />
+                                            <i id="togglePassword"
+                                               class="bi bi-lock-fill fs-4 position-absolute top-50 end-0 translate-middle-y me-3"
+                                               style="cursor:pointer; z-index: 5;"></i>
                                             <span asp-validation-for="Clave" class="text-yellow"></span>
 
                                             <label for="Clave">Contreseña</label>

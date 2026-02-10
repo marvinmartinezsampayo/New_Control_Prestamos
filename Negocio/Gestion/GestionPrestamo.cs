@@ -20,9 +20,9 @@ namespace Negocio.Gestion
     public class GestionPrestamo : IGestionPrestamo
     {
         private readonly IConfiguration _configuration;
-        private readonly ContextoGeneral _context;
+        private readonly ContextoLocal _context;
 
-        public GestionPrestamo(IConfiguration configuration, ContextoGeneral context)
+        public GestionPrestamo(IConfiguration configuration, ContextoLocal context)
         {
             _configuration = configuration;
             _context = context;

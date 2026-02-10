@@ -240,7 +240,7 @@ async function guardarEdicionCodigo() {
     const cantidadRegistros = document.getElementById('editcantidadUsos').value;
     const habilitado = document.getElementById('editHabilitado').checked;
 
-    debugger; 
+   
     
     //new Date(fechaHasta) < new Date(fechaDesde)
     if (fechaFin < fechaInicio ){

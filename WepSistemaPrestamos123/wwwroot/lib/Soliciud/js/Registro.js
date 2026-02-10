@@ -187,11 +187,11 @@
         event.preventDefault();
         event.stopPropagation();
 
-        if (!loanForm.checkValidity()) {
-            loanForm.classList.add('was-validated');
-            console.log('Formulario tiene errores de validación');
-            return;
-        }
+        //if (!loanForm.checkValidity()) {
+        //    loanForm.classList.add('was-validated');
+        //    console.log('Formulario tiene errores de validación');
+        //    return;
+        //}
         const nuevomonto = Number(document.getElementById('montoSolicitado').value.replace(/\D/g, ''));
         console.log(nuevomonto);
         ////Armamos el documento
@@ -227,7 +227,7 @@
         const originalText = submitBtn.innerHTML;
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enviando...';
-        debugger; 
+        
         console.log(formData);
         try {
             const response = await fetch('/Solicitud/Prestamo/Add_Loan_Request', {
@@ -240,7 +240,7 @@
             });
 
             const result = await response.json(); 
-            debugger; 
+            
             if (response.ok) {
                 if (result.estado === true) {
                     Swal.fire({
