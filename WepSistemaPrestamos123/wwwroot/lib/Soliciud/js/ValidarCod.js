@@ -8,7 +8,7 @@ function verSolicitud(id, estadoId) {
 
 
 async function aprobarSolicitud(id, estadoId) {
-    debugger;
+    
     
 
     Obj = {
