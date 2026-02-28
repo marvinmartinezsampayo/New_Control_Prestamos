@@ -4,8 +4,8 @@
 
 async function cargarPrestamos() {
     try {
-        
-        const response = await fetch('/Gestion/AprobarPrestamo/ObtenerPrestamos'); 
+
+        const response = await fetch(`${window.appConfig.baseUrl}Gestion/AprobarPrestamo/ObtenerPrestamos`); 
         if (!response.ok) throw new Error("Error al obtener los préstamos");
 
         const data = await response.json();
@@ -67,7 +67,7 @@ function renderTabla(prestamos) {
 // ===== Acciones con botones =====
 function verPrestamo(id, estadoId) {
     console.log("ID:", id, "Estado:", estadoId);
-    const url = `/Gestion/Solicitudes/Validar?id=${id}&estadoId=${estadoId}`;
+    const url = `${window.appConfig.baseUrl}Gestion/Solicitudes/Validar?id=${id}&estadoId=${estadoId}`;
     window.location.href = url;
 }
 
@@ -75,7 +75,7 @@ function verPrestamo(id, estadoId) {
 async function cambiarEstadoSolicitud(id, estadoId, tipo) {
     const acciones = {
         aprobar: {
-            url: '/Gestion/AprobarPrestamo/PrestamoAprobado',
+            url: `${window.appConfig.baseUrl}Gestion/AprobarPrestamo/PrestamoAprobado`,
             titulo: "¿Aprobar préstamo?",
             texto: "Si apruebas, pasará al estado 'Crédito aprobado'.",
             icono: "question",
@@ -84,7 +84,7 @@ async function cambiarEstadoSolicitud(id, estadoId, tipo) {
             successTitle: "Éxito"
         },
         cancelar: {
-            url: '/Gestion/AprobarPrestamo/CancelarPrestamo',
+            url: `${window.appConfig.baseUrl}Gestion/AprobarPrestamo/CancelarPrestamo`,
             titulo: "¿Cancelar préstamo?",
             texto: "Si cancelas, pasará al estado 'Denegada'.",
             icono: "warning",

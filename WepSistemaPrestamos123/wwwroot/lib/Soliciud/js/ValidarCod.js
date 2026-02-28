@@ -1,10 +1,8 @@
 ﻿
 function verSolicitud(id, estadoId) {
-    const url = `/Gestion/Solicitudes/Validar?id=${id}&estadoId=${estadoId}`;
+    const url = `${window.appConfig.baseUrl}Gestion/Solicitudes/Validar?id=${id}&estadoId=${estadoId}`;
     window.location.href = url;
 }
-
-
 
 
 async function aprobarSolicitud(id, estadoId) {
@@ -17,7 +15,7 @@ async function aprobarSolicitud(id, estadoId) {
     }
 
     try {
-        const response = await fetch('/Gestion/Solicitudes/Aprobar', {
+        const response = await fetch(`${window.appConfig.baseUrl}Gestion/Solicitudes/Aprobar`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(Obj)
@@ -27,8 +25,7 @@ async function aprobarSolicitud(id, estadoId) {
 
         if (data.success) {
             Swal.fire("Éxito", data.message, "success");
-            window.location.reload(); // ojo esto solo si no hay uchos datos esto requiere mucho mas codigo para solo hacer la peticion por (AJAX + PartialView) mucho mas codigo
-            // refrescar tabla o actualizar UI
+            window.location.reload(); 
         } else {
             Swal.fire(" Error", data.message, "error");
         }
@@ -47,7 +44,7 @@ async function cancelarSolicitud(id, estadoId) {
     };
 
     try {
-        const response = await fetch('/Gestion/Solicitudes/cancelarSolicitud', {
+        const response = await fetch(`${window.appConfig.baseUrl}Gestion/Solicitudes/cancelarSolicitud`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(obj)

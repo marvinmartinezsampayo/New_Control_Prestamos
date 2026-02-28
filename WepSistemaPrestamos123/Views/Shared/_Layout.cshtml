@@ -14,7 +14,12 @@
 
     
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2" defer></script>
-
+    <!-- Config global -->
+    <script>
+        window.appConfig = {
+            baseUrl: '@Url.Content("~/")'
+        };
+    </script>
 
     <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
     @await RenderSectionAsync("ScriptsHeader", required: false)
@@ -67,10 +72,10 @@
                             </a>
                             <div class="collapse" id="collapseAdmin" aria-labelledby="headingGestion" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/Administracion/GestionUsuarios/GestionUsuarios">Gestión Usuarios</a>
+                                    <a class="nav-link" href="~/Administracion/GestionUsuarios/GestionUsuarios">Gestión Usuarios</a>
                                 </nav>
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/Administracion/AdministraUsuarios/index">Roles Usuario</a>
+                                    <a class="nav-link" href="~/Administracion/AdministraUsuarios/index">Roles Usuario</a>
                                 </nav>
                             </div>
                         }
@@ -85,10 +90,10 @@
                             </a>
                             <div class="collapse" id="collapseGestion" aria-labelledby="headingGestion" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/gestion/solicitudes/index">Ver Solicitudes</a>
+                                    <a class="nav-link" href="~/gestion/solicitudes/index">Ver Solicitudes</a>
                                 </nav>
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/Gestion/AprobarPrestamo/AprobarPrestamo">Aprobar Prestamos</a>
+                                    <a class="nav-link" href="~/Gestion/AprobarPrestamo/AprobarPrestamo">Aprobar Prestamos</a>
                                 </nav>
                             </div>
                         }
@@ -103,10 +108,10 @@
                             </a>
                             <div class="collapse" id="collapseSolicitud" aria-labelledby="headingSolicitud" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/solicitud/prestamo/solicitar">Solicitud Nueva</a>
+                                    <a class="nav-link" href="~/solicitud/prestamo/solicitar">Solicitud Nueva</a>
                                 </nav>
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/solicitud/CodigoAcceso/IndexCodigoAcceso">Generar Codigo</a>
+                                    <a class="nav-link" href="~/solicitud/CodigoAcceso/IndexCodigoAcceso">Generar Codigo</a>
                                 </nav>
                             </div>
                         }
@@ -120,7 +125,7 @@
                             </a>
                             <div class="collapse" id="collapsePrestamo" aria-labelledby="headingPrestamo" data-bs-parent="#sidenavAccordion">
                                 <nav class="sb-sidenav-menu-nested nav">
-                                    <a class="nav-link" href="/prestamo/gestion/pago">Gestion Pagos</a>
+                                    <a class="nav-link" href="~/prestamo/gestion/pago">Gestion Pagos</a>
                                 </nav>
                             </div>
                         }

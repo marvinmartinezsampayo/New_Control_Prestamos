@@ -25,16 +25,14 @@ btnValida.addEventListener('click', function (e) {
 async function ValidarCodigo(codigo)
 {
     try {
-        if (codigo === null || codigo === undefined || codigo === "")
-        {
-            
+        if (codigo === null || codigo === undefined || codigo === "") {
+
         }
-        else
-        {
+        else {
             const data = new FormData();
             data.append('_codigoUser', codigo);
 
-            const resPost = await fetch('/Solicitud/Prestamo/ValidarCodigo', {
+            const resPost = await fetch( `${window.appConfig.baseUrl}Solicitud/Prestamo/ValidarCodigo`, {
                 method: 'POST',
                 body: data
             });
@@ -43,9 +41,7 @@ async function ValidarCodigo(codigo)
             if (post.estado) {
                 txtCod.classList.remove('is-invalid');
 
-                //localStorage.setItem('Resp_Codigo', post.respuesta)
-                /*var json = JSON.stringify(prestamo);*/
-                var url = `/Solicitud/Prestamo/Registro?json=${encodeURIComponent(post.respuesta)}`;
+                var url = `${window.appConfig.baseUrl}Solicitud/Prestamo/Registro?json=${encodeURIComponent(post.respuesta)}`;
 
                window.location.href = url;
 

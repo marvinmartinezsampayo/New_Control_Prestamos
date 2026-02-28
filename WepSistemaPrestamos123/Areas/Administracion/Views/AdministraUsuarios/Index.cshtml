@@ -21,7 +21,7 @@
             </div>
 
             <!-- Buscar por identificación -->
-            <form method="get" action="/Administracion/AdministraUsuarios/BuscarPorIdentificacion">
+            <form method="get" action="~/Administracion/AdministraUsuarios/BuscarPorIdentificacion">
                 <div class="row mb-4">
                     <div class="col-12 col-md-9 mb-3 mb-md-0">
                         <input type="text" name="nroIdentificacion" class="form-control p-2" placeholder="Buscar por identificación..." />
@@ -39,8 +39,12 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 text-center mb-3">
-                                <img src="@(string.IsNullOrEmpty(ViewBag.FotoBase64) ? "/IMG/Imagenes/default-user.png" : ViewBag.FotoBase64)"
-                                     class="img-fluid rounded border" alt="Foto del usuario" />
+                                <img src="@(string.IsNullOrEmpty(ViewBag.FotoBase64)
+                                         ? Url.Content("~/IMG/Imagenes/default-user.png")
+                                         : ViewBag.FotoBase64)"
+                                 class="img-fluid rounded border"
+                                 alt="Foto del usuario" />
+
                             </div>
 
                             <div class="col-md-9">
@@ -80,7 +84,7 @@
                                 </div>
 
                                 <!-- Gestión de roles -->
-                                <form method="post" action="/Administracion/AdministraUsuarios/GestionarRol">
+                                <form method="post" action="~/Administracion/AdministraUsuarios/GestionarRol">
                                     <div class="mb-3">
                                         <label for="rol" class="form-label">Selecciona un rol:</label>
                                         @Html.DropDownList("rolSeleccionado", rolesDisponibles, "-- Selecciona un rol --", new { @class = "form-select", required = "required" })

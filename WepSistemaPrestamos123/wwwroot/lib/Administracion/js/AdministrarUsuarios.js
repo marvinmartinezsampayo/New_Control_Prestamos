@@ -35,7 +35,7 @@
             allowEscapeKey: false,
             customClass: {
                 popup: 'animated bounceIn',
-                confirmButton: 'btn btn-success' // Puedes cambiar a otro si quieres más coherencia visual
+                confirmButton: 'btn btn-success' 
             },
             buttonsStyling: false 
         }).then((result) => {

@@ -132,10 +132,6 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
             return View();
         }
 
-        //public IActionResult Registro()
-        //{
-        //    return View();
-        //}
 
         [HttpPost]
         public async Task<IActionResult> ValidarCodigo(string _codigoUser)
