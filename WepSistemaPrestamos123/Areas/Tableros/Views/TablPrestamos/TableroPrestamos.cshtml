@@ -78,6 +78,10 @@
     .table {
         overflow: visible !important;
     }
+
+    .dropdown-menu {
+        z-index: 9999 !important;
+    }
 </style>
 
 <body class="bg-light">
@@ -237,6 +241,7 @@
             <!-- Tarjetas resumen conteo -->
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-11">
+                    <hr />
                     <div class="row g-3">
 
                         <!-- Total préstamos -->
@@ -348,7 +353,7 @@
                                             var nombreCompleto = $"{prestamo.P_NOMBRE_SOLICITANTE} {prestamo.S_NOMBRE_SOLICITANTE} {prestamo.P_APELLIDO_SOLICITANTE} {prestamo.S_APELLIDO_SOLICITANTE}".Trim();
                                             <tr>
                                                 <td class="text-center">
-                                                    <div class="dropdown">
+                                                    <div class="dropdown">                                                      
                                                         <button class="btn btn-sm btn-light border-0 p-1"
                                                                 type="button"
                                                                 data-bs-toggle="dropdown"
@@ -360,7 +365,7 @@
                                                             <li>
                                                                 <a class="dropdown-item small"
                                                                    href="#"
-                                                                   onclick="AgregarPago(@prestamo.ID_SOLICITUD)">
+                                                                   onclick="AgregarPago(@prestamo.ID_PRESTAMO, @prestamo.INTERES_MES, @prestamo.RETORNO_MES)">
                                                                     <i class="bi bi-cash-coin text-success me-2"></i>
                                                                     Agregar Pago
                                                                 </a>
@@ -456,6 +461,118 @@
 
     </div>
 
+    <!-- ===== MODAL AGREGAR PAGO ===== -->
+    <div class="modal fade" id="modalAgregarPago" tabindex="-1" aria-labelledby="modalAgregarPagoLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow">
+
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="modalAgregarPagoLabel">
+                        <i class="bi bi-cash-coin me-2"></i>
+                        Registrar Pago
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <form id="formAgregarPago">
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" id="pago_ID_PRESTAMO" name="ID_PRESTAMO" />
+                        <input type="hidden" id="pago_INTERES_MES" />
+                        <input type="hidden" id="pago_MONTO_MINIMO" />
+
+                        <!-- Info del préstamo -->
+                        <div id="pago_info_interes" class="alert alert-info py-2 small mb-3 d-none">
+                            <div class="d-flex align-items-center">
+                                <div class="me-2 d-flex justify-content-center align-items-center">
+                                    <i class="bi bi-info-circle fs-5"></i>
+                                </div>
+                                <div>
+                                    Interés del mes: <strong id="pago_label_interes"></strong><br>
+                                    Monto sugerido (Interés + retorno): <strong id="pago_label_minimo"></strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Fecha de Pago -->
+                        <div class="mb-3">
+                            <label for="pago_FECHA_PAGO" class="form-label fw-semibold">
+                                <i class="bi bi-calendar-date me-1 text-muted"></i>
+                                Fecha de Pago
+                            </label>
+                            <input type="datetime-local"
+                                   class="form-control"
+                                   id="pago_FECHA_PAGO"
+                                   name="FECHA_PAGO"
+                                   required />
+                            <div class="invalid-feedback">La fecha de pago es requerida.</div>
+                        </div>
+
+                        <!-- Pagar solo intereses -->
+                        <div class="mb-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       id="pago_PAGO_INTERESES"
+                                       name="PAGO_INTERESES"
+                                       value="true" />
+                                <label class="form-check-label fw-semibold" for="pago_PAGO_INTERESES">
+                                    <i class="bi bi-percent me-1 text-warning"></i>
+                                    Pagar solo intereses
+                                </label>
+                            </div>
+                            <small class="text-muted">
+                                Active esta opción si el pago corresponde únicamente a intereses del mes.
+                            </small>
+                        </div>
+
+                        <!-- Monto -->
+                        <div class="mb-3">
+                            <label for="pago_MONTO" class="form-label fw-semibold">
+                                <i class="bi bi-currency-dollar me-1 text-muted"></i>
+                                Monto
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                <input type="number"
+                                       class="form-control"
+                                       id="pago_MONTO"
+                                       name="MONTO"
+                                       min="1"
+                                       step="1"
+                                       placeholder="0"
+                                       required />
+                            </div>
+                            <div id="pago_monto_feedback" class="form-text text-danger d-none mt-1">
+                                <i class="bi bi-exclamation-triangle me-1"></i>
+                                <span id="pago_monto_feedback_txt"></span>
+                            </div>
+                        </div>
+
+                        <!-- Alerta de respuesta servidor -->
+                        <div id="pago_alerta" class="alert d-none mt-3" role="alert"></div>
+
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn btn-success" id="btnGuardarPago" disabled>
+                        <span id="btnGuardarPago_spinner" class="spinner-border spinner-border-sm d-none me-1" role="status"></span>
+                        <i class="bi bi-check-circle me-1" id="btnGuardarPago_icon"></i>
+                        Guardar Pago
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- ===== FIN MODAL AGREGAR PAGO ===== -->
+
     <div id="sweetAlertData"
          data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
          data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
@@ -464,22 +581,11 @@
 
 </body>
 
-@section Scripts {   
-    <script src="~/lib/sweetalert2@11.js"></script>
+@section Scripts {
     <script>
-        function AgregarPago(idSolicitud) {
-            console.log('Agregar pago - ID:', idSolicitud);
-            // TODO: abrir modal o redirigir
-        }
-
-        function GenerarMulta(idSolicitud) {
-            console.log('Generar multa - ID:', idSolicitud);
-            // TODO: abrir modal o redirigir
-        }
-
-        function CambiarCategoria(idSolicitud) {
-            console.log('Cambiar categoría - ID:', idSolicitud);
-            // TODO: abrir modal o redirigir
-        }
+        var urlRegistrarPagos = '@Url.Action("RegistrarPago", "Gestion", new { area = "Prestamo" })';
     </script>
+
+    <script src="~/lib/sweetalert2@11.js"></script>
+    <script src="~/lib/prestamo/js/tableroprestamo.js"></script>
 }

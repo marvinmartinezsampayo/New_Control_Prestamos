@@ -373,6 +373,7 @@ namespace Negocio.Gestion
                     join dm in _context.DETALLE_MASTER on pr.ID_ESTADO equals dm.Id
                     select new PrestamoResumenDto
                     {
+                        ID_PRESTAMO = pr.ID,
                         ID_SOLICITUD = sol.Id,
                         NUMERO_IDENTIFICACION = sol.NumeroIdentificacion,
                         P_NOMBRE_SOLICITANTE = sol.PrimerNombreSolicitante,

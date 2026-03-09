@@ -26,6 +26,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\lib\Prestamo\js\50jqhttn.1l1~" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Comun\Comun.csproj" />
     <ProjectReference Include="..\Negocio\Negocio.csproj" />
   </ItemGroup>

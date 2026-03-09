@@ -8,6 +8,7 @@ namespace Comun.DTO.Prestamo
 {
     public class PrestamoResumenDto
     {
+        public long ID_PRESTAMO { get; set; }
         public long ID_SOLICITUD { get; set; }
         public long NUMERO_IDENTIFICACION { get; set; }
         public string P_NOMBRE_SOLICITANTE { get; set; }

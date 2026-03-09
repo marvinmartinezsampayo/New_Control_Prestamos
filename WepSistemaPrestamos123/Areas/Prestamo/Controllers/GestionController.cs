@@ -100,7 +100,7 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> RegistrarPago(InsertPagoPrestamoDto modelo)
+        public async Task<IActionResult> RegistrarPago([FromBody] InsertPagoPrestamoDto modelo)
         {
             try
             {                
@@ -139,7 +139,7 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
 
                     long saldo = long.Parse(prestamos.SALDO_MONTO.ToString()); 
                     long intereses = long.Parse(prestamos.INTERES.ToString());
-                    long interes = (long)(saldo * ((double)intereses / 100));
+                    long interes = (long)Math.Round((double)(saldo * intereses) / 100, 0);
                     long Valorcuota = (long)(prestamos.MONTO / prestamos.NUMERO_CUOTAS);
                     
 
@@ -332,10 +332,6 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                             {
                                 var saldoIntereses = (decimal)interesAnterior - sumInter;
                                 var nuevoCapital = modelo.MONTO - saldoIntereses;
-
-
-
-
 
                                 //Determinar cual seria la cuota en la que quedaria
                                 var sumTotalCapital = listPagos.Respuesta?
