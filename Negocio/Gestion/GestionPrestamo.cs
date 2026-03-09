@@ -184,9 +184,9 @@ namespace Negocio.Gestion
                                 .Max(pg => (DateTime?)pg.FECHA_PAGO),
 
                             // Saldo pendiente calculado (opcional)
-                            SALDO_PENDIENTE = p.MONTO - (_context.PAGOS
+                            SALDO_PENDIENTE = p.MONTO - _context.PAGOS
                                 .Where(pg => pg.ID_PRESTAMO == p.ID)
-                                .Sum(pg => (long?)pg.MONTO) ?? 0)
+                                .Sum(pg => pg.MONTO)
                         })
                         .ToListAsync();
 
@@ -363,5 +363,140 @@ namespace Negocio.Gestion
             }
         }
 
+        public async Task<RespuestaDto<TReturn>> Obtener_All_Prestamos_Async<TParam, TReturn>(TParam _modelo)
+        {
+            try
+            {
+                var prestamos = await (
+                    from pr in _context.PRESTAMOS
+                    join sol in _context.SOLICITUD_PRESTAMO on pr.ID_SOLICITUD equals sol.Id
+                    join dm in _context.DETALLE_MASTER on pr.ID_ESTADO equals dm.Id
+                    select new PrestamoResumenDto
+                    {
+                        ID_SOLICITUD = sol.Id,
+                        NUMERO_IDENTIFICACION = sol.NumeroIdentificacion,
+                        P_NOMBRE_SOLICITANTE = sol.PrimerNombreSolicitante,
+                        S_NOMBRE_SOLICITANTE = sol.SegundoNombreSolicitante,
+                        P_APELLIDO_SOLICITANTE = sol.PrimerApellidoSolicitante,
+                        S_APELLIDO_SOLICITANTE = sol.SegundoApellidoSolicitante,
+                        POR_INTERES = pr.INTERES,
+                        CATEGORIA = "A",
+                        MONTO = pr.MONTO,
+                        MULTAS = 0,
+                        SALDO_MORA = 0,
+                        RETORNO = 0,
+                        RETORNO_MES = (long)Math.Round((double)(pr.MONTO / pr.NUMERO_CUOTAS), 0),
+                        INTERES = 0,
+                        INTERES_MES = (long)Math.Round((double)(pr.SALDO_MONTO * pr.INTERES) / 100, 0),
+                        SALDO_PENDIENTE = pr.SALDO_MONTO,
+                        INTERES_A_COBRAR = 0,
+                        ID_ESTADO = pr.ID_ESTADO,
+                        ESTADO_PRESTAMO = dm.Nombre
+                    }
+                ).ToListAsync();
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "OK",
+                    Respuesta = (TReturn)(object)prestamos
+                };
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = ex.Message
+                };
+            }
+        }
+
+        public async Task<RespuestaDto<TReturn>> Obtener_Sumatoria_Depositos_Inversores_Async<TReturn>()
+        {
+            try
+            {
+                const long ESTADO_ACTIVO = 58;
+
+                decimal sumatoria = await _context.DEPOSITO_INVERSOR
+                    .Where(d => d.IdEstado == ESTADO_ACTIVO)
+                    .SumAsync(d => d.ValorDepositado);
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "OK",
+                    Respuesta = (TReturn)(object)sumatoria
+                };
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = ex.Message
+                };
+            }
+        }
+
+        public async Task<RespuestaDto<TReturn>> Obtener_Sumatoria_Saldos_Creditos_Async<TReturn>()
+        {
+            try
+            {
+                const long ESTADO_CREDITO_ACTIVO = 51;
+
+                decimal sumatoria = await _context.PRESTAMOS
+                    .Where(p => p.ID_ESTADO == ESTADO_CREDITO_ACTIVO)
+                    .SumAsync(p => p.SALDO_MONTO);
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "OK",
+                    Respuesta = (TReturn)(object)sumatoria
+                };
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = ex.Message
+                };
+            }
+        }
+
+        public async Task<RespuestaDto<TReturn>> Obtener_Sumatoria_Monto_Pagos_Async<TParam, TReturn>(TParam _modelo)
+        {
+            try
+            {
+                long TIPO_PAGO = 0;
+                Type tipo = Nullable.GetUnderlyingType(typeof(TParam)) ?? typeof(TParam);
+
+                if (tipo == typeof(long))
+                {
+                    TIPO_PAGO = Convert.ToInt64(_modelo);
+                }
+
+                decimal sumatoria = await _context.PAGOS
+                    .Where(p => p.ID_TIPO_PAGO == TIPO_PAGO)
+                    .SumAsync(p => p.MONTO);
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "OK",
+                    Respuesta = (TReturn)(object)sumatoria
+                };
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = ex.Message
+                };
+            }
+        }
     }
 }

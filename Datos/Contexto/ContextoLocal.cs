@@ -28,6 +28,7 @@ namespace Datos.Contexto
         public DbSet<CODEUDOR> CODEUDOR { get; set; }
         public DbSet<PRESTAMOS> PRESTAMOS { get; set; }
         public DbSet<PAGOS> PAGOS { get; set; }
+        public DbSet<DEPOSITO_INVERSOR> DEPOSITO_INVERSOR { get; set; }
 
     }
 }

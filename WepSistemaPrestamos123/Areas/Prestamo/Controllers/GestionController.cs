@@ -583,7 +583,7 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
 
         }
 
-
+        
         private int CalcularCuotasVencidas(DateTime fechaConsulta, DateTime FechaInicio, Int64 NumeroCuotas)
         {
             // Si la fecha de consulta es anterior al inicio, no hay cuotas vencidas

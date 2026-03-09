@@ -1,0 +1,485 @@
+﻿@using Comun.DTO.Prestamo
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Tablero de Préstamos";
+}
+
+<link href="~/lib/bootstrap/dist/css/bootstrap-icons.min.css" rel="stylesheet" />
+
+<style>
+    .nav-link.active {
+        color: #000 !important;
+    }
+
+    .card-stat {
+        border-left: 4px solid;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card-stat:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-stat.activo {
+            border-left-color: #198754;
+        }
+
+        .card-stat.mora {
+            border-left-color: #ffc107;
+        }
+
+        .card-stat.finalizado {
+            border-left-color: #0d6efd;
+        }
+
+        .card-stat.total {
+            border-left-color: #6c757d;
+        }
+
+        .card-stat.deposito {
+            border-left-color: #0dcaf0;
+        }
+
+        .card-stat.credito {
+            border-left-color: #198754;
+        }
+
+        .card-stat.intereses {
+            border-left-color: #fd7e14;
+        }
+
+        .card-stat.rentabilidad-positiva {
+            border-left-color: #198754;
+        }
+
+        .card-stat.rentabilidad-negativa {
+            border-left-color: #dc3545;
+        }
+
+    .badge-estado {
+        font-size: 0.75rem;
+        padding: 0.35em 0.65em;
+    }
+
+    .table thead th {
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+
+    .table tbody td {
+        vertical-align: middle;
+    }
+
+    .table-responsive {
+        overflow: visible !important;
+    }
+
+    .table {
+        overflow: visible !important;
+    }
+</style>
+
+<body class="bg-light">
+    <div class="container-fluid py-4">
+
+        <!-- Encabezado -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-11">
+                <div class="text-center mb-4">
+                    <h1 class="display-6 fw-bold text-primary">
+                        <i class="bi bi-bar-chart-line me-2"></i>
+                        Tablero General de Préstamos
+                    </h1>
+                    <p class="lead text-muted">Sistema de Préstamos Florencia</p>
+                </div>
+            </div>
+        </div>
+
+        @{
+            var listPrestamos = ViewBag.ListPrestamos as List<PrestamoResumenDto>;
+            var capitalDisponible = (decimal)(ViewBag.CapitalDisponible ?? 0m);
+            var totalCapital = (decimal)(ViewBag.TotalCapital ?? 0m);
+            var totalSaldoCreditos = (decimal)(ViewBag.TotalSaldoCreditos ?? 0m);
+            var totalPagoIntereses = (decimal)(ViewBag.TotalPagoIntereses ?? 0m);
+            var totalPagoCapital = (decimal)(ViewBag.TotalPagoCapital ?? 0m);
+            var rentabilidad = (decimal)(ViewBag.Rentabilidad ?? 0m);
+            var coCulture = new System.Globalization.CultureInfo("es-CO");
+        }
+
+        <!-- Alerta de error si corresponde -->
+        @if (ViewBag.SweetAlert != null)
+        {
+            <div class="row justify-content-center mb-3">
+                <div class="col-lg-11">
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <div>@ViewBag.Mensaje</div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <!-- ===== TARJETAS FINANCIERAS ===== -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-11">
+                <div class="row g-3">
+
+                    <!-- Capital Disponible -->
+                    <div class="col-6 col-md-2">
+                        <div class="card card-stat @(capitalDisponible >= 0 ? "activo" : "mora") h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="text-muted small mb-1">Capital Disponible</p>
+                                        <h6 class="fw-bold mb-0 @(capitalDisponible >= 0 ? "text-success" : "text-warning")">
+                                            @capitalDisponible.ToString("C0", coCulture)
+                                        </h6>
+                                    </div>
+                                    <i class="bi bi-wallet2 fs-3 @(capitalDisponible >= 0 ? "text-success" : "text-warning") opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Capital Inversores -->
+                    <div class="col-6 col-md-2">
+                        <div class="card card-stat deposito h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="text-muted small mb-1">Capital Inversores</p>
+                                        <h6 class="fw-bold mb-0 text-info">
+                                            @totalCapital.ToString("C0", coCulture)
+                                        </h6>
+                                    </div>
+                                    <i class="bi bi-piggy-bank fs-3 text-info opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Saldo Créditos -->
+                    <div class="col-6 col-md-2">
+                        <div class="card card-stat credito h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="text-muted small mb-1">Saldo Créditos</p>
+                                        <h6 class="fw-bold mb-0 text-success">
+                                            @totalSaldoCreditos.ToString("C0", coCulture)
+                                        </h6>
+                                    </div>
+                                    <i class="bi bi-cash-stack fs-3 text-success opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagos Intereses -->
+                    <div class="col-6 col-md-2">
+                        <div class="card card-stat intereses h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="text-muted small mb-1">Pagos Intereses</p>
+                                        <h6 class="fw-bold mb-0 text-warning">
+                                            @totalPagoIntereses.ToString("C0", coCulture)
+                                        </h6>
+                                    </div>
+                                    <i class="bi bi-percent fs-3 text-warning opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pagos Capital -->
+                    <div class="col-6 col-md-2">
+                        <div class="card card-stat total h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="text-muted small mb-1">Pagos Capital</p>
+                                        <h6 class="fw-bold mb-0 text-secondary">
+                                            @totalPagoCapital.ToString("C0", coCulture)
+                                        </h6>
+                                    </div>
+                                    <i class="bi bi-credit-card fs-3 text-secondary opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Rentabilidad % -->
+                    <div class="col-6 col-md-2">
+                        <div class="card card-stat @(rentabilidad >= 0 ? "rentabilidad-positiva" : "rentabilidad-negativa") h-100 shadow-sm">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <p class="text-muted small mb-1">Rentabilidad</p>
+                                        <h6 class="fw-bold mb-0 @(rentabilidad >= 0 ? "text-success" : "text-danger")">
+                                            @rentabilidad.ToString("F2", coCulture) %
+                                        </h6>
+                                    </div>
+                                    <i class="bi bi-graph-up-arrow fs-3 @(rentabilidad >= 0 ? "text-success" : "text-danger") opacity-50"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- ===== FIN TARJETAS FINANCIERAS ===== -->
+        @if (listPrestamos != null && listPrestamos.Any())
+        {
+            <!-- Tarjetas resumen conteo -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-lg-11">
+                    <div class="row g-3">
+
+                        <!-- Total préstamos -->
+                        <div class="col-6 col-md-3">
+                            <div class="card card-stat total h-100 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted small mb-1">Total Préstamos</p>
+                                            <h3 class="fw-bold mb-0">@listPrestamos.Count</h3>
+                                        </div>
+                                        <i class="bi bi-collection fs-2 text-secondary opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Activos -->
+                        <div class="col-6 col-md-3">
+                            <div class="card card-stat activo h-100 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted small mb-1">Activos</p>
+                                            <h3 class="fw-bold mb-0 text-success">
+                                                @listPrestamos.Count(p => p.ESTADO_PRESTAMO == "ACTIVO")
+                                            </h3>
+                                        </div>
+                                        <i class="bi bi-check-circle fs-2 text-success opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- En mora -->
+                        <div class="col-6 col-md-3">
+                            <div class="card card-stat mora h-100 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted small mb-1">En Mora</p>
+                                            <h3 class="fw-bold mb-0 text-warning">
+                                                @listPrestamos.Count(p => p.ESTADO_PRESTAMO == "MORA")
+                                            </h3>
+                                        </div>
+                                        <i class="bi bi-exclamation-circle fs-2 text-warning opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Finalizados -->
+                        <div class="col-6 col-md-3">
+                            <div class="card card-stat finalizado h-100 shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="text-muted small mb-1">Finalizados</p>
+                                            <h3 class="fw-bold mb-0 text-primary">
+                                                @listPrestamos.Count(p => p.ESTADO_PRESTAMO == "FINALIZADO")
+                                            </h3>
+                                        </div>
+                                        <i class="bi bi-flag-fill fs-2 text-primary opacity-50"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabla principal -->
+            <div class="row justify-content-center">
+                <div class="col-lg-11">
+                    <div class="card shadow-sm">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <span>
+                                <i class="bi bi-table me-1"></i>
+                                Listado de Todos los Préstamos
+                            </span>
+                            <span class="badge bg-secondary">@listPrestamos.Count registros</span>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table id="datatablesSimple" class="table table-striped table-hover table-sm mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th scope="col" class="text-center">#</th>
+                                            <th scope="col" class="text-center">Identificación</th>
+                                            <th scope="col" class="text-center">Solicitante</th>
+                                            <th scope="col" class="text-center">Categoría</th>
+                                            <th scope="col" class="text-center">Monto</th>
+                                            <th scope="col" class="text-center">% Interés</th>
+                                            <th scope="col" class="text-center">Interés Mes</th>
+                                            <th scope="col" class="text-center">Retorno Mes</th>
+                                            <th scope="col" class="text-center">Saldo Pendiente</th>
+                                            <th scope="col" class="text-center">Multas</th>
+                                            <th scope="col" class="text-center">Saldo Mora</th>
+                                            <th scope="col" class="text-center">Estado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int contador = 1;
+                                        }
+                                        @foreach (var prestamo in listPrestamos)
+                                        {
+                                            var nombreCompleto = $"{prestamo.P_NOMBRE_SOLICITANTE} {prestamo.S_NOMBRE_SOLICITANTE} {prestamo.P_APELLIDO_SOLICITANTE} {prestamo.S_APELLIDO_SOLICITANTE}".Trim();
+                                            <tr>
+                                                <td class="text-center">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-sm btn-light border-0 p-1"
+                                                                type="button"
+                                                                data-bs-toggle="dropdown"
+                                                                aria-expanded="false"
+                                                                data-bs-boundary="window">
+                                                            <i class="bi bi-three-dots-vertical text-secondary"></i>
+                                                        </button>
+                                                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                                                            <li>
+                                                                <a class="dropdown-item small"
+                                                                   href="#"
+                                                                   onclick="AgregarPago(@prestamo.ID_SOLICITUD)">
+                                                                    <i class="bi bi-cash-coin text-success me-2"></i>
+                                                                    Agregar Pago
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item small"
+                                                                   href="#"
+                                                                   onclick="GenerarMulta(@prestamo.ID_SOLICITUD)">
+                                                                    <i class="bi bi-exclamation-triangle text-warning me-2"></i>
+                                                                    Generar Multa
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a class="dropdown-item small"
+                                                                   href="#"
+                                                                   onclick="CambiarCategoria(@prestamo.ID_SOLICITUD)">
+                                                                    <i class="bi bi-tag text-primary me-2"></i>
+                                                                    Cambiar Categoría
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">@prestamo.NUMERO_IDENTIFICACION</td>
+                                                <td class="text-center fw-semibold">@nombreCompleto</td>
+                                                <td class="text-center">
+                                                    <span class="badge bg-secondary">@prestamo.CATEGORIA</span>
+                                                </td>
+                                                <td class="text-center">
+                                                    @prestamo.MONTO.ToString("C0", coCulture)
+                                                </td>
+                                                <td class="text-center">% @prestamo.POR_INTERES</td>
+                                                <td class="text-center">
+                                                    @prestamo.INTERES_MES.ToString("C0", coCulture)
+                                                </td>
+                                                <td class="text-center">
+                                                    @prestamo.RETORNO_MES.ToString("C0", coCulture)
+                                                </td>
+                                                <td class="text-center fw-bold">
+                                                    @prestamo.SALDO_PENDIENTE.ToString("C0", coCulture)
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (prestamo.MULTAS > 0)
+                                                    {
+                                                        <span class="badge bg-danger">@prestamo.MULTAS</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">0</span>
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+                                                    @if (prestamo.SALDO_MORA > 0)
+                                                    {
+                                                        <span class="text-danger fw-bold">
+                                                            @prestamo.SALDO_MORA.ToString("C0", coCulture)
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-muted">$ 0</span>
+                                                    }
+                                                </td>
+                                                <td class="text-center">
+                                                    <div class="alert alert-@(prestamo.ESTADO_PRESTAMO == "ACTIVO"      ? "success" :
+                                                                                                                                        prestamo.ESTADO_PRESTAMO == "FINALIZADO" ? "primary" :
+                                                                                                                                        prestamo.ESTADO_PRESTAMO == "MORA" ? "warning" : "danger")
+                                                             py-1 px-2 mb-0 d-inline-block text-center"
+                                                 style="min-width: 90px; font-size: 0.78rem;">
+                                                @prestamo.ESTADO_PRESTAMO
+                                            </div>
+                                        </td>
+                                    </tr>
+                                                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        else if (ViewBag.SweetAlert == null)
+        {
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center py-5">
+                    <i class="bi bi-inbox display-1 text-muted"></i>
+                    <h4 class="mt-3 text-muted">No hay préstamos registrados</h4>
+                    <p class="text-muted">No se encontraron préstamos en el sistema.</p>
+                </div>
+            </div>
+        }
+
+    </div>
+
+    <div id="sweetAlertData"
+         data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
+         data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
+         data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)">
+    </div>
+
+</body>
+
+@section Scripts {   
+    <script src="~/lib/sweetalert2@11.js"></script>
+    <script>
+        function AgregarPago(idSolicitud) {
+            console.log('Agregar pago - ID:', idSolicitud);
+            // TODO: abrir modal o redirigir
+        }
+
+        function GenerarMulta(idSolicitud) {
+            console.log('Generar multa - ID:', idSolicitud);
+            // TODO: abrir modal o redirigir
+        }
+
+        function CambiarCategoria(idSolicitud) {
+            console.log('Cambiar categoría - ID:', idSolicitud);
+            // TODO: abrir modal o redirigir
+        }
+    </script>
+}

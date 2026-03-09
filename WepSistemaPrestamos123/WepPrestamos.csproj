@@ -35,7 +35,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.23" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
@@ -1724,6 +1724,8 @@
   <ItemGroup>
     <Folder Include="Areas\Prestamo\Data\" />
     <Folder Include="Areas\Prestamo\Models\" />
+    <Folder Include="Areas\Tableros\Data\" />
+    <Folder Include="Areas\Tableros\Models\" />
   </ItemGroup>
 
 </Project>
