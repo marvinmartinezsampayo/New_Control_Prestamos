@@ -1,6 +1,182 @@
 ﻿@{
     Layout = "_Layout";
 }
+
+<link href="~/lib/Administracion/css/AdministracionStyles.css" rel="stylesheet" />
+
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
+
+            <!-- Header del módulo -->
+            <div class="modulo-header">
+                <h1>
+                    <i class="bi bi-person-plus-fill me-2"></i>
+                    Crear Funcionarios
+                </h1>
+                <p>Módulo para registrar nuevos funcionarios en el sistema</p>
+            </div>
+
+            <!-- Card formulario -->
+            <div class="card-form">
+
+                <!-- Header de la card -->
+                <div class="card-header-custom">
+                    <i class="bi bi-person-badge-fill"></i>
+                    <span>Datos del Funcionario</span>
+                </div>
+
+                <div class="card-form-body">
+                    <form method="post" enctype="multipart/form-data" id="miFormulario">
+                        <div class="row g-3">
+
+                            <!-- Usuario Empresarial -->
+                            <div class="col-md-4">
+                                <label for="USUARIO" class="form-label-custom">Usuario Empresarial</label>
+                                <input type="text" class="form-input" id="USUARIO" name="USUARIO" required
+                                       placeholder="ej: juan.perez" />
+                            </div>
+
+                            <!-- Tipo Identificación -->
+                            <div class="col-md-4">
+                                <label for="ID_TIPO_IDENTIFICACION" class="form-label-custom">Tipo Identificación</label>
+                                @Html.DropDownList("ID_TIPO_IDENTIFICACION",
+                                         ViewBag.listTipoDocumentos as SelectList,
+                                         "Seleccione...",
+                                         new {
+                                             @class = "form-input form-select-custom",
+                                             @id = "tipoIdentificacion",
+                                             required = "required"
+                                         })
+                            </div>
+
+                            <!-- No. Identificación -->
+                            <div class="col-md-4">
+                                <label for="nroIdentificacion" class="form-label-custom">No. Identificación</label>
+                                <input type="number" class="form-input" id="nroIdentificacion"
+                                       name="NRO_IDENTIFICACION" required placeholder="ej: 1234567890" />
+                            </div>
+
+                            <!-- Primer Nombre -->
+                            <div class="col-md-4">
+                                <label for="primerNombre" class="form-label-custom">Primer Nombre</label>
+                                <input type="text" class="form-input" id="primerNombre"
+                                       name="PRIMER_NOMBRE" required placeholder="ej: Juan" />
+                            </div>
+
+                            <!-- Segundo Nombre -->
+                            <div class="col-md-4">
+                                <label for="segundoNombre" class="form-label-custom">Segundo Nombre</label>
+                                <input type="text" class="form-input" id="segundoNombre"
+                                       name="SEGUNDO_NOMBRE" placeholder="Opcional" />
+                            </div>
+
+                            <!-- Primer Apellido -->
+                            <div class="col-md-4">
+                                <label for="primerApellido" class="form-label-custom">Primer Apellido</label>
+                                <input type="text" class="form-input" id="primerApellido"
+                                       name="PRIMER_APELLIDO" required placeholder="ej: Pérez" />
+                            </div>
+
+                            <!-- Segundo Apellido -->
+                            <div class="col-md-4">
+                                <label for="segundoApellido" class="form-label-custom">Segundo Apellido</label>
+                                <input type="text" class="form-input" id="segundoApellido"
+                                       name="SEGUNDO_APELLIDO" placeholder="Opcional" />
+                            </div>
+
+                            <!-- Correo -->
+                            <div class="col-md-4">
+                                <label for="email" class="form-label-custom">Correo Electrónico</label>
+                                <input type="email" class="form-input" id="email"
+                                       name="EMAIL" required placeholder="ej: juan@empresa.com" />
+                            </div>
+
+                            <!-- Teléfono -->
+                            <div class="col-md-4">
+                                <label for="telefono" class="form-label-custom">Teléfono</label>
+                                <input type="tel" class="form-input" id="telefono"
+                                       name="TELEFONO" required placeholder="ej: 3001234567" />
+                            </div>
+
+                            <!-- Habilitado -->
+                            <div class="col-md-4 d-flex align-items-center">
+                                <div class="switch-wrapper">
+                                    <input class="form-check-input switch-input" type="checkbox"
+                                           id="habilitado" name="HABILITADO" checked />
+                                    <label class="switch-label" for="habilitado">
+                                        <i class="bi bi-toggle-on me-1"></i> Habilitado
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Contraseña -->
+                            <div class="col-md-8">
+                                <label for="newcontrasena" class="form-label-custom">Contraseña</label>
+                                <input type="password" class="form-input" id="newcontrasena"
+                                       name="NEWCONTRASENA" required placeholder="Mínimo 8 caracteres con letras y números" />
+                                <small class="form-hint">8–20 caracteres, con letras y números.</small>
+                            </div>
+
+                            <hr class="divisor-datos" />
+
+                            <!-- Foto -->
+                            <div class="col-md-8">
+                                <label for="foto" class="form-label-custom">
+                                    <i class="bi bi-image me-1"></i> Foto del Empleado
+                                </label>
+                                <input class="form-input-file" type="file" id="foto"
+                                       name="FOTO" accept="image/jpeg,image/png" />
+                                <small class="form-hint">Formatos permitidos: JPG, PNG.</small>
+                            </div>
+
+                            <!-- Botón Registrar -->
+                            <div class="col-md-4 d-flex align-items-center">
+                                <button type="submit" class="btn-registrar w-100">
+                                    <i class="bi bi-file-earmark-plus me-2"></i> Registrar
+                                </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="sweetAlertData"
+     data-icon="@TempData["SweetAlert"]"
+     data-titulo="@TempData["Titulo"]"
+     data-mensaje="@TempData["Mensaje"]"
+     data-limpiar="@((ViewBag.LimpiarFormulario ?? false).ToString().ToLower())">
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/Administracion/js/GestionUsuarios.js"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @{
+    Layout = "_Layout";
+}
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -122,3 +298,4 @@
 
 </body>
 </html>
+ *@

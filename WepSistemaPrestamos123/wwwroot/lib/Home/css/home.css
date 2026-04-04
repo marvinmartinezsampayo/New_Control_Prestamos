@@ -1,0 +1,254 @@
+/* ============================================================
+   HOME.CSS
+   Módulo: Página de bienvenida
+   Depende de: master.css
+   ============================================================ */
+
+
+/* ===================================================
+   1. LOADER
+   =================================================== */
+.loader-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: var(--color-blanco);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.4s ease;
+}
+
+.loader-container.oculto {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.loader-spinner {
+    width: 52px;
+    height: 52px;
+    border: 5px solid var(--color-gris-borde);
+    border-top-color: var(--color-dorado);
+    border-radius: 50%;
+    animation: girar 0.8s linear infinite;
+}
+
+@keyframes girar {
+    to { transform: rotate(360deg); }
+}
+
+
+/* ===================================================
+   2. ANIMACIONES (tus originales + nuevas)
+   =================================================== */
+
+/* Título con efecto scale — tu original */
+.animated-title {
+    animation: fadeInScale 1.5s ease-out forwards;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+@keyframes fadeInScale {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Máquina de escribir — tu original con cursor dorado */
+.typewriter h1 {
+    overflow: hidden;
+    border-right: .15em solid var(--color-dorado);
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: .05em;
+    animation: typing 3s steps(40, end),
+               blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to   { width: 100%; }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50%      { border-color: var(--color-dorado); }
+}
+
+/* Fade in desde abajo — tu original */
+.fade-in {
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide up — tu original */
+@keyframes slideUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ===================================================
+   3. CARD PRINCIPAL
+   =================================================== */
+.home-card {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 1s;
+}
+
+.home-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0.5rem 1.5rem rgba(26, 42, 58, 0.2);
+    transition: var(--transition);
+}
+
+
+/* ===================================================
+   4. OPCIONES DE ACCIÓN
+   =================================================== */
+.home-opcion {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--color-gris-fondo);
+    border: 1.5px solid var(--color-gris-borde);
+    border-radius: var(--border-radius);
+    padding: 1.25rem;
+    transition: var(--transition);
+    height: 100%;
+    opacity: 0;
+    transform: translateY(16px);
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.home-opcion:nth-child(1) { animation-delay: 1.2s; }
+.home-opcion:nth-child(2) { animation-delay: 1.4s; }
+.home-opcion:nth-child(3) { animation-delay: 1.6s; }
+
+.home-opcion:hover {
+    border-color: var(--color-dorado);
+    background: #fdfaf3;
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-3px) scale(1.01);
+}
+
+.home-opcion-icono {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    flex-shrink: 0;
+    transition: var(--transition);
+}
+
+.home-opcion:hover .home-opcion-icono {
+    transform: rotate(-8deg) scale(1.1);
+}
+
+.icono-navy {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    color: var(--color-dorado-claro);
+}
+
+.icono-dorado {
+    background: linear-gradient(135deg, var(--color-dorado), var(--color-dorado-claro));
+    color: var(--color-navy);
+}
+
+.icono-outline {
+    background: var(--color-blanco);
+    border: 2px solid var(--color-navy);
+    color: var(--color-navy);
+}
+
+.home-opcion-titulo {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-navy);
+    letter-spacing: 0.3px;
+    margin-bottom: 0.2rem;
+}
+
+.home-opcion-sub {
+    font-size: var(--font-size-xs);
+    color: var(--color-gris-medio);
+    font-weight: 300;
+    line-height: 1.4;
+}
+
+
+/* ===================================================
+   5. TIP DE USO
+   =================================================== */
+.home-tip {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--font-size-sm);
+    color: var(--color-gris-medio);
+    font-style: italic;
+    padding: 0.5rem 0;
+    opacity: 0;
+    animation: fadeIn 1s ease-out 1.8s forwards;
+}
+
+.home-tip-icono {
+    color: var(--color-dorado);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+
+/* ===================================================
+   6. FOOTER
+   =================================================== */
+footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+}
+
+
+/* ===================================================
+   7. RESPONSIVE
+   =================================================== */
+@media (max-width: 768px) {
+    .home-opcion {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .home-opcion-icono {
+        margin: 0 auto;
+    }
+
+    /* En móvil desactiva typewriter para que no se corte */
+    .typewriter h1 {
+        white-space: normal;
+        border-right: none;
+        animation: fadeInScale 1.5s ease-out forwards;
+    }
+}

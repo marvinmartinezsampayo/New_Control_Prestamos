@@ -2,12 +2,162 @@
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Administrar Usuarios";
-    var usuario = ViewBag.Usuario as UsuarioDto;
-    var rolesUsuario = ViewBag.RolesUsuario as List<Roles_X_UsuarioDto>;
     var rolesDisponibles = ViewBag.Roles as SelectList;
 }
 
+<link href="~/lib/Administracion/css/AdministracionStyles.css" rel="stylesheet" />
 
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+
+            <!-- Header del módulo -->
+            <div class="modulo-header">
+                <h1>
+                    <i class="bi bi-shield-lock-fill me-2"></i>
+                    Gestión de Roles de Usuario
+                </h1>
+                <p>Busca un funcionario por identificación y gestiona sus roles de acceso</p>
+            </div>
+
+            <!-- Barra de búsqueda -->
+            <div class="busqueda-wrapper">
+                <div class="row align-items-center g-2">
+                    <div class="col-12 col-md-9">
+                        <input type="text" id="nroIdentificacion" class="form-control"
+                               placeholder="Buscar funcionario por número de identificación..." />
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <button id="btnBuscar" class="btn-buscar">
+                            <i class="bi bi-search"></i> Buscar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resultado del usuario -->
+            <div id="resultadoUsuario" class="card d-none">
+
+                <!-- Header de la card -->
+                <div class="card-header-custom">
+                    <i class="bi bi-person-badge-fill"></i>
+                    <span>Información del Funcionario</span>
+                </div>
+
+                <div class="card-body">
+                    <div class="card-content">
+                        <div class="row">
+
+                         
+                            <!-- Foto -->
+                            <div class="col-12 col-md-4 col-lg-3 text-center mb-3 mb-md-0 d-flex align-items-start justify-content-center pt-2">
+                                <img id="fotoUsuario" src="" class="foto-usuario" alt="Foto del usuario" />
+                            </div>
+
+                            <!-- Datos -->
+                            
+                            <div class="col-12 col-md-8 col-lg-9">
+
+                            <!-- Datos -->
+                            <div class="col-md-9">
+
+                                <div class="row mb-2">
+                                    <div class="col-sm-4 dato-label">Nombre completo</div>
+                                    <div class="col-sm-8 dato-valor" id="nombreUsuario"></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-4 dato-label">Usuario</div>
+                                    <div class="col-sm-8 dato-valor" id="usuarioEmpresarial"></div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-sm-4 dato-label">Identificación</div>
+                                    <div class="col-sm-8 dato-valor" id="identificacionUsuario"></div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-4 dato-label">Teléfono</div>
+                                    <div class="col-sm-8 dato-valor" id="telefonoUsuario"></div>
+                                </div>
+
+                                <hr class="divisor-datos" />
+
+                                <!-- Roles asignados -->
+                                <div class="mb-3">
+                                    <div class="roles-titulo">
+                                        <i class="bi bi-tags-fill"></i> Roles asignados
+                                    </div>
+                                    <ul id="listaRoles"></ul>
+                                    <p id="sinRoles" class="d-none">
+                                        Este usuario aún no tiene roles asignados.
+                                    </p>
+                                </div>
+
+                                <hr class="divisor-datos" />
+
+                                <!-- Gestión de roles -->
+                                <div class="mb-3">
+                                    <label class="form-label-custom">Selecciona un rol</label>
+                                    <select id="rolSeleccionado" class="form-select">
+                                        <option value="">-- Selecciona un rol --</option>
+                                        @if (rolesDisponibles != null)
+                                        {
+                                            @foreach (var item in rolesDisponibles)
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <input type="hidden" id="idUsuarioActual" value="" />
+
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <button id="btnAsignar" class="btn-asignar">
+                                        <i class="bi bi-plus-circle me-1"></i> Asignar Rol
+                                    </button>
+                                    <button id="btnQuitar" class="btn-quitar">
+                                        <i class="bi bi-trash me-1"></i> Quitar Rol
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/lib/Administracion/js/AdministrarUsuarios.js"></script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @using Comun.DTO.Generales
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Administrar Usuarios";
+    var rolesDisponibles = ViewBag.Roles as SelectList;
+}
+<link href="~/lib/Administracion/css/AdministracionStyles.css" rel="stylesheet" />
 <div class="container-fluid py-3">
     <div class="row justify-content-center">
         <div class="col-lg-11">
@@ -17,106 +167,95 @@
                     <i class="bi bi-shield-lock-fill me-2"></i>
                     Gestión de roles de usuario
                 </h1>
-                <p class="lead text-muted">Modulo para buscar funcionarios y Asignar roles</p>
+                <p class="lead text-muted">Modulo para buscar funcionarios y asignar roles</p>
             </div>
 
             <!-- Buscar por identificación -->
-            <form method="get" action="/Administracion/AdministraUsuarios/BuscarPorIdentificacion">
-                <div class="row mb-4">
-                    <div class="col-12 col-md-9 mb-3 mb-md-0">
-                        <input type="text" name="nroIdentificacion" class="form-control p-2" placeholder="Buscar por identificación..." />
-                    </div>
-                    <div class="col-12 col-md-3">
-                        <button class="btn btn-primary w-100 p-2" type="submit">  <i class="bi bi-search"></i> Buscar</button>
-                    </div>
+            <div class="row mb-4">
+                <div class="col-12 col-md-9 mb-3 mb-md-0">
+                    <input type="text" id="nroIdentificacion" class="form-control p-2"
+                           placeholder="Buscar por identificación..." />
                 </div>
-            </form>
+                <div class="col-12 col-md-3">
+                    <button id="btnBuscar" class="btn btn-primary w-100 p-2">
+                        <i class="bi bi-search"></i> Buscar
+                    </button>
+                </div>
+            </div>
 
-            <!-- Resultado del usuario -->
-            @if (usuario != null)
-            {
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3 text-center mb-3">
-                                <img src="@(string.IsNullOrEmpty(ViewBag.FotoBase64) ? "/IMG/Imagenes/default-user.png" : ViewBag.FotoBase64)"
-                                     class="img-fluid rounded border" alt="Foto del usuario" />
+            <!-- Resultado del usuario — empieza oculto, el JS lo muestra -->
+            <div id="resultadoUsuario" class="card shadow-sm d-none">
+                <div class="card-body">
+                    <div class="row">
+
+                        <!-- Foto -->
+                        <div class="col-md-3 text-center mb-3">
+                            <img id="fotoUsuario" src="" class="border foto-usuario" alt="Foto del usuario" />
+                        </div>
+
+                        <!-- Datos -->
+                        <div class="col-md-9">
+                            <div class="row mb-2">
+                                <div class="col-sm-4 fw-bold">Nombre completo:</div>
+                                <div class="col-sm-8" id="nombreUsuario"></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4 fw-bold">Usuario:</div>
+                                <div class="col-sm-8" id="usuarioEmpresarial"></div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-sm-4 fw-bold">Identificación:</div>
+                                <div class="col-sm-8" id="identificacionUsuario"></div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-sm-4 fw-bold">Teléfono:</div>
+                                <div class="col-sm-8" id="telefonoUsuario"></div>
                             </div>
 
-                            <div class="col-md-9">
-                                <div class="row mb-2">
-                                    <div class="col-sm-4 fw-bold">Nombre completo:</div>
-                                    <div class="col-sm-8">@usuario.PRIMER_NOMBRE @usuario.SEGUNDO_NOMBRE @usuario.PRIMER_APELLIDO</div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4 fw-bold">Usuario:</div>
-                                    <div class="col-sm-8">@usuario.USUARIO_EMPRESARIAL</div>
-                                </div>
-                                <div class="row mb-2">
-                                    <div class="col-sm-4 fw-bold">Identificación:</div>
-                                    <div class="col-sm-8">@usuario.NRO_IDENTIFICACION</div>
-                                </div>
-                                <div class="row mb-4">
-                                    <div class="col-sm-4 fw-bold">Teléfono:</div>
-                                    <div class="col-sm-8">@usuario.TELEFONO</div>
-                                </div>
+                            <!-- Roles asignados -->
+                            <div class="mb-3">
+                                <strong>Roles asignados:</strong>
+                                <ul id="listaRoles"></ul>
+                                <p id="sinRoles" class="text-muted d-none">
+                                    Este usuario aún no tiene roles asignados.
+                                </p>
+                            </div>
 
-                                <!-- Roles -->
-                                <div class="mb-3">
-                                    <strong>Roles asignados:</strong>
-                                    @if (rolesUsuario != null && rolesUsuario.Any())
+                            <!-- Gestión de roles -->
+                            <div class="mb-3">
+                                <label class="form-label">Selecciona un rol:</label>
+                                <select id="rolSeleccionado" class="form-select">
+                                    <option value="">-- Selecciona un rol --</option>
+                                    @if (rolesDisponibles != null)
                                     {
-                                        <ul>
-                                            @foreach (var rol in rolesUsuario)
-                                            {
-                                                <li><strong>@rol.ROL_STR</strong> - @rol.ROL_DESCRIPCION</li>
-                                            }
-                                        </ul>
+                                        @foreach (var item in rolesDisponibles)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
                                     }
-                                    else
-                                    {
-                                        <p class="text-muted">Este usuario aún no tiene roles asignados.</p>
-                                    }
-                                </div>
+                                </select>
+                            </div>
 
-                                <!-- Gestión de roles -->
-                                <form method="post" action="/Administracion/AdministraUsuarios/GestionarRol">
-                                    <div class="mb-3">
-                                        <label for="rol" class="form-label">Selecciona un rol:</label>
-                                        @Html.DropDownList("rolSeleccionado", rolesDisponibles, "-- Selecciona un rol --", new { @class = "form-select", required = "required" })
-                                    </div>
+                            <input type="hidden" id="idUsuarioActual" value="" />
 
-                                    <div class="d-flex gap-2 justify-content-end">
-                                        <button type="submit" name="accion" value="asignar" class="btn btn-success">
-                                            <i class="bi bi-plus-circle"></i> Asignar Rol
-                                        </button>
-                                        <button type="submit" name="accion" value="quitar" class="btn btn-danger">
-                                            <i class="bi bi-trash"></i> Quitar Rol
-                                        </button>
-                                        <input type="hidden" name="idUsuario" value="@usuario.ID" />
-                                    </div>
-                                </form>
+                            <div class="d-flex gap-2 justify-content-end">
+                                <button id="btnAsignar" class="btn btn-success">
+                                    <i class="bi bi-plus-circle"></i> Asignar Rol
+                                </button>
+                                <button id="btnQuitar" class="btn btn-danger">
+                                    <i class="bi bi-trash"></i> Quitar Rol
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
-
-            <!-- SweetAlert (usa TempData o ViewBag para notificaciones) -->
-            <div id="sweetAlertData"
-                 data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
-                 data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
-                 data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)"
-                 data-limpiar="@((ViewBag.LimpiarFormulario ?? false).ToString().ToLower())">
             </div>
-        </div>
 
-        
+        </div>
     </div>
 </div>
-
 
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/lib/Administracion/js/AdministrarUsuarios.js"></script>
-}
+} *@

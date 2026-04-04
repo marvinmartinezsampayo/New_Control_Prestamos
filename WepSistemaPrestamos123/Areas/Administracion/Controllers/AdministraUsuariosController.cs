@@ -1,20 +1,19 @@
-﻿using Comun.DTO.BuscarUsuario;
+﻿using Comun.DTO.Auditoria;
+using Comun.DTO.BuscarUsuario;
 using Comun.DTO.Generales;
+using Comun.DTO.InsertRolUsuario;
 using Comun.Enumeracion;
+using Datos.Administracion;
 using Datos.Contexto;
 using Datos.Contratos.Auditoria;
+using Datos.Contratos.Login;
 using Datos.Contratos.Solicitud;
 using Datos.Contratos.Usuario;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using WepPrestamos.Helpers;
 using Negocio.InsertUsuario;
-using Newtonsoft.Json;
-using Datos.Contratos.Login;
-using Datos.Administracion;
-using Comun.DTO.InsertRolUsuario;
-using Comun.DTO.Auditoria;
-using Microsoft.AspNetCore.Authorization;
+using WepPrestamos.Helpers;
 
 namespace WepPrestamos.Areas.Administracion.Controllers
 {
@@ -27,8 +26,6 @@ namespace WepPrestamos.Areas.Administracion.Controllers
         private readonly IBLConsultar_Detalle_Master _dominio;
         private readonly IGestionUsuario _rolesUsuarioService;
         private readonly IInsertRolUsuario _insertrolusuario;
-     
-
         private readonly ContextoGeneral _context;
 
         public AdministraUsuariosController(
@@ -36,7 +33,7 @@ namespace WepPrestamos.Areas.Administracion.Controllers
             IBLConsultar_Detalle_Master dominio,
             IBusacrUsuarioNurIdentificacion buscarUsuarioIdentificacion,
             IGestionUsuario rolesUsuarioService,
-           IInsertRolUsuario insertrolusuario,
+            IInsertRolUsuario insertrolusuario,
             ContextoGeneral context)
         {
             _iBusacrUsuarioNurIdentificacion = buscarUsuarioIdentificacion;
@@ -47,28 +44,19 @@ namespace WepPrestamos.Areas.Administracion.Controllers
             _context = context;
         }
 
+        // Solo carga la vista vacía
         public async Task<IActionResult> Index()
         {
             await CargarListasAsync();
-            ViewBag.Mensaje = TempData["Mensaje"];
-            ViewBag.Titulo = TempData["Titulo"];
-            ViewBag.SweetAlert = TempData["SweetAlert"];
-            ViewBag.LimpiarFormulario = TempData["LimpiarFormulario"];
             return View();
         }
 
+        // ✅ Ahora retorna JSON — el JS maneja la UI
         [HttpGet]
         public async Task<IActionResult> BuscarPorIdentificacion(string nroIdentificacion)
         {
-            await CargarListasAsync();
-
             if (string.IsNullOrWhiteSpace(nroIdentificacion))
-            {
-                ViewBag.SweetAlert = "warning";
-                ViewBag.Titulo = "Campo vacío";
-                ViewBag.Mensaje = "Por favor ingresa un número de identificación.";
-                return View("Index");
-            }
+                return Json(new { exito = false, mensaje = "Por favor ingresa un número de identificación." });
 
             var request = new BuscarUsuarioNurIdentificacionPet
             {
@@ -77,117 +65,93 @@ namespace WepPrestamos.Areas.Administracion.Controllers
 
             var resultado = await _iBusacrUsuarioNurIdentificacion
                 .ObtenerUsuarioPorIdentificacionAsync<BuscarUsuarioNurIdentificacionPet, UsuarioDto>(request);
-           
-            if (resultado.Codigo == EstadoOperacion.Bueno)
-            {
-               
-                var usuario = resultado.Respuesta;
-                ViewBag.Usuario = usuario;
-                ViewBag.FotoBase64 = ImagenHelper.ObtenerFotoBase64(usuario.FOTO);
 
-                if (usuario == null)
+            if (resultado.Codigo != EstadoOperacion.Bueno)
+                return Json(new { exito = false, mensaje = resultado.Mensaje });
+
+            var usuario = resultado.Respuesta;
+            var roles = await _rolesUsuarioService.ConsultarRolesUsuario(usuario.ID);
+            var foto = ImagenHelper.ObtenerFotoBase64(usuario.FOTO);
+
+            return Json(new
+            {
+                exito = true,
+                usuario = new
                 {
-                    throw new Exception("El objeto 'usuario' es null");
-                }
-
-                // validamos que roles tiene 
-                var roles = await _rolesUsuarioService.ConsultarRolesUsuario(usuario.ID);
-                ViewBag.RolesUsuario = roles ?? new List<Roles_X_UsuarioDto>();
-
-                ViewBag.SweetAlert = "success";
-                ViewBag.Titulo = "Usuario Encontrado";
-                ViewBag.Mensaje = $"El usuario con identificación {nroIdentificacion} fue encontrado exitosamente.";
-            }
-            else
-            {
-                ViewBag.SweetAlert = "error";
-                ViewBag.Titulo = "No encontrado";
-                ViewBag.Mensaje = resultado.Mensaje;
-            }
-
-            return View("Index");
+                    id = usuario.ID,
+                    nombreCompleto = $"{usuario.PRIMER_NOMBRE} {usuario.SEGUNDO_NOMBRE} {usuario.PRIMER_APELLIDO}",
+                    usuarioEmpresarial = usuario.USUARIO_EMPRESARIAL,
+                    nroIdentificacion = usuario.NRO_IDENTIFICACION,
+                    telefono = usuario.TELEFONO,
+                    foto = foto
+                },
+                roles = roles?.Select(r => new
+                {
+                    nombre = r.ROL_STR,
+                    descripcion = r.ROL_DESCRIPCION
+                })
+            });
         }
 
-
+        // ✅ Ahora retorna JSON — el JS maneja la UI
         [HttpPost]
-        public async Task<IActionResult> GestionarRol(string rolSeleccionado, string accion, int idUsuario)
+        public async Task<IActionResult> GestionarRol([FromBody] GestionarRolRequest request)
         {
-            if (string.IsNullOrEmpty(rolSeleccionado))
-            {
-                TempData["Mensaje"] = "Debes seleccionar un rol.";
-                TempData["Titulo"] = "Error";
-                TempData["SweetAlert"] = "error";
-                return RedirectToAction("Index");
-            }
+            if (request == null || request.IdUsuario == 0)
+                return Json(new { exito = false, mensaje = "Datos inválidos." });
 
-            var Obj = new InsertRolUsuarioDto
+            var obj = new InsertRolUsuarioDto
             {
-                Id_Usuario = idUsuario,
-                Id_Rol = int.Parse(rolSeleccionado),
-                Habilitado = accion == "asignar"
+                Id_Usuario = request.IdUsuario,
+                Id_Rol = request.IdRol,
+                Habilitado = request.Accion == "asignar"
             };
 
             try
             {
-                var resultado = await _insertrolusuario.InsertarRolUsuarioAsync(Obj);
+                var resultado = await _insertrolusuario.InsertarRolUsuarioAsync(obj);
 
-                if (resultado.Estado)
+                if (!resultado.Estado)
+                    return Json(new { exito = false, mensaje = resultado.Mensaje });
+
+                var objAuditoria = new Insert_AuditoriaDto
                 {
-                    TempData["SweetAlert"] = "success";
-                    TempData["Titulo"] = "Rol actualizado";
-                    TempData["Mensaje"] = resultado.Mensaje;
+                    Id_Tipo_Auditoria = request.Accion == "asignar" ? 3 : 4,
+                    Ip_Maquina = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                    fecha = DateTime.Now,
+                    Id_Usuario = long.Parse(User.FindFirst("IdUsuario")?.Value),
+                    Observacion = $"Se {(request.Accion == "asignar" ? "asignó" : "quitó")} el rol ID {request.IdRol} al usuario ID {request.IdUsuario}."
+                };
 
-                    // Traer usuario afectado por ID
-                    var usuarioAfectado = await _iBusacrUsuarioNurIdentificacion.ObtenerUsuarioPorIdentificacionAsync<BuscarUsuarioNurIdentificacionPet, UsuarioDto>(
-                        new BuscarUsuarioNurIdentificacionPet
-                        {
-                            NRO_IDENTIFICACION = idUsuario 
-                        }
-                    );
+                await _insertAuditoria.InsertarAuditoriaAsync(objAuditoria);
 
-                    var nombreAfectado = usuarioAfectado.Respuesta?.USUARIO_EMPRESARIAL ?? $"ID: {idUsuario}";
-
-                    var ObjAuditoria = new Insert_AuditoriaDto
-                    {
-                        Id_Tipo_Auditoria = accion == "asignar" ? 3 : 4, 
-                        Ip_Maquina = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                        fecha = DateTime.Now,
-                        Id_Usuario = long.Parse(User.FindFirst("IdUsuario")?.Value),
-                        Observacion = $"Se {(accion == "asignar" ? "asignó" : "quitó")} el rol ID {rolSeleccionado} al usuario {nombreAfectado}."
-                    };
-
-                    await _insertAuditoria.InsertarAuditoriaAsync(ObjAuditoria);
-                }
-                else
-                {
-                    TempData["SweetAlert"] = "error";
-                    TempData["Titulo"] = "Error al actualizar";
-                    TempData["Mensaje"] = resultado.Mensaje;
-                }
+                return Json(new { exito = true, mensaje = resultado.Mensaje });
             }
             catch (Exception ex)
             {
-                TempData["SweetAlert"] = "error";
-                TempData["Titulo"] = "Error inesperado";
-                TempData["Mensaje"] = "Ocurrió un error al asignar o quitar el rol. Detalles: " + ex.Message;
+                return Json(new { exito = false, mensaje = $"Error inesperado: {ex.Message}" });
             }
-
-            return RedirectToAction("Index");
         }
-
-
 
         private async Task CargarListasAsync()
         {
             try
             {
-                var _listaRoles = await _dominio.ListaDetalle(2);
-                ViewBag.Roles = new SelectList(_listaRoles, "Id", "Descripcion");
+                var listaRoles = await _dominio.ListaDetalle(2);
+                ViewBag.Roles = new SelectList(listaRoles, "Id", "Descripcion");
             }
             catch (Exception ex)
             {
                 ViewBag.Error = "Error cargando listas: " + ex.Message;
             }
         }
+    }
+
+    // Clase para recibir el body del fetch de GestionarRol
+    public class GestionarRolRequest
+    {
+        public int IdUsuario { get; set; }
+        public int IdRol { get; set; }
+        public string Accion { get; set; }
     }
 }

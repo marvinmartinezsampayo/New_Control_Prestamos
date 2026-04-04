@@ -63,7 +63,7 @@ document.getElementById('formGenerarCodigo').addEventListener('submit', async fu
         return;
     }
 
-    const response = await fetch('/Solicitud/CodigoAcceso/GuardarCodigoAcceso', {
+    const response = await fetch(`${window.appConfig.baseUrl}Solicitud/CodigoAcceso/GuardarCodigoAcceso`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -124,7 +124,7 @@ function renderizarCodigos(codigos) {
 
 //vamos a llamar los codigos de acceso del dia de hoy una vez se halla agregado un codigo 
 function cargarCodigosDeHoy() {
-    fetch('/Solicitud/CodigoAcceso/ObtenerCodigosHoy')
+    fetch(`${window.appConfig.baseUrl}Solicitud/CodigoAcceso/ObtenerCodigosHoy`)
         .then(response => response.json())
         .then(data => {
             renderizarCodigos(data);
@@ -169,7 +169,7 @@ document.getElementById('formBuscarCodigos').addEventListener('submit', async fu
 
         // Ejecutar búsqueda solo por fechas
         try {
-            const response = await fetch(`/Solicitud/CodigoAcceso/BuscarCodigosPorFechas?fechaInicio=${fechaDesde}&fechaFin=${fechaHasta}&Codigo=`);
+            const response = await fetch(`${window.appConfig.baseUrl}Solicitud/CodigoAcceso/BuscarCodigosPorFechas?fechaInicio=${fechaDesde}&fechaFin=${fechaHasta}&Codigo=`);
             const codigos = await response.json();
             renderizarCodigos(codigos);
         } catch (error) {
@@ -183,7 +183,7 @@ document.getElementById('formBuscarCodigos').addEventListener('submit', async fu
     // Ejecutar búsqueda solo por código
     if (codigoBuscar) {
         try {
-            const response = await fetch(`/Solicitud/CodigoAcceso/BuscarCodigosPorFechas?fechaInicio=&fechaFin=&Codigo=${encodeURIComponent(codigoBuscar)}`);
+            const response = await fetch(`${window.appConfig.baseUrl}Solicitud/CodigoAcceso/BuscarCodigosPorFechas?fechaInicio=&fechaFin=&Codigo=${encodeURIComponent(codigoBuscar)}`);
             const codigos = await response.json();
             renderizarCodigos(codigos);
         } catch (error) {
@@ -258,7 +258,7 @@ async function guardarEdicionCodigo() {
     };
 
     try {
-        const response = await fetch('/Solicitud/CodigoAcceso/ActualizarCodigoAcceso', {
+        const response = await fetch(`${window.appConfig.baseUrl}Solicitud/CodigoAcceso/ActualizarCodigoAcceso`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

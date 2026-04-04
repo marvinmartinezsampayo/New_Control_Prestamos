@@ -1,63 +1,60 @@
-﻿<link href="~/lib/bootstrap/dist/css/bootstrap-icons.min.css" rel="stylesheet" />
-<style>
-    .nav-link.active {
-        color: #000 !important;
-    }
-</style>
+﻿@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Gestión de Préstamos";
+}
 
+<link href="~/lib/AprobacionPrestamo/css/Prestamos.css" rel="stylesheet" />
 
-<body class="bg-light">
-    <div class="container-fluid py-3">
-        <div class="row justify-content-center">
-            <div class="col-lg-11">
-                <div class="text-center mb-5">
-                    <h1 class="display-6 fw-bold text-primary">
-                        <i class="bi bi-layout-text-window-reverse me-2"></i>
-                        Gestion de Prestamos
-                    </h1>
-                    <p class="lead text-muted">Sistema de Préstamos Florencia</p>
-                </div>
+<div class="container-fluid py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
 
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <i class="fas fa-hand-holding-usd me-1"></i>
-                        Préstamos pendientes de aprobación
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="tablaPrestamos" class="datatable table table-striped table-hover table-sm">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th scope="col">Solicitante</th>
-                                        <th scope="col">Identificación</th>
-                                        <th scope="col">Celular</th>
-                                        <th scope="col">Fecha Solicitud</th>
-                                        <th scope="col">Monto</th>
-                                        <th scope="col">Estado</th>
-                                        <th scope="col" class="text-center">Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="7" class="text-center text-muted">
-                                            <i class="bi bi-inbox"></i> No se encontraron préstamos pendientes.
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-               
+            <!-- Header del módulo -->
+            <div class="modulo-header">
+                <h1>
+                    <i class="bi bi-layout-text-window-reverse me-2"></i>
+                    Gestión de Préstamos
+                </h1>
+                <p>Sistema de Préstamos Florencia</p>
             </div>
+
+            <!-- Card Tabla Préstamos -->
+            <div class="card-master">
+                <div class="card-header-custom">
+                    <i class="bi bi-cash-coin"></i>
+                    <span>Préstamos Pendientes de Aprobación</span>
+                </div>
+                <div class="card-content">
+                    <div class="table-responsive">
+                        <table id="tablaPrestamos" class="tabla-master table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Solicitante</th>
+                                    <th>Identificación</th>
+                                    <th>Celular</th>
+                                    <th>Fecha Solicitud</th>
+                                    <th>Monto</th>
+                                    <th>Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7" class="tabla-vacia">
+                                        <i class="bi bi-inbox me-2"></i>
+                                        No se encontraron préstamos pendientes.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
-
-</body>
-
+</div>
 
 @section Scripts {
     <script src="~/lib/AprobacionPrestamo/AprobacionPrestamo.js"></script>
-   
 }

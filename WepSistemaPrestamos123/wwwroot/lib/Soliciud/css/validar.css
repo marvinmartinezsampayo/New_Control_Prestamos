@@ -1,0 +1,385 @@
+/* ============================================================
+   SOLICITUDES.CSS
+   Módulo: Gestión de solicitudes de préstamos
+   Depende de: master.css + prestamos.css (tabla-master, badges, btn-accion-*)
+   ============================================================ */
+
+
+/* ===================================================
+   1. TABS NAVEGACIÓN
+   =================================================== */
+.tabs-header {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    padding: 0 1.5rem;
+}
+
+.tabs-nav {
+    border-bottom: none;
+    gap: 0.25rem;
+}
+
+.tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 3px solid transparent;
+    color: rgba(255, 255, 255, 0.65);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.88rem;
+    letter-spacing: 0.3px;
+    padding: 0.9rem 1.25rem;
+    transition: var(--transition);
+    cursor: pointer;
+    border-radius: 0;
+}
+
+.tab-btn:hover {
+    color: var(--color-dorado-claro);
+    border-bottom-color: rgba(201, 168, 76, 0.4);
+}
+
+.tab-btn.active {
+    color: var(--color-dorado) !important;
+    border-bottom: 3px solid var(--color-dorado);
+    background: rgba(255, 255, 255, 0.07);
+}
+
+
+/* ===================================================
+   2. TARJETAS DE ESTADÍSTICAS
+   =================================================== */
+.stat-card {
+    border-radius: var(--border-radius);
+    padding: 1.75rem 1.25rem;
+    text-align: center;
+    transition: var(--transition);
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-card);
+}
+
+/* Navy */
+.stat-card-navy {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    color: var(--color-blanco);
+}
+
+.stat-card-navy .stat-icon,
+.stat-card-navy .stat-titulo,
+.stat-card-navy .stat-sub {
+    color: var(--color-dorado-claro);
+}
+
+.stat-card-navy .stat-numero {
+    color: var(--color-blanco);
+}
+
+/* Dorado */
+.stat-card-dorado {
+    background: linear-gradient(135deg, var(--color-dorado), var(--color-dorado-claro));
+    color: var(--color-navy);
+}
+
+.stat-card-dorado .stat-icon,
+.stat-card-dorado .stat-titulo,
+.stat-card-dorado .stat-sub,
+.stat-card-dorado .stat-numero {
+    color: var(--color-navy);
+}
+
+/* Outline */
+.stat-card-outline {
+    background: var(--color-blanco);
+    border: 2px solid var(--color-navy);
+    color: var(--color-navy);
+}
+
+.stat-card-outline .stat-icon,
+.stat-card-outline .stat-titulo {
+    color: var(--color-navy);
+}
+
+.stat-card-outline .stat-numero {
+    color: var(--color-dorado);
+}
+
+.stat-card-outline .stat-sub {
+    color: var(--color-gris-medio);
+}
+
+/* Elementos internos */
+.stat-icon {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.stat-numero {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+}
+
+.stat-titulo {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 0.25rem;
+}
+
+.stat-sub {
+    font-size: var(--font-size-xs);
+    font-weight: 300;
+}
+
+
+/* ===================================================
+   3. ALERTA INFORMATIVA
+   =================================================== */
+.alerta-info {
+    background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
+    border-left: 4px solid var(--color-navy-medio);
+    border-radius: var(--border-radius-sm);
+    padding: 1rem 1.25rem;
+    color: var(--color-navy);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    text-align: justify;
+}
+
+.alerta-info i {
+    color: var(--color-navy-medio);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+
+/* ===================================================
+   4. ACTIVIDAD RECIENTE
+   =================================================== */
+.actividad-lista {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.actividad-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid #eaecef;
+    font-size: var(--font-size-sm);
+    color: var(--color-gris-oscuro);
+}
+
+.actividad-item:last-child {
+    border-bottom: none;
+}
+
+.actividad-icon {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.icon-exito  { color: var(--color-exito); }
+.icon-navy   { color: var(--color-navy-medio); }
+.icon-dorado { color: var(--color-dorado); }
+
+.actividad-tiempo {
+    margin-left: auto;
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    color: var(--color-gris-medio);
+    white-space: nowrap;
+    background: var(--color-gris-fondo);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--border-radius-pill);
+}
+
+
+/* ===================================================
+   5. TABLA (reutiliza de prestamos.css)
+      Solo agrega lo específico de solicitudes
+   =================================================== */
+.tabla-master thead tr {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+}
+
+.tabla-master thead th {
+    color: var(--color-dorado-claro);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: none;
+    padding: 0.85rem 1rem;
+}
+
+.tabla-master tbody tr {
+    transition: var(--transition);
+    border-bottom: 1px solid #eaecef;
+}
+
+.tabla-master tbody tr:hover {
+    background-color: #fdfaf3;
+}
+
+.tabla-master tbody td {
+    font-size: var(--font-size-sm);
+    color: var(--color-gris-oscuro);
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+.tabla-vacia {
+    text-align: center;
+    color: var(--color-gris-medio);
+    font-style: italic;
+    padding: 2rem !important;
+}
+
+/* Badges */
+.badge-pendiente {
+    background: #fff3cd;
+    color: #856404;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--border-radius-pill);
+}
+
+.badge-aprobado {
+    background: #d1f0dc;
+    color: var(--color-exito);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--border-radius-pill);
+}
+
+.badge-rechazado {
+    background: #fde8e8;
+    color: var(--color-peligro);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--border-radius-pill);
+}
+
+/* Botones acción tabla */
+.btn-accion-ver,
+.btn-accion-aprobar,
+.btn-accion-rechazar {
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-accion-ver {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    color: var(--color-dorado-claro);
+}
+
+.btn-accion-ver:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-btn);
+    color: var(--color-dorado);
+}
+
+.btn-accion-aprobar {
+    background: linear-gradient(135deg, var(--color-exito), var(--color-exito-hover));
+    color: var(--color-blanco);
+}
+
+.btn-accion-aprobar:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-exito);
+    color: var(--color-blanco);
+}
+
+.btn-accion-rechazar {
+    background: linear-gradient(135deg, var(--color-peligro), var(--color-peligro-hover));
+    color: var(--color-blanco);
+}
+
+.btn-accion-rechazar:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-peligro);
+    color: var(--color-blanco);
+}
+
+
+/* ===================================================
+   6. BOTÓN VOLVER
+   — Solo en vistas de detalle
+   =================================================== */
+.btn-volver {
+    background: transparent;
+    color: var(--color-navy);
+    border: 2px solid var(--color-navy);
+    border-radius: var(--border-radius-sm);
+    padding: 0.55rem 1.2rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.4px;
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+}
+
+.btn-volver:hover {
+    background: var(--color-navy);
+    color: var(--color-dorado-claro);
+    box-shadow: var(--shadow-btn);
+    transform: translateY(-1px);
+}
+
+
+/* ===================================================
+   7. RESPONSIVE ESPECÍFICO
+   =================================================== */
+@media (max-width: 768px) {
+    .tab-btn {
+        font-size: 0.78rem;
+        padding: 0.7rem 0.75rem;
+    }
+
+    .stat-numero {
+        font-size: 1.6rem;
+    }
+
+    .stat-icon {
+        font-size: 1.8rem;
+    }
+
+    .tabla-master thead th {
+        font-size: 0.72rem;
+        padding: 0.6rem 0.5rem;
+    }
+
+    .tabla-master tbody td {
+        font-size: 0.78rem;
+        padding: 0.5rem;
+    }
+}
