@@ -21,7 +21,7 @@ namespace Datos.Modelos
 
         [Required]
         [Column("MONTO")]
-        public long MONTO { get; set; }
+        public decimal MONTO { get; set; }
 
         [Required]
         [Column("NUMERO_CUOTAS")]
@@ -45,7 +45,7 @@ namespace Datos.Modelos
         public DateTime FECHA_FIN { get; set; }
 
         [Column("SALDO_MONTO")]
-        public long SALDO_MONTO { get; set; }
+        public decimal SALDO_MONTO { get; set; }
 
         [Column("ID_ESTADO")]
         public long ID_ESTADO { get; set; }
