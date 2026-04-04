@@ -1,0 +1,286 @@
+/* ============================================================
+   PAGOS.CSS
+   Módulo: Consulta y registro de pagos de préstamos
+   Depende de: master.css
+   ============================================================ */
+
+
+/* ===================================================
+   1. ALERTA ÉXITO (cliente encontrado)
+   =================================================== */
+.alerta-info {
+    background: linear-gradient(135deg, #e8f4fd, #d6eaf8);
+    border-left: 4px solid var(--color-navy-medio);
+    border-radius: var(--border-radius-sm);
+    padding: 1rem 1.25rem;
+    color: var(--color-navy);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    text-align: justify;
+}
+
+.alerta-info i {
+    color: var(--color-navy-medio);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+}
+
+.alerta-exito {
+    background: linear-gradient(135deg, #d1f0dc, #bbead0);
+    border-left: 4px solid var(--color-exito);
+    border-radius: var(--border-radius-sm);
+    padding: 0.85rem 1.25rem;
+    color: var(--color-exito);
+    font-size: var(--font-size-sm);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.alerta-exito i {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+
+/* ===================================================
+   2. TABLA DE PRÉSTAMOS
+   =================================================== */
+.tabla-master thead tr {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+}
+
+.tabla-master thead th {
+    color: var(--color-dorado-claro);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: none;
+    padding: 0.85rem 1rem;
+}
+
+.tabla-master tbody tr {
+    transition: var(--transition);
+    border-bottom: 1px solid #eaecef;
+}
+
+.tabla-master tbody tr:hover {
+    background-color: #fdfaf3;
+}
+
+.tabla-master tbody td {
+    font-size: var(--font-size-sm);
+    color: var(--color-gris-oscuro);
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+.tabla-vacia {
+    text-align: center;
+    color: var(--color-gris-medio);
+    font-style: italic;
+    padding: 2rem !important;
+}
+
+
+/* ===== Badges de estado ===== */
+.badge-estado {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.85rem;
+    border-radius: var(--border-radius-pill);
+    letter-spacing: 0.3px;
+    display: inline-block;
+}
+
+.badge-aprobado {
+    background: #d1f0dc;
+    color: var(--color-exito);
+}
+
+.badge-finalizado {
+    background: #d6eaf8;
+    color: var(--color-navy-medio);
+}
+
+.badge-mora {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-rechazado {
+    background: #fde8e8;
+    color: var(--color-peligro);
+}
+
+
+/* ===== Botones acción tabla ===== */
+.btn-accion-aprobar {
+    background: linear-gradient(135deg, var(--color-exito), var(--color-exito-hover));
+    color: var(--color-blanco);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-accion-aprobar:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-exito);
+    color: var(--color-blanco);
+}
+
+
+/* ===================================================
+   3. CAMPO REQUERIDO
+   =================================================== */
+.campo-requerido {
+    color: var(--color-peligro);
+    font-weight: 700;
+}
+
+
+/* ===================================================
+   4. INPUT MONTO CON PREFIJO $
+   =================================================== */
+.monto-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--color-gris-borde);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    background: var(--color-gris-fondo);
+    transition: var(--transition);
+}
+
+.monto-wrapper:focus-within {
+    border-color: var(--color-dorado);
+    box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+    background: var(--color-blanco);
+}
+
+.monto-prefix {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    color: var(--color-dorado-claro);
+    font-weight: 700;
+    font-family: var(--font-body);
+    padding: 0.62rem 0.85rem;
+    font-size: var(--font-size-base);
+    flex-shrink: 0;
+}
+
+.monto-input {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    flex: 1;
+    text-align: center;
+    font-weight: 700;
+}
+
+.monto-input:focus {
+    outline: none;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+/* ===================================================
+   5. MODAL (reutiliza clases de codigoacceso.css)
+   =================================================== */
+.modal-master {
+    border: none;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+
+.modal-header-master {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-titulo {
+    font-family: var(--font-display);
+    font-size: var(--font-size-md);
+    color: var(--color-dorado-claro);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.modal-body-master {
+    background: var(--color-blanco);
+    padding: 1.5rem;
+}
+
+.modal-footer-master {
+    background: var(--color-gris-fondo);
+    border-top: 1px solid #eaecef;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.switch-modal-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--color-gris-fondo);
+    border: 1.5px solid var(--color-gris-borde);
+    border-radius: var(--border-radius-sm);
+    padding: 0.6rem 1rem;
+}
+
+.switch-modal-wrapper .switch-input {
+    width: 2.4em;
+    height: 1.3em;
+    cursor: pointer;
+    accent-color: var(--color-navy);
+}
+
+.switch-modal-wrapper .switch-label {
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    margin: 0;
+}
+
+
+/* ===================================================
+   6. RESPONSIVE
+   =================================================== */
+@media (max-width: 768px) {
+    .tabla-master thead th {
+        font-size: 0.72rem;
+        padding: 0.6rem 0.5rem;
+    }
+
+    .tabla-master tbody td {
+        font-size: 0.78rem;
+        padding: 0.5rem;
+    }
+
+    .monto-wrapper {
+        flex-direction: row;
+    }
+}

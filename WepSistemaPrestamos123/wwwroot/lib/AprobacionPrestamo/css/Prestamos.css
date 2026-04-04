@@ -1,0 +1,175 @@
+/* ============================================================
+   PRESTAMOS.CSS
+   Módulo: Gestión y aprobación de préstamos
+   Depende de: master.css
+   ============================================================ */
+
+
+/* ===================================================
+   1. TABLA DE PRÉSTAMOS
+   =================================================== */
+.tabla-master thead tr {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+}
+
+.tabla-master thead th {
+    color: var(--color-dorado-claro);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: none;
+    padding: 0.85rem 1rem;
+}
+
+.tabla-master tbody tr {
+    transition: var(--transition);
+    border-bottom: 1px solid #eaecef;
+}
+
+.tabla-master tbody tr:hover {
+    background-color: #fdfaf3;
+}
+
+.tabla-master tbody td {
+    font-size: var(--font-size-sm);
+    color: var(--color-gris-oscuro);
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+.tabla-vacia {
+    text-align: center;
+    color: var(--color-gris-medio);
+    font-style: italic;
+    padding: 2rem !important;
+}
+
+
+/* ===================================================
+   2. BADGES DE ESTADO
+   — Para mostrar el estado del préstamo en la tabla
+   =================================================== */
+.badge-pendiente {
+    background: #fff3cd;
+    color: #856404;
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--border-radius-pill);
+    letter-spacing: 0.3px;
+}
+
+.badge-aprobado {
+    background: #d1f0dc;
+    color: var(--color-exito);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--border-radius-pill);
+    letter-spacing: 0.3px;
+}
+
+.badge-rechazado {
+    background: #fde8e8;
+    color: var(--color-peligro);
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--border-radius-pill);
+    letter-spacing: 0.3px;
+}
+
+
+/* ===================================================
+   3. BOTONES DE ACCIONES EN TABLA
+   =================================================== */
+.btn-accion-aprobar {
+    background: linear-gradient(135deg, var(--color-exito), var(--color-exito-hover));
+    color: var(--color-blanco);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-accion-aprobar:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-exito);
+    color: var(--color-blanco);
+}
+
+.btn-accion-rechazar {
+    background: linear-gradient(135deg, var(--color-peligro), var(--color-peligro-hover));
+    color: var(--color-blanco);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-accion-rechazar:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-peligro);
+    color: var(--color-blanco);
+}
+
+.btn-accion-ver {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    color: var(--color-dorado-claro);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.3rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    font-family: var(--font-body);
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-accion-ver:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-btn);
+    color: var(--color-dorado);
+}
+
+
+/* ===================================================
+   4. RESPONSIVE ESPECÍFICO
+   =================================================== */
+@media (max-width: 768px) {
+    .tabla-master thead th {
+        font-size: 0.72rem;
+        padding: 0.6rem 0.5rem;
+    }
+
+    .tabla-master tbody td {
+        font-size: 0.78rem;
+        padding: 0.5rem;
+    }
+
+    .btn-accion-aprobar,
+    .btn-accion-rechazar,
+    .btn-accion-ver {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+}

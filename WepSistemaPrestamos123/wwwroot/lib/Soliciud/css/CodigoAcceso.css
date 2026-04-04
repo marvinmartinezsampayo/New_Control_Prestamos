@@ -1,0 +1,217 @@
+/* ============================================================
+   CODIGOACCESO.CSS
+   Módulo: Gestión y generación de códigos de acceso
+   Depende de: master.css
+   ============================================================ */
+
+
+/* ===================================================
+   1. BOTONES ESPECÍFICOS DEL MÓDULO
+   =================================================== */
+
+/* Botón Generar — outline navy con dorado */
+.btn-generar {
+    background: transparent;
+    color: var(--color-navy);
+    border: 2px solid var(--color-navy);
+    border-radius: var(--border-radius-sm);
+    padding: 0.62rem 1.2rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    letter-spacing: 0.4px;
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-generar:hover {
+    background: var(--color-navy);
+    color: var(--color-dorado-claro);
+    box-shadow: var(--shadow-btn);
+    transform: translateY(-2px);
+}
+
+/* Botón Guardar Código — dorado */
+.btn-guardar {
+    background: linear-gradient(135deg, var(--color-dorado), var(--color-dorado-claro));
+    color: var(--color-navy);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.62rem 1.2rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    letter-spacing: 0.4px;
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-guardar:hover {
+    background: linear-gradient(135deg, var(--color-dorado-claro), var(--color-dorado));
+    color: var(--color-navy);
+    box-shadow: var(--shadow-btn);
+    transform: translateY(-2px);
+}
+
+/* Botón Limpiar búsqueda — peligro compacto */
+.btn-limpiar {
+    background: linear-gradient(135deg, var(--color-peligro), var(--color-peligro-hover));
+    color: var(--color-blanco);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    padding: 0.62rem 1rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-base);
+    transition: var(--transition);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-limpiar:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-peligro);
+}
+
+
+/* ===================================================
+   2. TABLA DE CÓDIGOS
+   =================================================== */
+.tabla-master thead tr {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+}
+
+.tabla-master thead th {
+    color: var(--color-dorado-claro);
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: none;
+    padding: 0.85rem 1rem;
+}
+
+.tabla-master tbody tr {
+    transition: var(--transition);
+    border-bottom: 1px solid #eaecef;
+}
+
+.tabla-master tbody tr:hover {
+    background-color: #fdfaf3;
+}
+
+.tabla-master tbody td {
+    font-size: var(--font-size-sm);
+    color: var(--color-gris-oscuro);
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+.tabla-vacia {
+    text-align: center;
+    color: var(--color-gris-medio);
+    font-style: italic;
+    padding: 2rem !important;
+}
+
+
+/* ===================================================
+   3. MODAL
+   =================================================== */
+.modal-master {
+    border: none;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+}
+
+.modal-header-master {
+    background: linear-gradient(135deg, var(--color-navy), var(--color-navy-medio));
+    padding: 1.2rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.modal-titulo {
+    font-family: var(--font-display);
+    font-size: var(--font-size-md);
+    color: var(--color-dorado-claro);
+    margin: 0;
+    letter-spacing: 0.5px;
+}
+
+.modal-body-master {
+    background: var(--color-blanco);
+    padding: 1.5rem;
+}
+
+.modal-footer-master {
+    background: var(--color-gris-fondo);
+    border-top: 1px solid #eaecef;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+/* Switch dentro del modal */
+.switch-modal-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--color-gris-fondo);
+    border: 1.5px solid var(--color-gris-borde);
+    border-radius: var(--border-radius-sm);
+    padding: 0.6rem 1rem;
+}
+
+.switch-modal-wrapper .switch-input {
+    width: 2.4em;
+    height: 1.3em;
+    cursor: pointer;
+    accent-color: var(--color-navy);
+}
+
+.switch-modal-wrapper .switch-label {
+    font-family: var(--font-body);
+    font-size: var(--font-size-sm);
+    font-weight: 700;
+    color: var(--color-navy);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    cursor: pointer;
+    margin: 0;
+}
+
+
+/* ===================================================
+   4. RESPONSIVE ESPECÍFICO
+   =================================================== */
+@media (max-width: 768px) {
+    .btn-generar,
+    .btn-guardar,
+    .btn-limpiar {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .tabla-master thead th {
+        font-size: 0.75rem;
+        padding: 0.6rem 0.5rem;
+    }
+
+    .tabla-master tbody td {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+}

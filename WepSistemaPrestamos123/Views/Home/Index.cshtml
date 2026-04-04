@@ -1,56 +1,88 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
 }
 
-<!-- imprtar Styles -->
+<link href="~/lib/Home/css/home.css" rel="stylesheet" />
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<link rel="stylesheet" href="~/lib/Home/css/HomeStyles.css" />
-
-
-<!-- LOADER -->
+<!-- Loader -->
 <div id="loader" class="loader-container">
-    <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Cargando...</span>
-    </div>
+    <div class="loader-spinner"></div>
 </div>
 
 <div class="container-fluid py-3">
     <div class="row justify-content-center">
-        <div class="col-lg-11">
+        <div class="col-lg-10">
 
-            <div class="text-center">
-                <h1 class="display-6 fw-bold text-primary typewriter animated-title ">
-                    <i class="bi bi-person-plus-fill me-2"></i>
+            <!-- Header bienvenida -->
+            <div class="modulo-header">
+                <h1 class="animated-title">
+                    <i class="bi bi-bank2 me-2"></i>
                     Bienvenido al Sistema de Préstamos
                 </h1>
-                <p class="lead">Gestione, solicite y consulte sus préstamos de forma fácil y segura</p>
+                <p>Gestione, solicite y consulte sus préstamos de forma fácil y segura</p>
             </div>
 
-            <div class="container my-5">
-                <div class="row justify-content-center">
-                    <div class="col-md-10">
-                        <div class="card shadow-lg border-0 rounded-4 card-hover">
-                            <div class="card-body p-5">
-                                <h3 class="card-title mb-4"><i class="bi bi-ui-checks-grid me-2"></i> ¿Qué desea hacer hoy?</h3>
-                                <ul class="list-group list-group-flush fs-5">
-                                    <li class="list-group-item"><i class="bi bi-search me-2 text-primary"></i>Consultar solicitudes realizadas</li>
-                                    <li class="list-group-item"><i class="bi bi-pencil-square me-2 text-success"></i>Crear una nueva solicitud de préstamo</li>
-                                    <li class="list-group-item"><i class="bi bi-bar-chart-line me-2 text-warning"></i>Ver el estado de su solicitud</li>
-                                </ul>
-                                <div class="mt-4 text-muted fst-italic">
-                                    <i class="bi bi-lightbulb-fill text-info me-2"></i>Use el menú lateral para acceder a cada módulo del sistema.
+            <!-- Card principal -->
+            <div class="card-master home-card">
+                <div class="card-header-custom">
+                    <i class="bi bi-ui-checks-grid"></i>
+                    <span>¿Qué desea hacer hoy?</span>
+                </div>
+                <div class="card-content">
+
+                    <!-- Opciones de acción -->
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-4">
+                            <div class="home-opcion">
+                                <div class="home-opcion-icono icono-navy">
+                                    <i class="bi bi-search"></i>
+                                </div>
+                                <div class="home-opcion-texto">
+                                    <div class="home-opcion-titulo">Consultar Solicitudes</div>
+                                    <div class="home-opcion-sub">Revisa el historial de solicitudes realizadas</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="home-opcion">
+                                <div class="home-opcion-icono icono-dorado">
+                                    <i class="bi bi-pencil-square"></i>
+                                </div>
+                                <div class="home-opcion-texto">
+                                    <div class="home-opcion-titulo">Nueva Solicitud</div>
+                                    <div class="home-opcion-sub">Crea una nueva solicitud de préstamo</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="home-opcion">
+                                <div class="home-opcion-icono icono-outline">
+                                    <i class="bi bi-bar-chart-line"></i>
+                                </div>
+                                <div class="home-opcion-texto">
+                                    <div class="home-opcion-titulo">Ver Estado</div>
+                                    <div class="home-opcion-sub">Consulta el estado de tu solicitud actual</div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    <hr class="divisor-datos" />
+
+                    <!-- Tip de uso -->
+                    <div class="home-tip">
+                        <i class="bi bi-lightbulb-fill home-tip-icono"></i>
+                        <span>Use el menú lateral para acceder a cada módulo del sistema.</span>
+                    </div>
+
                 </div>
             </div>
+
         </div>
     </div>
 </div>
 
 @section Scripts {
     <script src="~/lib/Home/js/Home.js"></script>
-            }
-
+}

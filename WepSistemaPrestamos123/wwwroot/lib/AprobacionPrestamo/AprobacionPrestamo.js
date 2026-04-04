@@ -5,7 +5,7 @@
 async function cargarPrestamos() {
     try {
 
-        const response = await fetch(`${window.appConfig.baseUrl}Gestion/AprobarPrestamo/ObtenerPrestamos`); 
+        const response = await fetch(`${window.appConfig.baseUrl}Gestion/AprobarPrestamo/ObtenerPrestamos`);
         if (!response.ok) throw new Error("Error al obtener los préstamos");
 
         const data = await response.json();
@@ -46,17 +46,19 @@ function renderTabla(prestamos) {
             <td>${p.celular}</td>
             <td>${new Date(p.fechaCreacion).toLocaleDateString()}</td>
             <td>$${p.monto.toLocaleString()}</td>
-            <td><span class="badge bg-warning text-dark">Pendiente</span></td>
+            <td><span class="badge-pendiente">Pendiente</span></td>
             <td class="text-center">
-                <button class="btn btn-sm btn-primary me-1" onclick="verPrestamo(${p.id}, ${p.estadoId})">
-                    <i class="bi bi-eye"></i>
-                </button>
-                <button class="btn btn-sm btn-success me-1" onclick="aprobarPrestamo(${p.id}, ${p.estadoId})">
-                    <i class="bi bi-check-circle"></i>
-                </button>
-                <button class="btn btn-sm btn-danger" onclick="cancelarPrestamo(${p.id}, ${p.estadoId})">
-                    <i class="bi bi-x-circle"></i>
-                </button>
+                <div class="d-flex gap-1 justify-content-center">
+                    <button class="btn-accion-ver" onclick="verPrestamo(${p.id}, ${p.estadoId})">
+                        <i class="bi bi-eye"></i>
+                    </button>
+                    <button class="btn-accion-aprobar" onclick="aprobarPrestamo(${p.id}, ${p.estadoId})">
+                        <i class="bi bi-check-circle"></i>
+                    </button>
+                    <button class="btn-accion-rechazar" onclick="cancelarPrestamo(${p.id}, ${p.estadoId})">
+                        <i class="bi bi-x-circle"></i>
+                    </button>
+                </div>
             </td>
         `;
 

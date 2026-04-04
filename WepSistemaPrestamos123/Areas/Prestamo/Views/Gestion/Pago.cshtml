@@ -2,128 +2,112 @@
 @using Comun.DTO.Prestamo
 @{
     Layout = "_Layout";
-    ViewData["Title"] = "Prestamos Pagos";
+    ViewData["Title"] = "Consulta y Registro de Pagos";
 }
 
-<link href="~/lib/bootstrap/dist/css/bootstrap-icons.min.css" rel="stylesheet" />
+<link href="~/lib/prestamo/css/pagos.css" rel="stylesheet" />
 
-<style>
-    .nav-link.active {
-        color: #000 !important;
-    }
-</style>
+<div class="container py-3">
+    <div class="row justify-content-center">
+        <div class="col-lg-11">
 
-
-<body class="bg-light">
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-11">
-                <div class="text-center mb-5">
-                    <h1 class="display-6 fw-bold text-primary">
-                        <i class="bi bi-currency-exchange me-2"></i>
-                        Consulta y Registro de Pagos
-                    </h1>
-                    <p class="lead text-muted">Sistema de Prestamos Florencia</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="row">
-                <div class="col-12 mb-4">
-                    <div class="alert alert-info d-flex align-items-center" role="alert">
-                        <i class="bi bi-info-circle-fill me-2"></i>
-                        <div style="text-align: justify">
-                            Bienvenido al panel de consulta y registro de pagos. Aquí encontrarás un resumen de los prestamos y los aportes que les ha realizado un cliente.
-                        </div>
-                    </div>
-                </div>
+            <!-- Header del módulo -->
+            <div class="modulo-header">
+                <h1>
+                    <i class="bi bi-currency-exchange me-2"></i>
+                    Consulta y Registro de Pagos
+                </h1>
+                <p>Sistema de Préstamos Florencia</p>
             </div>
 
-            <div class="card mb-4">
-                <div class="card-header">
-                    <i class="fas fa-table me-1"></i>
-                    Consultar prestamos cliente.
-                </div>
+            <!-- Alerta informativa -->
+            <div class="alerta-info mb-3">
+                <i class="bi bi-info-circle-fill"></i>
+                Bienvenido al panel de consulta y registro de pagos. Aquí encontrarás un resumen
+                de los préstamos y los aportes realizados por el cliente.
+            </div>
 
-                <div class="row">
-                    <!-- Buscar por identificación -->
+            <!-- Card Buscar -->
+            <div class="card-master">
+                <div class="card-header-custom">
+                    <i class="bi bi-search"></i>
+                    <span>Consultar Préstamos del Cliente</span>
+                </div>
+                <div class="card-content">
+
+                    <!-- Formulario búsqueda -->
                     <form method="get" action="~/Prestamo/Gestion/BuscarPorIdentificacion">
                         @Html.AntiForgeryToken()
-                        <div class="row mb-4 mt-4 d-flex justify-content-center">
-                            <div class="col-8 col-md-6 mb-3 mb-md-0">
-                                <input type="text" name="nroIdentificacion" class="form-control p-2" placeholder="Buscar por identificación..." />
+                        <div class="row g-2 align-items-end mb-3">
+                            <div class="col-12 col-md-9">
+                                <label class="form-label-custom">Número de Identificación</label>
+                                <input type="text" name="nroIdentificacion" class="form-input"
+                                       placeholder="Buscar por identificación..." />
                             </div>
-                            <div class="col-8 col-md-2">
-                                <button class="btn btn-primary w-100 p-2" type="submit">Buscar</button>
+                            <div class="col-12 col-md-3">
+                                <button class="btn-buscar w-100" type="submit">
+                                    <i class="bi bi-search me-1"></i> Buscar
+                                </button>
                             </div>
                         </div>
                     </form>
-                </div>
 
-                <div class="card-body">
-
-                    <!-- Resultado del usuario -->
+                    <!-- Resultados -->
                     @{
                         var listPres = ViewBag.Prestamos as List<Prestamo_Dto>;
                     }
 
                     @if (listPres != null && listPres.Any())
                     {
-                        <div class="row">
-                            <div class="col-12 mb-4">
-                                <div class="alert alert-success d-flex align-items-center p-1" role="alert">
-                                    <i class="bi bi-info-circle-fill me-2"></i>
-                                    <div style="text-align: justify">
-                                        La identificación esta asociada al usuario <strong class="h5"> @listPres[0].SOLICITANTE</strong>
-                                    </div>
-                                </div>
-                            </div>
+                        <!-- Alerta cliente encontrado -->
+                        <div class="alerta-exito mb-3">
+                            <i class="bi bi-person-check-fill"></i>
+                            La identificación está asociada al usuario
+                            <strong class="ms-1">@listPres[0].SOLICITANTE</strong>
                         </div>
 
-                        <div class="row">
-                            <table id="datatablesSimple" class="table table-striped table-hover table-sm">
-                                <thead class="table-light">
+                        <!-- Tabla préstamos -->
+                        <div class="table-responsive">
+                            <table id="datatablesSimple"
+                                   class="tabla-master table table-hover table-sm">
+                                <thead>
                                     <tr>
-                                        <th scope="col"></th>
-                                        <th scope="col">Fecha Inicio</th>
-                                        <th scope="col">Fecha Final</th>
-                                        <th scope="col">Monto</th>
-                                        <th scope="col">% Interes</th>
-                                        <th scope="col">Cuotas</th>
-                                        <th scope="col">Saldo</th>
-                                        <th scope="col">Estado</th>
+                                        <th class="text-center">Pagar</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Final</th>
+                                        <th>Monto</th>
+                                        <th>% Interés</th>
+                                        <th>Cuotas</th>
+                                        <th>Saldo</th>
+                                        <th>Estado</th>
                                     </tr>
                                 </thead>
-
                                 <tbody>
                                     @foreach (var solicitud in listPres)
                                     {
                                         <tr>
-                                            <th scope="row" class="d-flex justify-content-center align-items-center">
-                                                <button type="button" class="btn btn-success btn-sm" title="Ver"
-                                                        onclick="pagarPrestamo(@solicitud.ID,@solicitud.MONTO, @solicitud.INTERES,@solicitud.SALDO_MONTO, @solicitud.NUMERO_CUOTAS)">
+                                            <td class="text-center">
+                                                <button class="btn-accion-aprobar" title="Registrar Pago"
+                                                        onclick="pagarPrestamo(@solicitud.ID, @solicitud.MONTO, @solicitud.INTERES, @solicitud.SALDO_MONTO, @solicitud.NUMERO_CUOTAS)">
                                                     <i class="bi bi-currency-dollar"></i>
                                                 </button>
-                                            </th>
-                                            <td class="text-center">@solicitud.FECHA_INICIO.ToString("dd/MM/yyyy")</td>
-                                            <td class="text-center">@solicitud.FECHA_FIN.ToString("dd/MM/yyyy")</td>
-                                            <td class="text-center">@(solicitud.MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
-                                            <td class="text-center"> % @solicitud.INTERES.ToString()</td>
-                                            <td class="text-center">@solicitud.NUMERO_CUOTAS.ToString("N0")</td>
-                                            <td class="text-center">@(solicitud.SALDO_MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
-                                            <td class="text-center">
-                                                <div class="w-100 alert alert-@(solicitud.ESTADO == "ACTIVO" ? "success" :
-                                                                        solicitud.ESTADO == "FINALIZADO" ? "primary" :
-                                                                        solicitud.ESTADO == "MORA" ? "warning" : "danger")
-                                                        py-1 px-2 mb-0 d-inline-block text-center">
-                                                    @solicitud.ESTADO
-                                                </div>
                                             </td>
-                                        </tr>
-                                    }
+                                            <td>@solicitud.FECHA_INICIO.ToString("dd/MM/yyyy")</td>
+                                            <td>@solicitud.FECHA_FIN.ToString("dd/MM/yyyy")</td>
+                                            <td>@(solicitud.MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                            <td>% @solicitud.INTERES.ToString()</td>
+                                            <td>@solicitud.NUMERO_CUOTAS.ToString("N0")</td>
+                                            <td>@(solicitud.SALDO_MONTO.ToString("C", new System.Globalization.CultureInfo("es-CO")) ?? "N/A")</td>
+                                            <td>
+                                                <span class="badge-estado badge-@(solicitud.ESTADO == "ACTIVO"     ? "aprobado"  :
+                                                                                                                                         solicitud.ESTADO == "FINALIZADO" ? "finalizado" :
+                                                                                                                                         solicitud.ESTADO == "MORA" ? "mora" : "rechazado")">
+                                            @solicitud.ESTADO
+                                        </span>
+                                    </td>
+                                </tr>
+                                                                }
                                 </tbody>
-
                             </table>
                         </div>
                     }
@@ -132,98 +116,105 @@
             </div>
 
         </div>
-
     </div>
+</div>
 
-    <!-- Modal para Pagar Préstamo -->
-    <div class="modal fade" id="modalPagarPrestamo" tabindex="-1" aria-labelledby="modalPagarPrestamoLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-success text-white">
-                    <h5 class="modal-title" id="modalPagarPrestamoLabel">
-                        <i class="bi bi-credit-card me-2"></i>Registrar Pago de Préstamo
-                    </h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+
+<!-- Modal Registrar Pago -->
+<div class="modal fade" id="modalPagarPrestamo" tabindex="-1"
+     aria-labelledby="modalPagarPrestamoLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content modal-master">
+
+            <div class="modal-header-master">
+                <h5 class="modal-titulo">
+                    <i class="bi bi-credit-card me-2"></i> Registrar Pago de Préstamo
+                </h5>
+                <button type="button" class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="formPagarPrestamo">
+                @Html.AntiForgeryToken()
+                <div class="modal-body modal-body-master">
+                    <div class="row g-3">
+
+                        <!-- ID oculto -->
+                        <div class="col-md-6 d-none">
+                            <label class="form-label-custom">ID Préstamo</label>
+                            <input type="number" class="form-input" id="idPrestamo"
+                                   name="ID_PRESTAMO" readonly />
+                        </div>
+
+                        <!-- Fecha de pago -->
+                        <div class="col-md-6">
+                            <label class="form-label-custom">
+                                Fecha de Pago <span class="campo-requerido">*</span>
+                            </label>
+                            <input type="datetime-local" class="form-input" id="fechaPago"
+                                   name="FECHA_PAGO" required />
+                        </div>
+
+                        <!-- Monto -->
+                        <div class="col-md-6">
+                            <label class="form-label-custom">
+                                Monto <span class="campo-requerido">*</span>
+                            </label>
+                            <div class="monto-wrapper">
+                                <span class="monto-prefix">$</span>
+                                <input type="text" class="form-input monto-input" id="monto"
+                                       name="MONTO" placeholder="0" required />
+                            </div>
+                        </div>
+
+                        <!-- Info distribución pago -->
+                        <div class="col-12">
+                            <div class="alerta-info">
+                                <i class="bi bi-info-circle-fill"></i>
+                                <div>
+                                    El valor ingresado será distribuido entre pago de interés y luego en pago a capital.
+                                    Interés: <strong id="valInteresPago"></strong> —
+                                    Capital: <strong id="valCapitalPago"></strong> —
+                                    Total: <strong id="valTotalPago"></strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Checkbox solo intereses -->
+                        <div class="col-12">
+                            <div class="switch-modal-wrapper">
+                                <input class="switch-input" type="checkbox"
+                                       id="checkSoloPagoInteres" />
+                                <label class="switch-label" for="checkSoloPagoInteres">
+                                    <i class="bi bi-toggle-on me-1"></i> Pagar solo intereses
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
-                <form id="formPagarPrestamo">
-                    @Html.AntiForgeryToken()
-                    <div class="modal-body">
-                        <div class="row">
-                            <!-- ID_PRESTAMO -->
-                            <div class="col-md-6 mb-3 ocultar">
-                                <label for="idPrestamo" class="form-label">ID Préstamo</label>
-                                <input type="number" class="form-control" id="idPrestamo" name="ID_PRESTAMO" readonly>
-                            </div>
+                <div class="modal-footer modal-footer-master">
+                    <button type="button" class="btn-peligro" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn-exito">
+                        <i class="bi bi-check-circle me-1"></i> Registrar Pago
+                    </button>
+                </div>
+            </form>
 
-                            <!-- FECHA_PAGO -->
-                            <div class="col-md-6 mb-3">
-                                <label for="fechaPago" class="form-label">Fecha de Pago <span class="text-danger">*</span></label>
-                                <input type="datetime-local" class="form-control" id="fechaPago" name="FECHA_PAGO" required>
-                            </div>
-
-                            <!-- MONTO -->
-                            <div class="col-md-6 mb-3">
-                                <label for="monto1" class="form-label">Monto <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input type="text" class="form-control text-center fw-bold" id="monto" name="MONTO" placeholder="0" required>
-                                </div>
-                            </div>
-
-
-                        </div>
-                        <div class="row">
-                            <div class="col-12 mb-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="alert alert-info d-flex align-items-center mb-1" role="alert">
-                                            <i class="bi bi-info-circle-fill me-2"></i>
-                                            <div style="text-align: justify">
-                                                El valor ingresado sera distribuido entre pago de interes y luego en pago a capital. El valor correspondiente a intereses es de $ <strong id="valInteresPago"></strong>
-                                                y el valor correspondiente a capital es de $ <strong id="valCapitalPago"></strong> para un total de $ <strong id="valTotalPago"></strong>.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="alert alert-warning d-flex align-items-center mb-1 pt-1 pb-1" role="alert">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" value="" id="checkSoloPagoInteres">
-                                                <label class="form-check-label" for="flexCheckChecked">
-                                                    Pagar solo intereses.
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success">Registrar Pago</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
+</div>
 
-
-    <div id="sweetAlertData"
-         data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
-         data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
-         data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)">
-        @*  data-limpiar="@((ViewBag.LimpiarFormulario ?? false).ToString().ToLower())"> *@
-    </div>
-
-
-</body>
+<div id="sweetAlertData"
+     data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
+     data-titulo="@(TempData["Titulo"] ?? ViewBag.Titulo)"
+     data-mensaje="@(TempData["Mensaje"] ?? ViewBag.Mensaje)">
+</div>
 
 @section Scripts {
     <script src="~/lib/sweetalert2@11.js"></script>
     <script src="~/lib/prestamo/js/pago.js"></script>
 }
-
-
-
