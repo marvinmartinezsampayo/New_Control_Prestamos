@@ -59,8 +59,82 @@ function validarMonto() {
     feedback.classList.add('d-none');
     btnGuardar.disabled = false;
 }
-function GenerarMulta(idSolicitud) {
-    console.log('Generar multa - ID:', idSolicitud);
+function GenerarMulta(idPrestamo) {
+    document.getElementById('multa_IdPrestamo').value = idPrestamo;
+    document.getElementById('multa_ValorMulta').value = '';
+    document.getElementById('multa_DescripcionMotivo').value = '';
+    document.getElementById('multa_IdMotivo').value = '';
+    
+    var modal = new bootstrap.Modal(document.getElementById('modalGenerarMulta'));
+    modal.show();
+}
+function ConfirmarGenerarMulta() {
+    var idPrestamo = document.getElementById('multa_IdPrestamo').value;
+    var valorMulta = parseInt(document.getElementById('multa_ValorMulta').value);
+    var idMotivo = document.getElementById('multa_IdMotivo').value;
+    var descripcion = document.getElementById('multa_DescripcionMotivo').value.trim();
+    
+
+    if (!valorMulta || valorMulta <= 0) {
+        Swal.fire('Validación', 'El valor de la multa debe ser mayor a cero.', 'warning');
+        return;
+    }
+    if (!idMotivo) {
+        Swal.fire('Validación', 'Debe seleccionar un motivo.', 'warning');
+        return;
+    }
+    if (!descripcion) {
+        Swal.fire('Validación', 'Debe ingresar una descripción del motivo.', 'warning');
+        return;
+    }
+
+    var modelo = {
+        idPrestamo: parseInt(idPrestamo),
+        valorMulta: valorMulta,
+        saldoMulta: valorMulta,
+        fechaImposicion: new Date().toISOString(),
+        idMotivo: parseInt(idMotivo),
+        descripcionMotivo: descripcion,
+        idEstado: 64,
+        usuarioCreacion: '@User.Identity.Name',
+        maquinaCreacion: window.location.hostname
+    };
+
+    Swal.fire({
+        title: '¿Confirmar multa?',
+        text: `Se generará una multa por $${valorMulta} al préstamo #${idPrestamo}.`,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, generar',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#ffc107'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            var token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            fetch('/Prestamo/Gestion/InsertarMulta', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': token
+                },
+                body: JSON.stringify(modelo)
+            })
+                .then(r => r.json())
+                .then(resp => {
+                    if (resp.codigo === 1) {
+                        bootstrap.Modal.getInstance(document.getElementById('modalGenerarMulta')).hide();
+                        Swal.fire('Éxito', resp.mensaje, 'success')
+                            .then(() => location.reload());
+                    } else {
+                        Swal.fire('Error', resp.mensaje, 'error');
+                    }
+                })
+                .catch(() => {
+                    Swal.fire('Error', 'Ocurrió un error al generar la multa.', 'error');
+                });
+        }
+    });
 }
 function CambiarCategoria(idSolicitud) {
     console.log('Cambiar categoría - ID:', idSolicitud);
@@ -114,7 +188,7 @@ document.getElementById('btnGuardarPago').addEventListener('click', async () => 
                 ID_PRESTAMO: parseInt(idPrestamo),
                 FECHA_PAGO: fechaPago,
                 MONTO: parseFloat(monto),
-                PAGO_INTERESES: pagoIntereses
+                PAGO_INTERESES: false
             })
         });
 

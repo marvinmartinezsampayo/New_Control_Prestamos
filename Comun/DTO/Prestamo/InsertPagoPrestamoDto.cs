@@ -23,5 +23,6 @@ namespace Comun.DTO.Prestamo
 
         [Display(Name = "Pagar solo intereses")]
         public bool PAGO_INTERESES { get; set; } = false;
+
     }
 }

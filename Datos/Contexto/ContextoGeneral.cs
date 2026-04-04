@@ -28,5 +28,6 @@ namespace Datos.Contexto
         public DbSet<PRESTAMOS> PRESTAMOS { get; set; }
         public DbSet<PAGOS> PAGOS { get; set; }
         public DbSet<DEPOSITO_INVERSOR> DEPOSITO_INVERSOR { get; set; }
+        public DbSet<MULTA> MULTA { get; set; }
     }
 }

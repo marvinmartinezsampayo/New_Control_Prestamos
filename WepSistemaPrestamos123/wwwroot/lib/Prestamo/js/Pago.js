@@ -32,7 +32,6 @@ function pagarPrestamo(idPrestamo, monto, interes, saldo, num_cuotas) {
 
     modalPago.show();
 }
-
 function formatearNumero(numero) {
     // Convertir a string si no lo es
     const numeroStr = numero.toString();
@@ -48,9 +47,6 @@ function formatearNumero(numero) {
     // Retornar con decimales si existen
     return parteDecimal ? numeroFormateado + ',' + parteDecimal : numeroFormateado;
 }
-
-// IMPORTANTE: Cambiar el input HTML a:
-// <input type="text" id="monto" inputmode="numeric">
 
 document.getElementById('monto').addEventListener('input', function (e) {
     const input = e.target;
@@ -91,18 +87,13 @@ document.getElementById('monto').addEventListener('input', function (e) {
         input.setSelectionRange(posicionFinal, posicionFinal);
     });
 });
-
 function formatearNumero1(numero) {
     return numero.toLocaleString('es-CO');
 }
-
-// Función auxiliar para obtener el valor numérico real
 function obtenerValorNumerico(inputId) {
     const valor = document.getElementById(inputId).value;
     return Number(valor.replace(/[^\d]/g, ''));
 }
-
-// Función para establecer valor inicial
 function establecerValor(inputId, valor) {
     const input = document.getElementById(inputId);
     const numeroLimpio = String(valor).replace(/[^\d]/g, '');

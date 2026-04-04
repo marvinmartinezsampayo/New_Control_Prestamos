@@ -5,6 +5,7 @@ using Datos.Contratos.Prestamo;
 using Datos.Contratos.Solicitud;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Negocio.Gestion;
 using WepPrestamos.Areas.Prestamo.Controllers;
 
@@ -46,6 +47,9 @@ namespace WepPrestamos.Areas.Tableros.Controllers
                 var totalPagoCapital = await _prestamo.Obtener_Sumatoria_Monto_Pagos_Async<long, decimal>(45);
                 var totalPagoMora = await _prestamo.Obtener_Sumatoria_Monto_Pagos_Async<long, decimal>(46);
 
+                var _listaTipoMotivoMulta = await _dominio.ListaDetalle(60);
+                var _listaEstadoMulta = await _dominio.ListaDetalle(63);
+
 
                 if (totalSaldoCreditos.Respuesta > 0 && totalDeposito.Respuesta > 0)
                 {
@@ -62,6 +66,9 @@ namespace WepPrestamos.Areas.Tableros.Controllers
                     ViewBag.TotalPagoIntereses = totalPagoIntereses.Respuesta;
                     ViewBag.TotalPagoCapital = totalPagoCapital.Respuesta;
                     ViewBag.Rentabilidad = (totalPagoIntereses.Respuesta / totalDeposito.Respuesta) * 100;
+
+                    ViewBag.listTipoTipoMotivoMulta = new SelectList(_listaTipoMotivoMulta, "Id", "Nombre");
+                    ViewBag.listEstadoMulta = new SelectList(_listaEstadoMulta, "Id", "Nombre");
                 }
                 else
                 {
@@ -81,6 +88,7 @@ namespace WepPrestamos.Areas.Tableros.Controllers
                 });
             }
         }
+                
 
     }
 }

@@ -499,5 +499,165 @@ namespace Negocio.Gestion
                 };
             }
         }
+
+        public async Task<RespuestaDto<TReturn>> Insertar_Multa_Async<TParam, TReturn>(TParam _modelo)
+        {
+            try
+            {
+                if (_modelo is Parametros_Insertar_Multas_Dto multa)
+                {
+                    var nuevaMulta = new MULTA
+                    {
+                        IdPrestamo = multa.IdPrestamo,
+                        ValorMulta = multa.ValorMulta,
+                        SaldoMulta = multa.SaldoMulta,
+                        FechaImposicion = multa.FechaImposicion,
+                        IdMotivo = multa.IdMotivo,
+                        DescripcionMotivo = multa.DescripcionMotivo,
+                        IdEstado = multa.IdEstado,
+                        UsuarioCreacion = multa.UsuarioCreacion,
+                        MaquinaCreacion = multa.MaquinaCreacion,
+                        FechaCreacion = DateTime.Now,
+                        UsuarioActualizacion = multa.UsuarioCreacion,
+                        MaquinaActualizacion = multa.MaquinaCreacion,
+                        FechaActualizacion = DateTime.Now
+                    };
+
+                    await _context.MULTA.AddAsync(nuevaMulta);
+                    await _context.SaveChangesAsync();
+
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "OK",
+                        Respuesta = (TReturn)Convert.ChangeType(true, typeof(TReturn))
+                    };
+                }
+                else
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "ERROR",
+                        Respuesta = (TReturn)Convert.ChangeType(_modelo, typeof(TReturn))
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Excepcion" + ex.Message
+                };
+            }
+        }
+
+        public async Task<RespuestaDto<TReturn>> Actualizar_Multa_Async<TParam, TReturn>(TParam _modelo)
+        {
+            try
+            {
+                if (_modelo is Parametros_Actualizar_Multas_Dto multa)
+                {
+                    var multaExistente = await _context.MULTA.FindAsync(multa.Id);
+
+                    if (multaExistente == null)
+                        return new RespuestaDto<TReturn>
+                        {
+                            Codigo = EstadoOperacion.Malo,
+                            Mensaje = "Multa no encontrada",
+                            Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                        };
+
+                    multaExistente.IdPrestamo = multa.IdPrestamo;
+                    multaExistente.ValorMulta = multa.ValorMulta;
+                    multaExistente.SaldoMulta = multa.SaldoMulta;
+                    multaExistente.FechaImposicion = multa.FechaImposicion;
+                    multaExistente.IdMotivo = multa.IdMotivo;
+                    multaExistente.DescripcionMotivo = multa.DescripcionMotivo;
+                    multaExistente.IdEstado = multa.IdEstado;
+                    multaExistente.UsuarioActualizacion = multa.UsuarioActualizacion;
+                    multaExistente.MaquinaActualizacion = multa.MaquinaActualizacion;
+                    multaExistente.FechaActualizacion = DateTime.Now;
+
+                    await _context.SaveChangesAsync();
+
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "OK",
+                        Respuesta = (TReturn)Convert.ChangeType(true, typeof(TReturn))
+                    };
+                }
+                else
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "ERROR",
+                        Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Excepcion"
+                };
+            }
+        }
+
+        public async Task<RespuestaDto<TReturn>> Pago_Multa_Async<TParam, TReturn>(TParam _modelo)
+        {
+            try
+            {
+                if (_modelo is Parametros_Pago_Multas_Dto pago)
+                {
+                    var multaExistente = await _context.MULTA.FindAsync(pago.Id);
+
+                    if (multaExistente == null)
+                        return new RespuestaDto<TReturn>
+                        {
+                            Codigo = EstadoOperacion.Malo,
+                            Mensaje = "Multa no encontrada",
+                            Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                        };
+
+                    multaExistente.SaldoMulta = pago.SaldoMulta;
+                    multaExistente.IdEstado = pago.IdEstado ?? multaExistente.IdEstado;
+                    multaExistente.UsuarioActualizacion = pago.UsuarioActualizacion;
+                    multaExistente.MaquinaActualizacion = pago.MaquinaActualizacion;
+                    multaExistente.FechaActualizacion = DateTime.Now;
+
+                    await _context.SaveChangesAsync();
+
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "OK",
+                        Respuesta = (TReturn)Convert.ChangeType(true, typeof(TReturn))
+                    };
+                }
+                else
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "ERROR",
+                        Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Excepcion"
+                };
+            }
+        }
     }
 }

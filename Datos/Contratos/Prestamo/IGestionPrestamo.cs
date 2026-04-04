@@ -20,5 +20,8 @@ namespace Datos.Contratos.Prestamo
         Task<RespuestaDto<TReturn>> Obtener_Sumatoria_Depositos_Inversores_Async<TReturn>();
         Task<RespuestaDto<TReturn>> Obtener_Sumatoria_Saldos_Creditos_Async<TReturn>();
         Task<RespuestaDto<TReturn>> Obtener_Sumatoria_Monto_Pagos_Async<TParam, TReturn>(TParam _modelo);
+        Task<RespuestaDto<TReturn>> Insertar_Multa_Async<TParam, TReturn>(TParam _modelo);
+        Task<RespuestaDto<TReturn>> Actualizar_Multa_Async<TParam, TReturn>(TParam _modelo);
+        Task<RespuestaDto<TReturn>> Pago_Multa_Async<TParam, TReturn>(TParam _modelo);
     }
 }

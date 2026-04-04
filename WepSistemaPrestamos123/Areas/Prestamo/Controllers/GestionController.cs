@@ -142,7 +142,6 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                     long interes = (long)Math.Round((double)(saldo * intereses) / 100, 0);
                     long Valorcuota = (long)(prestamos.MONTO / prestamos.NUMERO_CUOTAS);
                     
-
                     if (modelo.PAGO_INTERESES)
                     {
                         if(modelo.MONTO == interes)
@@ -411,140 +410,6 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                                 Mensaje = "El pago fue registrado exitosamente."
                             });
 
-
-
-
-                            //bool sw_respPagoInte =false;
-                            //bool sw_respPagoCap = false;
-
-                            //if(sumInter < interes)
-                            //{
-                            //    //-----------------------------------------------------------------
-                            //    //------------------ Guardamos los intereses ----------------------
-                            //    //-----------------------------------------------------------------
-                            //    var cuota = 1;
-
-                            //    if(maxCuota > 0)
-                            //    {
-                            //        cuota = maxCuota;
-                            //    }
-                                
-                            //    try
-                            //    {
-                            //        RegistrarActualizarPagoDto p = new RegistrarActualizarPagoDto();
-                            //        p.ID = 0;
-                            //        p.ID_PRESTAMO = resultado.Respuesta.ID;
-                            //        p.FECHA_PAGO = modelo.FECHA_PAGO;
-                            //        p.MONTO = interes;
-                            //        p.ID_TIPO_PAGO = 44;
-                            //        p.NUMERO_CUOTA = cuota;
-
-                            //        var respPagoInte = await _prestamo.Insertar_Pago_Async<RegistrarActualizarPagoDto, string>(p);
-                            //        sw_respPagoInte = respPagoInte.Estado;
-                            //    }
-                            //    catch (Exception) { }
-                            //}
-
-                           
-
-
-                            ////---------------------------------------------------------------------------
-                            ////--------Si saldoMonto es mayor a 0 entonces -------------------------------
-                            ////---------------------------------------------------------------------------
-
-                            //if (saldoMonto > 0)
-                            //{
-                            //    var cuota = 1;
-
-                            //    if (maxCuota > 0)
-                            //    {
-                            //        //Validar la suma de capital contra el valor de la cuota
-                            //        if (sumCapital < Valorcuota)
-                            //        {
-                            //            var salCapital = Valorcuota - sumCapital;
-
-                            //            if(salCapital <= saldoMonto)
-                            //            {
-                            //                cuota = maxCuota;
-                            //            }
-                            //            else
-                            //            {
-                            //            //Insertar 
-
-
-
-
-                            //            }
-
-                            //        }
-                            //        else
-                            //        {
-
-
-                            //        }
-
-                                        
-
-                            //    }
-
-                            //    try
-                            //    {
-                            //        RegistrarActualizarPagoDto p = new RegistrarActualizarPagoDto();
-                            //        p.ID = 0;
-                            //        p.ID_PRESTAMO = resultado.Respuesta.ID;
-                            //        p.FECHA_PAGO = modelo.FECHA_PAGO;
-                            //        p.MONTO = saldoMonto;
-                            //        p.ID_TIPO_PAGO = 45;
-                            //        p.NUMERO_CUOTA = cuota;
-
-                            //        var respPagoCap = await _prestamo.Insertar_Pago_Async<RegistrarActualizarPagoDto, string>(p);
-                            //        sw_respPagoCap = respPagoCap.Estado;
-                            //    }
-                            //    catch (Exception) { }
-
-                            //    try
-                            //    { 
-                            //        var _saldo = prestamos.SALDO_MONTO - saldoMonto;
-
-                            //        ActualizarPrestamoDto a = new ActualizarPrestamoDto();
-                            //        a.ID = modelo.ID_PRESTAMO;
-                            //        a.SALDO = _saldo;
-
-                            //        if (_saldo <= 0)
-                            //        {
-                            //            a.ID_ESTADO = 52;
-                            //        }
-
-                            //        var actuPrestamo = await _prestamo.Actualizar_Prestamo_Async<ActualizarPrestamoDto,bool>(a);
-                            //    }
-                            //    catch (Exception) { }
-
-                            //}
-                            
-                            //if (sw_respPagoInte && sw_respPagoCap)
-                            //{
-                            //    return Json(new RespuestaDto<bool>
-                            //    {
-                            //        Codigo = EstadoOperacion.Bueno,
-                            //        Mensaje = "Los montos a intereses y capital fueron registrados exitosamente."
-                            //    });
-                            //}
-                            //else
-                            //{
-                            //    string txt_mensaje = "Precaución: Se almacenó el pago de intereses: " +
-                            //                         (sw_respPagoInte ? "SI" : "NO") +
-                            //                         " y Se almacenó el pago a capital: " +
-                            //                         (sw_respPagoCap ? "SI" : "NO");
-
-                            //    return Json(new RespuestaDto<bool>
-                            //    {
-                            //        Codigo = EstadoOperacion.Bueno,
-                            //        Mensaje = txt_mensaje
-                            //    });
-
-                            //}
-
-
                         }
                         else
                         {
@@ -562,7 +427,7 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
                     return Json(new RespuestaDto<bool>
                     {
                         Codigo = EstadoOperacion.Malo,
-                        Mensaje = "Se generó un error al insertar el pago"
+                        Mensaje = "No hay un prestamo asociado a ese ID"
                     });
                 }
             }
@@ -579,7 +444,168 @@ namespace WepPrestamos.Areas.Prestamo.Controllers
 
         }
 
-        
+        // ************************************************************************************
+        // *********************************  MULTA  ******************************************
+        // ************************************************************************************
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> InsertarMulta([FromBody] Parametros_Insertar_Multas_Dto modelo)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Datos incompletos, valide e intente nuevamente."
+                    });
+
+                if (modelo.ValorMulta <= 0)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "El valor de la multa debe ser mayor a cero."
+                    });
+
+                if (modelo.SaldoMulta < 0)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "El saldo de la multa no puede ser negativo."
+                    });
+
+                var resultado = await _prestamo.Insertar_Multa_Async<Parametros_Insertar_Multas_Dto, bool>(modelo);
+
+                if (resultado.Codigo == EstadoOperacion.Bueno)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "La multa fue registrada exitosamente."
+                    });
+
+                return Json(new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = "No se pudo registrar la multa. Intente nuevamente."
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Ocurrió un error interno. Intente nuevamente."
+                });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ActualizarMulta([FromBody] Parametros_Actualizar_Multas_Dto modelo)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Datos incompletos, valide e intente nuevamente."
+                    });
+
+                if (modelo.Id <= 0)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "El ID de la multa no es válido."
+                    });
+
+                if (modelo.ValorMulta <= 0)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "El valor de la multa debe ser mayor a cero."
+                    });
+
+                var resultado = await _prestamo.Actualizar_Multa_Async<Parametros_Actualizar_Multas_Dto, bool>(modelo);
+
+                if (resultado.Codigo == EstadoOperacion.Bueno)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "La multa fue actualizada exitosamente."
+                    });
+
+                return Json(new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = resultado.Mensaje
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Ocurrió un error interno. Intente nuevamente."
+                });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PagarMulta([FromBody] Parametros_Pago_Multas_Dto modelo)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Datos incompletos, valide e intente nuevamente."
+                    });
+
+                if (modelo.Id <= 0)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "El ID de la multa no es válido."
+                    });
+
+                if (modelo.SaldoMulta < 0)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "El saldo de la multa no puede ser negativo."
+                    });
+
+                var resultado = await _prestamo.Pago_Multa_Async<Parametros_Pago_Multas_Dto, bool>(modelo);
+
+                if (resultado.Codigo == EstadoOperacion.Bueno)
+                    return Json(new RespuestaDto<bool>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "El pago de la multa fue registrado exitosamente."
+                    });
+
+                return Json(new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Malo,
+                    Mensaje = resultado.Mensaje
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new RespuestaDto<bool>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = "Ocurrió un error interno. Intente nuevamente."
+                });
+            }
+        }
+
+
+
         private int CalcularCuotasVencidas(DateTime fechaConsulta, DateTime FechaInicio, Int64 NumeroCuotas)
         {
             // Si la fecha de consulta es anterior al inicio, no hay cuotas vencidas

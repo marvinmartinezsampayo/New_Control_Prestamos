@@ -373,7 +373,7 @@
                                                             <li>
                                                                 <a class="dropdown-item small"
                                                                    href="#"
-                                                                   onclick="GenerarMulta(@prestamo.ID_SOLICITUD)">
+                                                                   onclick="GenerarMulta(@prestamo.ID_PRESTAMO)">
                                                                     <i class="bi bi-exclamation-triangle text-warning me-2"></i>
                                                                     Generar Multa
                                                                 </a>
@@ -381,7 +381,7 @@
                                                             <li>
                                                                 <a class="dropdown-item small"
                                                                    href="#"
-                                                                   onclick="CambiarCategoria(@prestamo.ID_SOLICITUD)">
+                                                                   onclick="CambiarCategoria(@prestamo.ID_PRESTAMO)">
                                                                     <i class="bi bi-tag text-primary me-2"></i>
                                                                     Cambiar Categoría
                                                                 </a>
@@ -572,6 +572,63 @@
         </div>
     </div>
     <!-- ===== FIN MODAL AGREGAR PAGO ===== -->
+
+    <!-- Modal Generar Multa -->
+    <div class="modal fade" id="modalGenerarMulta" tabindex="-1" aria-labelledby="modalGenerarMultaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-warning text-dark">
+                    <h5 class="modal-title" id="modalGenerarMultaLabel">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Generar Multa
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="multa_IdPrestamo" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Valor Multa <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control" id="multa_ValorMulta" min="1" placeholder="Ingrese el valor de la multa" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Motivo <span class="text-danger">*</span></label>
+                        <select tabindex="1"
+                                class="form-select form-select-sm"
+                                style="width: 100%; padding-top: 6px !important; padding-bottom: 6px !important;"
+                                required="true"
+                                id="multa_IdMotivo">
+                            <option value="">Seleccione ...</option>
+                            @if (ViewBag.listTipoTipoMotivoMulta != null)
+                            {
+                                foreach (var item in ViewBag.listTipoTipoMotivoMulta as SelectList)
+                                {
+                                    <option value="@item.Value">@item.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Descripción del Motivo <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="multa_DescripcionMotivo" rows="3" maxlength="500" placeholder="Describa el motivo de la multa"></textarea>
+                    </div>              
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-1"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-warning text-dark" onclick="ConfirmarGenerarMulta()">
+                        <i class="bi bi-check-circle me-1"></i>Generar Multa
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Generar Multa -->
+
 
     <div id="sweetAlertData"
          data-icon="@(TempData["SweetAlert"] ?? ViewBag.SweetAlert)"
