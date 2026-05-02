@@ -36,5 +36,9 @@ namespace Comun.DTO.Solicitud
 
         [Required(ErrorMessage = "El estado habilitado es requerido")]
         public bool Habilitado { get; set; } = true;
+
+        [Required(ErrorMessage = "El estado habilitado es requerido")]
+        public Int64? IdCodeudor { get; set; } 
+
     }
 }

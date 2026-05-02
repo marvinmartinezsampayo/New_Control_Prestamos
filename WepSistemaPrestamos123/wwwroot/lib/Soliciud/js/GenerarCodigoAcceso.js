@@ -142,7 +142,7 @@ document.getElementById('formBuscarCodigos').addEventListener('submit', async fu
     const fechaHasta = document.getElementById('fechaHasta').value;
     const codigoBuscar = document.getElementById('codigoBuscar').value.trim();
 
-    debugger;
+  
     // Validación: Todos los campos están vacíos
     if (!fechaDesde && !fechaHasta && !codigoBuscar) {
         Swal.fire('Faltan datos', 'Debe ingresar un código o un rango de fechas.', 'warning');

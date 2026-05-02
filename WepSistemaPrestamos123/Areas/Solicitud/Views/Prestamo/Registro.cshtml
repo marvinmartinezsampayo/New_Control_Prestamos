@@ -6,7 +6,7 @@
 }
 @if (ViewData["ObjCodigo"] != null)
 {
-    codigo = (string)ViewData["ObjCodigo"];    
+    codigo = (string)ViewData["ObjCodigo"];
 }
 
 @* @{
@@ -18,7 +18,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de Préstamo</title>   
+    <title>Solicitud de Préstamo</title>
     <link href="~/css/styles.css" rel="stylesheet" />
     <link href="~/css/animate.min.css" rel="stylesheet" />
     <link href="~/lib/soliciud/css/registro.css" rel="stylesheet" />
@@ -79,17 +79,17 @@
                                             <input type="text" class="form-control" id="sApellido" placeholder=" ">
                                             <label for="sApellido">Segundo Apellido</label>
                                         </div>
-                                    </div>                                   
+                                    </div>
 
-                                    <div class="col-md-6 ">                                       
-                                        <div class="floating-select">                                           
+                                    <div class="col-md-6 ">
+                                        <div class="floating-select">
                                             @* @Html.DropDownList("listTipoDocumentos", null, String.Format("Tipo de documento"), htmlAttributes: new { @tabindex = 5, @class = "form-select", style = "width: 100%;", @id = "listTipoDocumentos", required = "true"}) *@
                                             @Html.DropDownList("listTipoDocumentos", null, String.Format("Seleccione ..."), htmlAttributes: new { @tabindex = 5, @class = "form-select", style = "width: 100%;padding-top:6px !important;padding-bottom: 6px !important;", @id = "listTipoDocumentos", required = "true" })
                                             <label for="listTipoDocumentos">Tipo de documento</label>
                                         </div>
                                     </div>
 
-                                     <div class="col-md-6">
+                                    <div class="col-md-6">
                                         <div class="floating-label">
                                             <input type="number" class="form-control" id="identificacion" placeholder=" " required>
                                             <label for="identificacion">Identificacion</label>
@@ -115,7 +115,7 @@
                                             <input type="tel" class="form-control" id="celular" required placeholder=" ">
                                             <label for="celular">Celular*</label>
                                         </div>
-                                    </div>                                    
+                                    </div>
 
                                     <div class="col-md-6 ">
                                         <div class="floating-select">
@@ -212,7 +212,7 @@
                                                 Acepto el tratamiento de mis datos personales
                                             </label>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
                             </div>
 
@@ -273,6 +273,9 @@
 
     @* modal para codeudor *@
 
+ 
+   
+
     <!-- Modal del Codeudor -->
     <div class="modal fade" id="modalCodeudorFormulario" tabindex="-1" aria-labelledby="modalCodeudorLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -310,8 +313,6 @@
                                 <select class="form-select" id="tipoIdentificacionCodeudor" required>
                                     <option value="">Seleccione...</option>
                                     <option value="1">Cédula de Ciudadanía</option>
-                                    <option value="2">Cédula de Extranjería</option>
-                                    <option value="3">Pasaporte</option>
                                 </select>
                             </div>
 
@@ -320,7 +321,7 @@
                                 <input type="number" class="form-control" id="numeroIdentificacionCodeudor" required>
                             </div>
 
-                            <!-- Dirección, Email, Celular -->
+                            
                             <div class="col-md-6">
                                 <label for="direccionCodeudor" class="form-label">Dirección *</label>
                                 <input type="text" class="form-control" id="direccionCodeudor" required>
@@ -338,13 +339,12 @@
 
                         </div>
 
-                        <!-- Documentos del codeudor -->
+                        
                         <hr class="my-4">
                         <h5 class="mb-3">Documentos del Codeudor</h5>
 
                         <div class="row g-3">
                             <div class="col-12" id="zonaDocumentosCodeudor">
-                                <!-- Aquí se cargan las tarjetas como en el paso 4 -->
                             </div>
 
                             <div class="col-12 text-center mt-3">
@@ -356,13 +356,14 @@
                                 </button>
                             </div>
                         </div>
-
+                                                                       
                     </form>
                 </div>
 
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" onclick="guardarCodeudor()">
-                        <i class="fas fa-save me-2"></i> Guardar Codeudor
+              
+                    <button type="button" class="btn btn-secondary" id="btnGuardarCodeudor" onclick="guardarCodeudor()">
+                        <i class="fas fa-save me-2"></i> Guardar Codeudor (0/N documentos)
                     </button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 </div>
@@ -374,11 +375,14 @@
     @* <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> *@
     <script src="~/lib/sweetalert2@11.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap5.0.2.bundle.min.js"></script>
-    <script src="~/lib/soliciud/js/registro.js"></script>
+  
     <script>
             const documentosRequeridos = @Html.Raw(Json.Serialize(ViewData["DocumentosRequeridos"] ?? new List<Respuesta_Consulta_Documentos_Requeridos>()));
-    </script>    
+            const documentosRequeridosCodeudor = @Html.Raw(Json.Serialize(ViewData["documentosRequeridosCodeudor"] ?? new List<Respuesta_Consulta_Documentos_Requeridos>()));
+    </script>
     <script src="~/js/carguedocumentos.js"></script>
+    <script src="~/js/carguedocumentoscodeudor.js"></script>
+    <script src="~/lib/soliciud/js/registro.js"></script>
    
 </body>
 </html>

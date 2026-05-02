@@ -51,6 +51,13 @@
     </div>
     <script src="~/lib/Soliciud/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/Soliciud/js/scripts.js"></script>
+    @* esto como esta publicado en los servidore  tengo una url o dominio por donde esta saliendo como no tiene Layout = null no puedo acceder a la url base por eso el scrip siguiente *@
+    <script>
+            window.appConfig = {
+                baseUrl: '@Url.Content("~/")'
+            };
+    </script>
+
     <script src="~/lib/Soliciud/js/CodigoAcceso.js"></script>
     <script src="~/lib/fontawesome-free-5.15.4-web/js/all.min.js"></script>
     <script src="~/lib/fontawesome-free-5.15.4-web/js/all.js"></script>

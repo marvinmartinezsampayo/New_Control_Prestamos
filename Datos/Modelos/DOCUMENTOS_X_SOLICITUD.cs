@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -44,7 +45,7 @@ namespace Datos.Modelos
         public string UsuarioCreacion { get; set; }
 
         [Required]
-        [MaxLength(100)]
+        
         [Column("MAQUINA_CREACION")]
         public string MaquinaCreacion { get; set; }
 
@@ -55,7 +56,7 @@ namespace Datos.Modelos
         [Column("USUARIO_MODIFICACION")]
         public string? UsuarioModificacion { get; set; }
 
-        [MaxLength(100)]
+        
         [Column("MAQUINA_MODIFICACION")]
         public string? MaquinaModificacion { get; set; }
 
@@ -64,8 +65,11 @@ namespace Datos.Modelos
 
         [Required]
         [Column("HABILITADO")]
+
         public bool Habilitado { get; set; }
 
+        [Column("ID_CODEUDOR")]
+        public long? IdCodeudor { get; set; }
         // Propiedades de navegación (opcional)
      
         public virtual DOCUMENTOS? FK_DOCUMENTO { get; set; }

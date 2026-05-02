@@ -16,6 +16,7 @@ namespace Datos.Contexto
 
         public DbSet<DETALLE_MASTER> DETALLE_MASTER { get; set; }
         public DbSet<USUARIO> USUARIO { get; set; }
+        public DbSet<CODEUDOR>CODEUDOR { get; set; }
         public DbSet<ROLES_X_USUARIO> ROLES_X_USUARIO { get; set; }
         public DbSet<BARRIOS> BARRIOS { get; set; }
         public DbSet<CODIGO_ACCESO> CODIGO_ACCESO { get; set; }

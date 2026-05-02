@@ -1,0 +1,222 @@
+
+
+.nav-link.active {
+    color: #000 !important;
+}
+
+.card-stat {
+    border-left: 4px solid;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .card-stat:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+    }
+
+    .card-stat.activo {
+        border-left-color: #198754;
+    }
+
+    .card-stat.mora {
+        border-left-color: #ffc107;
+    }
+
+    .card-stat.finalizado {
+        border-left-color: #0d6efd;
+    }
+
+    .card-stat.total {
+        border-left-color: #6c757d;
+    }
+
+    .card-stat.deposito {
+        border-left-color: #0dcaf0;
+    }
+
+    .card-stat.credito {
+        border-left-color: #198754;
+    }
+
+    .card-stat.intereses {
+        border-left-color: #fd7e14;
+    }
+
+    .card-stat.rentabilidad-positiva {
+        border-left-color: #198754;
+    }
+
+    .card-stat.rentabilidad-negativa {
+        border-left-color: #dc3545;
+    }
+
+.table thead th {
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.table {
+    width: 100%;
+}
+
+/* el overflow para todas las pantallas y que la table sea responsiva*/
+.table-responsive {
+    overflow-x: auto;
+    overflow-y: visible !important;
+}
+
+#datatablesSimple th,
+#datatablesSimple td {
+    vertical-align: middle !important;
+    white-space: nowrap;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+.dropdown-menu {
+    z-index: 9999 !important;
+}
+
+
+
+
+#datatablesSimple thead tr {
+    background: linear-gradient(135deg, #1A2A3A, #1E3A5F);
+}
+
+#datatablesSimple thead th {
+    color: #E2C97E !important;
+    font-family: 'Cinzel', serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    border: none !important;
+}
+
+/* para las filas de laa tablas  */
+#datatablesSimple tbody tr:hover {
+    background-color: #fdfaf3 !important;
+}
+
+/* cabecera de la tabla  */
+.card .card-header {
+    background: linear-gradient(135deg, #1A2A3A, #1E3A5F) !important;
+    color: #E2C97E !important;
+    border: none;
+    font-family: 'Cinzel', serif;
+    font-size: 0.95rem;
+    letter-spacing: 0.4px;
+}
+
+    .card .card-header .badge {
+        background: #C9A84C !important;
+        color: #1A2A3A !important;
+        font-weight: 700;
+    }
+
+/* modal para pagos */
+#modalAgregarPago .modal-header {
+    background: linear-gradient(135deg, #1A2A3A, #1E3A5F) !important;
+}
+
+#modalAgregarPago .modal-title {
+    font-family: 'Cinzel', serif;
+    color: #E2C97E;
+    letter-spacing: 0.5px;
+}
+
+#modalAgregarPago .modal-content {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(26, 42, 58, 0.18);
+}
+
+#modalAgregarPago .modal-footer {
+    background: #F4F5F7;
+    border-top: 1px solid #eaecef;
+}
+
+/* Botón Guardar Pago  */
+#btnGuardarPago {
+    background: linear-gradient(135deg, #1a6e3a, #22913e) !important;
+    border: none !important;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    border-radius: 6px;
+}
+
+    #btnGuardarPago:not(:disabled):hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 14px rgba(26, 110, 58, 0.35);
+    }
+
+/* estilos de modal */
+#modalGenerarMulta .modal-content {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(26, 42, 58, 0.18);
+}
+
+#modalGenerarMulta .modal-header {
+    background: linear-gradient(135deg, #7c5800, #d97706) !important;
+}
+
+#modalGenerarMulta .modal-title {
+    font-family: 'Cinzel', serif;
+    color: #1A2A3A;
+    letter-spacing: 0.5px;
+}
+
+#modalGenerarMulta .modal-footer {
+    background: #F4F5F7;
+    border-top: 1px solid #eaecef;
+}
+
+
+
+.badge-tabla-activo {
+    background: #d1f0dc;
+    color: #1a6e3a;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.badge-tabla-finalizado {
+    background: #d6eaf8;
+    color: #1E3A5F;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.badge-tabla-mora {
+    background: #fff3cd;
+    color: #856404;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.badge-tabla-peligro {
+    background: #fde8e8;
+    color: #8B1A1A;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.3rem 0.75rem;
+    border-radius: 20px;
+    display: inline-block;
+}

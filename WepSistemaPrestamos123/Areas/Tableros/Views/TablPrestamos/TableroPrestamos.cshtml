@@ -1,88 +1,11 @@
-﻿@using Comun.DTO.Prestamo
+﻿﻿@using Comun.DTO.Prestamo
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Tablero de Préstamos";
 }
 
 <link href="~/lib/bootstrap/dist/css/bootstrap-icons.min.css" rel="stylesheet" />
-
-<style>
-    .nav-link.active {
-        color: #000 !important;
-    }
-
-    .card-stat {
-        border-left: 4px solid;
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-        .card-stat:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-        }
-
-        .card-stat.activo {
-            border-left-color: #198754;
-        }
-
-        .card-stat.mora {
-            border-left-color: #ffc107;
-        }
-
-        .card-stat.finalizado {
-            border-left-color: #0d6efd;
-        }
-
-        .card-stat.total {
-            border-left-color: #6c757d;
-        }
-
-        .card-stat.deposito {
-            border-left-color: #0dcaf0;
-        }
-
-        .card-stat.credito {
-            border-left-color: #198754;
-        }
-
-        .card-stat.intereses {
-            border-left-color: #fd7e14;
-        }
-
-        .card-stat.rentabilidad-positiva {
-            border-left-color: #198754;
-        }
-
-        .card-stat.rentabilidad-negativa {
-            border-left-color: #dc3545;
-        }
-
-    .badge-estado {
-        font-size: 0.75rem;
-        padding: 0.35em 0.65em;
-    }
-
-    .table thead th {
-        vertical-align: middle;
-        white-space: nowrap;
-    }
-
-    .table tbody td {
-        vertical-align: middle;
-    }
-
-    .table-responsive {
-        overflow: visible !important;
-    }
-
-    .table {
-        overflow: visible !important;
-    }
-
-    .dropdown-menu {
-        z-index: 9999 !important;
-    }
-</style>
+<link href="~/lib/Administracion/css/tablero.css" rel="stylesheet" />
 
 <body class="bg-light">
     <div class="container-fluid py-4">
@@ -91,11 +14,13 @@
         <div class="row justify-content-center mb-4">
             <div class="col-lg-11">
                 <div class="text-center mb-4">
-                    <h1 class="display-6 fw-bold text-primary">
-                        <i class="bi bi-bar-chart-line me-2"></i>
-                        Tablero General de Préstamos
-                    </h1>
-                    <p class="lead text-muted">Sistema de Préstamos Florencia</p>
+                    <div class="modulo-header">
+                        <h1>
+                            <i class="bi bi-shield-lock-fill me-2"></i>
+                            Tablero General de Préstamos
+                        </h1>
+                        <p>Sistema de Préstamos Florencia</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -213,8 +138,8 @@
                             </div>
                         </div>
                     </div>
-                    
 
+                    
                     <!-- Rentabilidad % -->
                     <div class="col-6 col-md-2">
                         <div class="card card-stat @(rentabilidad >= 0 ? "rentabilidad-positiva" : "rentabilidad-negativa") h-100 shadow-sm">
@@ -318,7 +243,7 @@
             <div class="row justify-content-center">
                 <div class="col-lg-11">
                     <div class="card shadow-sm">
-                        <div class="card-header d-flex align-items-center justify-content-between">
+                        <div class="card-header d-flex align-items-center justify-content-between  ">
                             <span>
                                 <i class="bi bi-table me-1"></i>
                                 Listado de Todos los Préstamos
@@ -353,35 +278,33 @@
                                             var nombreCompleto = $"{prestamo.P_NOMBRE_SOLICITANTE} {prestamo.S_NOMBRE_SOLICITANTE} {prestamo.P_APELLIDO_SOLICITANTE} {prestamo.S_APELLIDO_SOLICITANTE}".Trim();
                                             <tr>
                                                 <td class="text-center">
-                                                    <div class="dropdown">                                                      
+                                                    <div class="dropdown">
                                                         <button class="btn btn-sm btn-light border-0 p-1"
                                                                 type="button"
-                                                                data-bs-toggle="dropdown"
-                                                                aria-expanded="false"
-                                                                data-bs-boundary="window">
+                                                                data-bs-toggle="dropdown">
                                                             <i class="bi bi-three-dots-vertical text-secondary"></i>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                                                             <li>
                                                                 <a class="dropdown-item small"
-                                                                   href="#"
-                                                                   onclick="AgregarPago(@prestamo.ID_PRESTAMO, @prestamo.INTERES_MES, @prestamo.RETORNO_MES)">
+                                                                       href="#"
+                                                                       onclick="AgregarPago(@prestamo.ID_PRESTAMO, @prestamo.INTERES_MES, @prestamo.RETORNO_MES)">
                                                                     <i class="bi bi-cash-coin text-success me-2"></i>
                                                                     Agregar Pago
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 <a class="dropdown-item small"
-                                                                   href="#"
-                                                                   onclick="GenerarMulta(@prestamo.ID_PRESTAMO)">
+                                                                       href="#"
+                                                                       onclick="GenerarMulta(@prestamo.ID_PRESTAMO)">
                                                                     <i class="bi bi-exclamation-triangle text-warning me-2"></i>
                                                                     Generar Multa
                                                                 </a>
                                                             </li>
                                                             <li>
                                                                 <a class="dropdown-item small"
-                                                                   href="#"
-                                                                   onclick="CambiarCategoria(@prestamo.ID_PRESTAMO)">
+                                                                       href="#"
+                                                                       onclick="CambiarCategoria(@prestamo.ID_PRESTAMO)">
                                                                     <i class="bi bi-tag text-primary me-2"></i>
                                                                     Cambiar Categoría
                                                                 </a>
@@ -431,15 +354,15 @@
                                                 </td>
                                                 <td class="text-center">
                                                     <div class="alert alert-@(prestamo.ESTADO_PRESTAMO == "ACTIVO"      ? "success" :
-                                                                                                                                        prestamo.ESTADO_PRESTAMO == "FINALIZADO" ? "primary" :
-                                                                                                                                        prestamo.ESTADO_PRESTAMO == "MORA" ? "warning" : "danger")
-                                                             py-1 px-2 mb-0 d-inline-block text-center"
-                                                 style="min-width: 90px; font-size: 0.78rem;">
-                                                @prestamo.ESTADO_PRESTAMO
-                                            </div>
-                                        </td>
-                                    </tr>
-                                                                        }
+                                                                                                                                                                                                                                                                                                                                                                          prestamo.ESTADO_PRESTAMO == "FINALIZADO" ? "primary" :
+                                                                                                                                                                                                                                                                                                                                                                          prestamo.ESTADO_PRESTAMO == "MORA" ? "warning" : "danger")
+                                                        py-1 px-2 mb-0 d-inline-block text-center"
+                                                         style="min-width: 90px; font-size: 0.78rem;">
+                                                        @prestamo.ESTADO_PRESTAMO
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
@@ -572,7 +495,6 @@
         </div>
     </div>
     <!-- ===== FIN MODAL AGREGAR PAGO ===== -->
-
     <!-- Modal Generar Multa -->
     <div class="modal fade" id="modalGenerarMulta" tabindex="-1" aria-labelledby="modalGenerarMultaLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -612,7 +534,7 @@
                     <div class="mb-3">
                         <label class="form-label fw-semibold">Descripción del Motivo <span class="text-danger">*</span></label>
                         <textarea class="form-control" id="multa_DescripcionMotivo" rows="3" maxlength="500" placeholder="Describa el motivo de la multa"></textarea>
-                    </div>              
+                    </div>
                     
                 </div>
                 <div class="modal-footer">

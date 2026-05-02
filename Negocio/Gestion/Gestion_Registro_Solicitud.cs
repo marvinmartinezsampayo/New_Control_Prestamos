@@ -20,8 +20,7 @@ namespace Negocio.Gestion
         private readonly IConfiguration _configuration;
         private readonly IAlmacenarDocumentos _documentos;
         private readonly ContextoGeneral _context;
-
-
+            
         public Gestion_Registro_Solicitud(IConfiguration configuration, ContextoGeneral context, IAlmacenarDocumentos documentos)
         {
             _configuration = configuration;
@@ -60,78 +59,385 @@ namespace Negocio.Gestion
             throw new NotImplementedException();
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         public async Task<RespuestaDto<TReturn>> GuardarAsync<TParam, TReturn>(TParam _modelo)
+        {
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                if (_modelo is not Parametros_Insert_Solicitud_Prestamo_Dto parametros)
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Modelo inválido",
+                        Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                    };
+                }
+
+                bool requiereCodeudor = parametros.Monto >= 2000000;
+
+                if (requiereCodeudor && (parametros.Codeudores == null || parametros.Codeudores.Count == 0))
+                {
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Debe enviar al menos un codeudor para este monto",
+                        Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                    };
+                }
+
+                // insertamos la solicitud 
+                var rInsertSol = await Insert_Solicitud_Prestamo_Async(parametros);
+
+                if (!rInsertSol.Estado)
+                {
+                    await transaction.RollbackAsync();
+                    return new RespuestaDto<TReturn>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Error al insertar solicitud",
+                        Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                    };
+                }
+
+                long idSolicitud = rInsertSol.Respuesta;
+
+            
+                foreach (var documento in parametros.Documentos)
+                {
+                    documento.IdSolicitud = idSolicitud;
+                    documento.IdCodeudor = null;
+
+                    await _documentos.GuardarAsync<Parametros_Add_Documento_X_Solicitud_Dto, bool>(documento);
+                }
+
+                // 🔹 3. CODEUDORES
+                foreach (var codeudor in parametros.Codeudores)
+                {
+                    codeudor.IdSolicitud = idSolicitud;
+
+                    var rCodeudor = await Insert_Codeudor_Async(codeudor);
+
+                    if (!rCodeudor.Estado)
+                    {
+                        await transaction.RollbackAsync();
+                        return new RespuestaDto<TReturn>
+                        {
+                            Codigo = EstadoOperacion.Malo,
+                            Mensaje = "Error al insertar codeudor",
+                            Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                        };
+                    }
+
+                    long idCodeudor = rCodeudor.Respuesta;
+
+                    // guardamos los documentos del codeudor 
+                    foreach (var doc in codeudor.Documentos)
+                    {
+                        doc.IdSolicitud = idSolicitud;
+                        doc.IdCodeudor = idCodeudor;
+
+                        await _documentos.GuardarAsync<Parametros_Add_Documento_X_Solicitud_Dto, bool>(doc);
+                    }
+                }
+
+                await transaction.CommitAsync();
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Bueno,
+                    Mensaje = "OK",
+                    Respuesta = (TReturn)Convert.ChangeType(true, typeof(TReturn))
+                };
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+
+                return new RespuestaDto<TReturn>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = ex.Message, 
+                    Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                };
+            }
+        }
+        private async Task<RespuestaDto<long>> Insert_Solicitud_Prestamo_Async(Parametros_Insert_Solicitud_Prestamo_Dto _modelo)
         {
             try
             {
                 if (_modelo is Parametros_Insert_Solicitud_Prestamo_Dto parametros)
                 {
 
-                    var rInsertSol = await Insert_Solicitud_Prestamo_Async(parametros);
-
-                    if (rInsertSol.Estado)
+                    var nuevaSolicitud = new SOLICITUD_PRESTAMO
                     {
-                        long idSolicitud = rInsertSol.Respuesta;
+                        Id = 0,
+                        PrimerNombreSolicitante = parametros.PNombreSolicitante,
+                        SegundoNombreSolicitante = parametros.SNombreSolicitante,
+                        PrimerApellidoSolicitante = parametros.PApellidoSolicitante,
+                        SegundoApellidoSolicitante = parametros.SApellidoSolicitante,
+                        TipoIdentificacionId = parametros.TipoIdentificacion,
+                        NumeroIdentificacion = parametros.NumeroIdentificacion,
+                        DepartamentoResidenciaId = parametros.IdDeptoResidencia,
+                        MunicipioResidenciaId = parametros.IdMpioResidencia,
+                        BarrioResidenciaId = parametros.IdBarrioResidencia,
+                        DireccionResidencia = parametros.DireccionResidencia,
+                        EstadoId = parametros.EstadoId,
+                        Monto = parametros.Monto,
+                        Email = parametros.Email,
+                        Celular = parametros.Celular,
+                        CodigoAcceso = parametros.CodigoAcceso,
+                        Habilitado = true,
+                        UsuarioCreacion = parametros.UsuarioCreacion ?? "SISTEMA",
+                        MaquinaCreacion = Environment.MachineName,
+                        FechaCreacion = DateTime.Now
+                    };
 
-                        //Aca guardamos los datos del documento
+                    _context.SOLICITUD_PRESTAMO.Add(nuevaSolicitud);
+                    await _context.SaveChangesAsync();
 
-                        if (parametros.Documentos.Count > 0 && idSolicitud > 0)
-                        {
-                            foreach (var documento in parametros.Documentos)
-                            {
-                                documento.IdSolicitud = idSolicitud;
-                                var doc = await _documentos.GuardarAsync<Parametros_Add_Documento_X_Solicitud_Dto, bool>(documento);
-                            }
+                    long idGenerado = nuevaSolicitud.Id;
 
-                            return new RespuestaDto<TReturn>
-                            {
-                                Codigo = EstadoOperacion.Bueno,
-                                Mensaje = "OK",
-                                Respuesta = (TReturn)Convert.ChangeType(true, typeof(TReturn))
-                            };
-                        }
-                        else
-                        {
-                            return new RespuestaDto<TReturn>
-                            {
-                                Codigo = EstadoOperacion.Malo,
-                                Mensaje = "FALLO",
-                                Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
-                            };
-                        }
-
-                    }
-                    else
+                    return new RespuestaDto<long>
                     {
-                        return new RespuestaDto<TReturn>
-                        {
-                            Codigo = EstadoOperacion.Malo,
-                            Mensaje = "ERROR",
-                            Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
-                        };
-                    }
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "OK",
+                        Respuesta = idGenerado
+                    };
                 }
                 else
                 {
-                    return new RespuestaDto<TReturn>
+                    return new RespuestaDto<long>
                     {
                         Codigo = EstadoOperacion.Malo,
-                        Mensaje = "ERROR",
-                        Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                        Mensaje = "Datos insuficientes para insertar solicitud",
+                        Respuesta = 0
                     };
                 }
 
             }
             catch (Exception ex)
             {
-                return new RespuestaDto<TReturn>
+                return new RespuestaDto<long>
                 {
                     Codigo = EstadoOperacion.Excepcion,
-                    Mensaje = "Excepcion al Insertar Solicitud",
-                    Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+                    Mensaje = "Error al Insertar Solicitud",
+                    Respuesta = 0
                 };
             }
         }
+
+        private async Task<RespuestaDto<long>> Insert_Codeudor_Async(Parametro_Codeudor_Dto _modelo)
+        {
+            try
+            {
+                if (_modelo is Parametro_Codeudor_Dto parametros)
+                {
+                    var nuevoCodeudor = new CODEUDOR
+                    {
+                        Id = 0,
+                        IdSolicitud = parametros.IdSolicitud,
+
+                        PNombre = parametros.PrimerNombre,
+                        SNombre = parametros.SegundoNombre,
+                        PApellido = parametros.PrimerApellido,
+                        SApellido = parametros.SegundoApellido,
+
+                        TipoIdentificacion = parametros.TipoIdentificacion ?? 0,
+                        NumeroIdentificacion = parametros.NumeroIdentificacion ?? 0,
+
+                        Direccion = parametros.Direccion,
+                        Email = parametros.Email,
+                        Celular = parametros.Celular
+                    };
+
+                    var pendientes = _context.ChangeTracker.Entries()
+                         .Where(e => e.State == EntityState.Added)
+                         .ToList();
+
+                    foreach (var p in pendientes)
+                    {
+                        Console.WriteLine(p.Entity.GetType().Name);
+                    }
+
+                    _context.CODEUDOR.Add(nuevoCodeudor);
+                    await _context.SaveChangesAsync();
+
+                    long idGenerado = nuevoCodeudor.Id;
+
+                    return new RespuestaDto<long>
+                    {
+                        Codigo = EstadoOperacion.Bueno,
+                        Mensaje = "OK",
+                        Respuesta = idGenerado
+                    };
+                }
+                else
+                {
+                    return new RespuestaDto<long>
+                    {
+                        Codigo = EstadoOperacion.Malo,
+                        Mensaje = "Datos insuficientes para insertar codeudor",
+                        Respuesta = 0
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                return new RespuestaDto<long>
+                {
+                    Codigo = EstadoOperacion.Excepcion,
+                    Mensaje = ex.InnerException?.Message ?? ex.Message,
+                    Respuesta = 0
+                };
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //public async Task<RespuestaDto<TReturn>> GuardarAsync<TParam, TReturn>(TParam _modelo)
+        //{
+        //    try
+        //    {
+        //        if (_modelo is Parametros_Insert_Solicitud_Prestamo_Dto parametros)
+        //        {
+
+        //            var rInsertSol = await Insert_Solicitud_Prestamo_Async(parametros);
+
+        //            if (rInsertSol.Estado)
+        //            {
+        //                long idSolicitud = rInsertSol.Respuesta;
+
+        //                //Aca guardamos los datos del documento
+
+        //                if (parametros.Documentos.Count > 0 && idSolicitud > 0)
+        //                {
+        //                    foreach (var documento in parametros.Documentos)
+        //                    {
+        //                        documento.IdSolicitud = idSolicitud;
+        //                        var doc = await _documentos.GuardarAsync<Parametros_Add_Documento_X_Solicitud_Dto, bool>(documento);
+        //                    }
+
+        //                    return new RespuestaDto<TReturn>
+        //                    {
+        //                        Codigo = EstadoOperacion.Bueno,
+        //                        Mensaje = "OK",
+        //                        Respuesta = (TReturn)Convert.ChangeType(true, typeof(TReturn))
+        //                    };
+        //                }
+        //                else
+        //                {
+        //                    return new RespuestaDto<TReturn>
+        //                    {
+        //                        Codigo = EstadoOperacion.Malo,
+        //                        Mensaje = "FALLO",
+        //                        Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+        //                    };
+        //                }
+
+        //            }
+        //            else
+        //            {
+        //                return new RespuestaDto<TReturn>
+        //                {
+        //                    Codigo = EstadoOperacion.Malo,
+        //                    Mensaje = "ERROR",
+        //                    Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+        //                };
+        //            }
+        //        }
+        //        else
+        //        {
+        //            return new RespuestaDto<TReturn>
+        //            {
+        //                Codigo = EstadoOperacion.Malo,
+        //                Mensaje = "ERROR",
+        //                Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+        //            };
+        //        }
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new RespuestaDto<TReturn>
+        //        {
+        //            Codigo = EstadoOperacion.Excepcion,
+        //            Mensaje = "Excepcion al Insertar Solicitud",
+        //            Respuesta = (TReturn)Convert.ChangeType(false, typeof(TReturn))
+        //        };
+        //    }
+        //}
 
         public Task<RespuestaDto<TReturn>> HabilitarAsync<TParam, TReturn>(TParam _identificador)
         {
@@ -294,69 +600,7 @@ namespace Negocio.Gestion
             }
         }
 
-        private async Task<RespuestaDto<long>> Insert_Solicitud_Prestamo_Async(Parametros_Insert_Solicitud_Prestamo_Dto _modelo)
-        {
-            try
-            {
-                if (_modelo is Parametros_Insert_Solicitud_Prestamo_Dto parametros)
-                {
 
-                    var nuevaSolicitud = new SOLICITUD_PRESTAMO
-                    {
-                        Id = 0,
-                        PrimerNombreSolicitante = parametros.PNombreSolicitante,
-                        SegundoNombreSolicitante = parametros.SNombreSolicitante,
-                        PrimerApellidoSolicitante = parametros.PApellidoSolicitante,
-                        SegundoApellidoSolicitante = parametros.SApellidoSolicitante,
-                        TipoIdentificacionId = parametros.TipoIdentificacion,
-                        NumeroIdentificacion = parametros.NumeroIdentificacion,
-                        DepartamentoResidenciaId = parametros.IdDeptoResidencia,
-                        MunicipioResidenciaId = parametros.IdMpioResidencia,
-                        BarrioResidenciaId = parametros.IdBarrioResidencia,
-                        DireccionResidencia = parametros.DireccionResidencia,
-                        EstadoId = parametros.EstadoId,
-                        Monto = parametros.Monto,
-                        Email = parametros.Email,
-                        Celular = parametros.Celular,
-                        CodigoAcceso = parametros.CodigoAcceso,
-                        Habilitado = true,
-                        UsuarioCreacion = parametros.UsuarioCreacion ?? "SISTEMA",
-                        MaquinaCreacion = Environment.MachineName,
-                        FechaCreacion = DateTime.Now
-                    };
-
-                    _context.SOLICITUD_PRESTAMO.Add(nuevaSolicitud);
-                    await _context.SaveChangesAsync();
-                    long idGenerado = nuevaSolicitud.Id;
-
-                    return new RespuestaDto<long>
-                    {
-                        Codigo = EstadoOperacion.Bueno,
-                        Mensaje = "OK",
-                        Respuesta = idGenerado
-                    };
-                }
-                else
-                {
-                    return new RespuestaDto<long>
-                    {
-                        Codigo = EstadoOperacion.Malo,
-                        Mensaje = "Datos insuficientes para insertar solicitud",
-                        Respuesta = 0
-                    };
-                }
-
-            }
-            catch (Exception ex)
-            {
-                return new RespuestaDto<long>
-                {
-                    Codigo = EstadoOperacion.Excepcion,
-                    Mensaje = "Error al Insertar Solicitud",
-                    Respuesta = 0
-                };
-            }
-        }
 
         //metodo para actualziar el estado 
         public async Task<RespuestaDto<bool>> ActualizarEstadoSolicitudAsync<TParam>(TParam _modelo)

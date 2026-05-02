@@ -41,7 +41,9 @@ namespace Negocio.Gestion
                         Tamanio = parametros.Tamanio,
                         UsuarioCreacion = parametros.UsuarioCreacion,
                         MaquinaCreacion = parametros.MaquinaCreacion,
-                        Habilitado = true
+                        Habilitado = true,
+                        IdCodeudor = parametros.IdCodeudor,
+
                     };
 
                     _context.DOCUMENTOS_X_SOLICITUD.Add(newDoc);

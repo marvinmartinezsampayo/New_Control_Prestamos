@@ -89,7 +89,7 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
                 ViewBag.ListaTiposCuenta = new SelectList(_tiposCuenta, "Id", "Nombre");
 
                 ViewData["DocumentosRequeridos"] = (ListDocumentos.Estado && ListDocumentos?.Respuesta != null) ? ListDocumentos.Respuesta : new List<Respuesta_Consulta_Documentos_Requeridos>();
-
+                ViewData["documentosRequeridosCodeudor"] = (ListDocumentos.Estado && ListDocumentos?.Respuesta != null) ? ListDocumentos.Respuesta : new List<Respuesta_Consulta_Documentos_Requeridos>();
 
                 string decript = Encryption.DecryptString(json, key);
                 RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO> respCodigo = JsonConvert.DeserializeObject<RespuestaDto<Respuesta_Consulta_Codigo_Acceso_DTO>>(decript);
@@ -126,7 +126,6 @@ namespace WepPrestamos.Areas.Solicitud.Controllers
 
                 throw;
             }
-
 
 
             return View();

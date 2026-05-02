@@ -72,5 +72,8 @@ namespace Comun.DTO.Solicitud
 
         [JsonPropertyName("lista_documentos")]
         public List<Parametros_Add_Documento_X_Solicitud_Dto>? Documentos { get; set; }
+      
+        [JsonPropertyName("codeudores")]
+        public List<Parametro_Codeudor_Dto>? Codeudores { get; set; }
     }
 }
