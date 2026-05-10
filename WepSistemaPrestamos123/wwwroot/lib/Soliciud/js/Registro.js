@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log('PAYLOAD FINAL:', formData);
 
         try {
-            const response = await fetch('/Solicitud/Prestamo/Add_Loan_Request', {
+            const response = await fetch(`${window.appConfig.baseUrl}Solicitud/Prestamo/Add_Loan_Request`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     confirmButtonColor: '#3085d6',
                     confirmButtonText: 'Aceptar'
                 }).then(() => {
-                    window.location.href = '/Solicitud/prestamo/solicitar';
+                    window.location.href = `${window.appConfig.baseUrl}Solicitud/prestamo/solicitar`;
                     loanForm.reset();
                     window.listaCodeudores = [];
                 });
@@ -364,7 +364,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         try {
-            const res = await fetch('/Solicitud/Prestamo/ConsultarMunicipios', {
+            const res = await fetch(`${window.appConfig.baseUrl}Solicitud/Prestamo/ConsultarMunicipios`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ Tipo_Lugar: 'MU', Codigo_Dane_Padre: parseInt(sel) })
@@ -393,7 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         try {
-            const res = await fetch('/Solicitud/Prestamo/ConsultarBarrios', {
+            const res = await fetch(`${window.appConfig.baseUrl}Solicitud/Prestamo/ConsultarBarrios`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ Codigo_Dane_Municipio: parseInt(sel) })
