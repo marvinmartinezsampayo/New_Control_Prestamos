@@ -26,7 +26,7 @@
         }
 
         try {
-            const response = await fetch(`/Administracion/AdministraUsuarios/BuscarPorIdentificacion?nroIdentificacion=${id}`);
+            const response = await fetch(`${window.appConfig.baseUrl}Administracion/AdministraUsuarios/BuscarPorIdentificacion?nroIdentificacion=${id}`);
             const data = await response.json();
 
             if (!data.exito) {
@@ -78,7 +78,7 @@
         }
 
         try {
-            const response = await fetch('/Administracion/AdministraUsuarios/GestionarRol', {
+            const response = await fetch(`${window.appConfig.baseUrl}Administracion/AdministraUsuarios/GestionarRol`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

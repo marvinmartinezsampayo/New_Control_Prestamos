@@ -1,23 +1,41 @@
-# Build results
+# =========================
+# BUILD
+# =========================
 **/bin/
 **/obj/
 
-# Visual Studio cache files
+# =========================
+# VISUAL STUDIO
+# =========================
 .vs/
 *.suo
 *.user
 *.userosscache
 *.sln.docstates
 
-# Rider
+# =========================
+# PUBLISH PROFILES
+# =========================
+**/Properties/PublishProfiles/*.pubxml
+**/Properties/PublishProfiles/*.pubxml.user
+
+# =========================
+# RIDER / JETBRAINS
+# =========================
 .idea/
 
-# Others
+# =========================
+# CACHE / TEMP
+# =========================
 *.dbmdl
 *.log
 *.vsidx
 *.v7.bin
 *.dtbcache.v2
 *.futdcache.v2
-*.DS_Store
+
+# =========================
+# OS FILES
+# =========================
+.DS_Store
 Thumbs.db

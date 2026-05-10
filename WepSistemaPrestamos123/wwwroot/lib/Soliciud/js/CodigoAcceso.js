@@ -20,35 +20,6 @@ btnValida.addEventListener('click', function (e) {
     }
 }, false);
 
-//console.log("CodigoAcceso cargado");
-
-
-//document.addEventListener("DOMContentLoaded", function () {
-
-//    const txtCod = document.getElementById('txt_codigo');
-//    const btnValida = document.getElementById('btnValidarCod');
-//    const txtError = document.getElementById('txtError');
-
-//    btnValida.addEventListener('click', function (e) {
-
-//        const regex = /^[A-Za-z0-9]+$/;
-//        const inputValue = txtCod.value;
-
-//        console.log("el cdigo es" + inputValue)
-
-//        if (!regex.test(inputValue) || inputValue.length < 5 || inputValue.length > 10) {
-//            txtCod.classList.add('is-invalid');
-//            txtError.innerText = "El código es requerido y debe tener entre 5 y 10 caracteres, sin caracteres especiales.";
-//        }
-//        else {
-//            txtCod.classList.remove('is-invalid');
-//            ValidarCodigo(inputValue);
-//        }
-
-//    });
-
-//});
-
 
 async function ValidarCodigo(codigo)
 {
